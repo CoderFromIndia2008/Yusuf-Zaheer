@@ -1,0 +1,11 @@
+[theme]
+base = "light"
+primaryColor = "#46d8ac"
+font = "monospace"
+textColor = "#5e5e5e"
+dataframeBorderColor = "#3c4e65"
+
+[theme.sidebar]
+
+backgroundColor = "#e5dcf0"
+textColor = "#395faf"
