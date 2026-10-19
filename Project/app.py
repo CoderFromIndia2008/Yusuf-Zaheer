@@ -16,13 +16,15 @@ options = [
 st.title(":violet[AI ATTENDANCE SYSTEM]")
 st.divider()
 
-day, date, month, year = time.strftime("%A %d %B %Y").split()
+day, date, cmonth, cyear = time.strftime("%A %d %B %Y").split()
     
 st.sidebar.write(
 f"""It's **{day}**,
-{date} {month} {year}"""
+{date} {cmonth} {cyear}"""
 )
-        
+months = backbone.full_months
+cmonth = backbone.full_months.index(cmonth)
+
 st.sidebar.divider()
 page = st.sidebar.radio("", options)
 
@@ -42,7 +44,6 @@ elif page == options[1]: #mark attendance
     if img:
         st.success("Capture successful!")
         student, confidence, register = backbone.mark(img, model="model2")
-        
         st.write("Student:", student)
         st.write(f"Confidence: {confidence}%")
         st.divider()
@@ -52,79 +53,68 @@ elif page == options[2]: #view attendance register
     col1, col2 = st.columns(2)
     
     with col1:
-        year = st.selectbox("Select a year:", years, index=None)
+        year = st.selectbox("Select a year:", years)
     
     with col2:
-        months = backbone.order_months(year)
-        month = st.selectbox("Select a month:", months, index=None)
+        month = st.selectbox("Select a month:", months, index=cmonth)
         date = st.slider("Specify a date:", min_value=0, max_value=31, step=1)
         st.caption("Zero for entire month")
 
-    if year and month:
-        register = backbone.view(month, year, str(date))
+    register = backbone.view(month, year, str(date))
         
-        full_names = tuple(pd.read_csv(metapath)["name"])
-        if len(full_names) != register.shape[0] and st.button("**Show deleted?**"):
-            register = backbone.show_deleted(register)
+    full_names = tuple(pd.read_csv(metapath)["name"])
+    if len(full_names) != register.shape[0] and st.button("**Show deleted?**"):
+        register = backbone.show_deleted(register)
             
-        st.dataframe(register)
+    st.dataframe(register)
 
 elif page == options[3]: #view attendance total and percentage    
-    year = st.selectbox("Select a year:", years, index=None)
-    months = backbone.order_months(year)
+    year = st.selectbox("Select a year:", years)
     col1, col2 = st.columns(2)
     
     with col1:
-        start_month = st.selectbox("Select starting month:", months, key="month1", index=None)
+        start_month = st.selectbox("Select starting month:", months, key="month1", index=cmonth)
 
     with col2:
-        try:
-            start = months.index(start_month)
-
-        except:
-            start = 0
-            
-        stop_month = st.selectbox("Select ending month:", months[start:], key="month2", index=None)
-        
-    if stop_month:
+        start = months.index(start_month)
+        stop_month = st.selectbox("Select ending month:", months[start:], key="month2", index=cmonth)
         stop = months.index(stop_month) + 1
-        selected_months = months[start:stop]
-        working_days, register = backbone.percent(selected_months, year)
+
+    selected_months = months[start:stop]
+    working_days, register = backbone.percent(selected_months, year)
         
-        full_names = tuple(pd.read_csv(metapath)["name"])
-        if len(full_names) != register.shape[0] and st.button("**Show deleted?**"):
-            register = backbone.show_deleted(register, full_names)
+    full_names = tuple(pd.read_csv(metapath)["name"])
+    if len(full_names) != register.shape[0] and st.button("**Show deleted?**"):
+        register = backbone.show_deleted(register, full_names)
         
-        st.caption("Working days:", working_days)
-        st.dataframe(register)
+    st.caption("Working days:", working_days)
+    st.dataframe(register)
 
 elif page == options[4]: #make changes to a register
     col1, col2 = st.columns(2)
-    
+
     with col1:
-        year = st.selectbox("Select a year:", years, index=None)
-        
+        year = st.selectbox("Select a year:", years)
+
     with col2:
-        months = backbone.order_months(year)
-        month = st.selectbox("Select a month:", months, index=None)
+        month = st.selectbox("Select a month:", months, index=cmonth)
 
-    if year and month:
-        path = dbpath / f"{year}/{month}.csv"
+    path = dbpath / f"{year}/{month}.csv"
     
-        if not path.exists():
-            st.error(f"No records available for {month} {year}")
+    if not path.exists():
+        st.error(f"No records available for {month} {year}")
         
-        register = pd.read_csv(path)
+    register = pd.read_csv(path)
         
-        full_names = tuple(pd.read_csv(metapath)["name"])
-        if len(full_names) != register.shape[0] and st.button("**Show deleted?**"):
-            register = backbone.show_deleted(register)
+    full_names = tuple(pd.read_csv(metapath)["name"])
+    if len(full_names) != register.shape[0] and st.button("**Show deleted?**"):
+        register = backbone.show_deleted(register)
         
-        editable_df = st.data_editor(register)
+    editable_df = st.data_editor(register)
 
-        if st.button("**Make Changes?**"):
-            editable_df.to_csv(path, index=False)
-            st.success("Register changed!")
+    if st.button("**Make Changes?**"):
+        editable_df.to_csv(path, index=False)
+        st.success("Register changed!")
 
 elif page == options[5]: #remove a student
     register = pd.read_csv(metapath)    

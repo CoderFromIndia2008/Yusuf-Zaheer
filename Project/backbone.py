@@ -1,4 +1,4 @@
-#import tensorflow as tf
+import tensorflow as tf
 import pathlib as pt
 import pandas as pd
 import numpy as np
@@ -7,6 +7,9 @@ import time
 dbpath = pt.Path("/workspaces/Yusuf-Zaheer/database")
 toolpath = pt.Path("/workspaces/Yusuf-Zaheer/tools")
 metapath = dbpath / "metadata.csv"
+
+full_months = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"]
 
 def mark(img, model):
     """
@@ -181,10 +184,7 @@ def order_months(year):
     
     if not year:
         return None
-        
-    full_months = ["January", "February", "March", "April", "May", "June",
-           "July", "August", "September", "October", "November", "December"]
-           
+                   
     path = dbpath / str(year)
     unordered_months = [month.stem for month in path.iterdir()]
 
