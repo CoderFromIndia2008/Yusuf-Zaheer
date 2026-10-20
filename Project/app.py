@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import home
 import core
 
 base_dir = core.base_dir
@@ -57,7 +58,7 @@ if page == "Home":
     else:
         pass
 
-    import home
+    home.home()
     
 elif page == "Mark":
     img = st.camera_input("Take a photo:")
