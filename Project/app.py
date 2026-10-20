@@ -5,9 +5,6 @@ import core
 base_dir = core.base_dir
 data_dir = core.data_dir
 
-import os
-st.write(os.getcwd())
-
 years = [year.name for year in data_dir.iterdir() if year.is_dir()]
 years.sort(reverse=True)
 full_months = core.full_months
