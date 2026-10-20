@@ -20,20 +20,20 @@ def display(register, year):
     return register
 
 options = [
-    "Home",
-    "Mark",
-    "View",
-    "Percent",
-    "Modify",
+    "**:material/Home: Home**",
+    "**:material/photo_camera: Mark Student**",
+    "**:material/table: View Register**",
+    "**:material/percent: Percentage**",
+    "**:material/table_edit: Modify**",
 ]
-
-side = st.sidebar
 
 st.title(":violet[**AI ATTENDANCE SYSTEM**]")
 st.divider()
-page = side.radio("Select an option:", options, key="100")
 
-if page == "Home":
+side = st.sidebar
+page = side.radio("**Select an option:**", options, key="100")
+
+if page == options[0]:
     date, month, year = core.get_time()
 
     register_path = data_dir / f"{year}/{month}.csv"
@@ -46,22 +46,22 @@ if page == "Home":
             absent = sum(register[str(date)] == "A")
 
             col1, col2, col3 = st.columns(3, border=True, wrap=False)
-            col1.write(":violet[**Present Today:**]")
-            col1.write(f"{present}/{total_strength}")
-        
-            col2.write(":violet[**Absent Today:**]")
-            col2.write(f"{absent}/{total_strength}")
-    
-            col3.write(":violet[**Present %:**]")
-            col3.write(f"{present / total_strength * 100 :.1f}%")
+            col1.metric(":green[**Present Today**]", value=f"{present}/{total_strength}")  
+            col2.metric(":red[**Absent Today**]", value=f"{absent}/{total_strength}")
+            col3.metric(":gray[**Present** :material/percent:]", value=f"{present / total_strength * 100 :.1f}%")
+            st.divider()
 
     else:
         pass
 
     home.home()
     
-elif page == "Mark":
-    img = st.camera_input("Take a photo:")
+elif page == options[1]:
+    img = st.camera_input(
+        "Take a photo:",
+        help="Make sure your face is clearly visible and no other faces appear in the photo."
+        )
+    
     if img:
         st.success("Capture successful!")
         student, confidence, register = core.mark(img, model="model1")
@@ -70,7 +70,7 @@ elif page == "Mark":
         st.divider()
         st.write(register)
     
-elif page == "View":
+elif page == options[2]:
     col1, col2 = st.columns(2)
     
     year = col1.selectbox("Select year:", years, key="101")
@@ -83,7 +83,7 @@ elif page == "View":
         output = core.view(date, month, year)
         st.write(display(output, year))
     
-elif page == "Percent":
+elif page == options[3]:
     col1, col2, col3 = st.columns(3)
     
     year = col1.selectbox("Select year:", years, key="103")
@@ -91,17 +91,22 @@ elif page == "Percent":
     month1 = col2.selectbox("Select month:", full_months, index=current_month, key="104")
     idx = full_months.index(month1)
     month2 = col3.selectbox("Select month:", full_months[idx:], key="105")
+    st.divider()
     
     if year and month1 and month2:
         working_days, output = core.percent(month1, month2, year)
         
         if working_days != 0:
-            st.write("Total working days: ", working_days)
+            st.write(f"Total working days: {working_days}")
         
         st.write(display(output, year))
         
-elif page == "Modify":
-    user_input = st.text_input("Enter password:")
+elif page == options[4]:
+    user_input = st.text_input(
+        "Enter password:",
+        help="If no password is set yet, your input below will become the password"
+        )
+
     if user_input:
         key = core.password(user_input)
     
@@ -109,14 +114,14 @@ elif page == "Modify":
             st.write("Incorrect Password")
 
 options = [
-    "Modify name/roll",
-    "Modify register",
-    "Register student",
-    "Remove student"
+    "**Modify name/roll**",
+    "**Modify register**",
+    "**Register student**",
+    "**Remove student**"
 ]
 
 if key:
-    option = st.sidebar.radio("Additional options:", options)
+    option = st.sidebar.radio("**Additional options:**", options)
 
 if key and option == options[0]:
     year = st.selectbox("Select year:", years, key="106")
@@ -124,6 +129,7 @@ if key and option == options[0]:
     metadata = pd.read_csv(meta_path)
     
     metadata = display(metadata, year)
+    st.divider()
     modified_metadata = st.data_editor(metadata)
         
     if st.button("**Make changes?**"):
@@ -140,6 +146,7 @@ elif key and option == options[1]:
         register_path = data_dir / f"{year}/{month}.csv"
         register = pd.read_csv(register_path)
         register = display(register, year)
+        st.divider()
         modified_register = st.data_editor(register)
         
         if st.button("**Make changes?**"):
