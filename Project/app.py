@@ -5,8 +5,8 @@ import core
 base_dir = core.base_dir
 data_dir = core.data_dir
 
-import pathlib as pt
-st.write(pt.cwd())
+import os
+st.write(os.getcwd())
 
 years = [year.name for year in data_dir.iterdir() if year.is_dir()]
 years.sort(reverse=True)
