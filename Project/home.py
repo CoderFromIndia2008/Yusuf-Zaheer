@@ -32,9 +32,9 @@ def home():
 
     st.subheader(":blue[:material/menu_book: Resources:]")
     st.write("""
-    - [Deep Learning Course by FreeCodeCamp](https://youtu.be/IA3WxTTPXqQ)
+    - [Deep Learning course by FreeCodeCamp](https://youtu.be/IA3WxTTPXqQ)
     - [OpenCV course by FreeCodeCamp](https://youtu.be/oXlwWbU8l2o)
-    - [Deep Learning Course by Kaggle](https://www.kaggle.com/learn/intro-to-machine-learning)
+    - [Deep Learning course by Kaggle](https://www.kaggle.com/learn/intro-to-machine-learning)
     - [Streamlit course by RyanAndMattDataScience](https://youtu.be/eAgONwZ_dKM)
     - And many more sources were used.
     - The support of our teachers, friends and families was also vital to the success of this project.

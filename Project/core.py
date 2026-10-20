@@ -4,28 +4,49 @@ import pandas as pd
 import numpy as np
 import time
 
-#base_dir = pt.Path("/workspaces/Yusuf-Zaheer")
-base_dir = pt.Path("/mount/src/yusuf-zaheer/")
+base_dir = pt.Path("/workspaces/Yusuf-Zaheer")
+#base_dir = pt.Path("/mount/src/yusuf-zaheer/")
 data_dir = base_dir / "database"
 tools_dir = base_dir / "tools"
 
-full_months = ["January", "February", "March", "April", "May", "June", 
-"July", "August", "September", "October", "November", "December"]
+full_months = ["April", "May", "June", "July", "August", "September", 
+               "October", "November", "December", "January", "February", "March"]
 
 def get_time():
-    return time.strftime("%d %B %Y").split()
+    return time.strftime("%d %B %y").split()
+
+def get_register_path(session, month):
+    register_path = data_dir / session / f"{full_months.index(month)+1}_{month}_{session}.csv"
+    return register_path
+
+def get_meta_path(session):
+    meta_path = data_dir / session / f"metadata_{session}.csv"
+    return meta_path
+
+def get_session_dir(year):
+    year = int(year)
+    session_dir = data_dir / f"20{year}-{year+1}"
+    return session_dir
+
+def get_month_path(session, month):
+    register_path = data_dir / session / f"{full_months.index(month)+1}_{month}_{session}.csv"
+    return register_path
     
 def mark(img, model, img_size=224):
     with open(data_dir / "prediction_target.jpg", "wb") as file:
         file.write(img.getbuffer())
 
     date, month, year = get_time()
-    year_dir = data_dir / str(year)
-    meta_path = year_dir / "metadata.csv"
-    register_path = year_dir / f"{month}.csv"
-    
+
+    if month in ["January", "February", "March"]:
+        year -= 1
+
+    session_dir = get_session_dir(year)
+    register_path = get_register_path(session_dir.name, month)
+    meta_path = get_meta_path(session_dir.name)    
+
     if not register_path.exists():
-        year_dir.mkdir(exist_ok=True)
+        session_dir.mkdir(exist_ok=True)
         register = pd.read_csv(meta_path)
         
     else:
@@ -55,16 +76,15 @@ def mark(img, model, img_size=224):
     columns = ["roll", "name", str(date)]
     return (student, confidence, register[columns])
     
-def view(date, month, year):   
-    register_path = data_dir / f"{year}/{month}.csv"
-    
+def view(date, month, session):   
+    register_path = get_register_path(session, month)
+    session_dir = data_dir / session
+
     try:
         register = pd.read_csv(register_path)
         
-    except FileNotFoundError:
-        year_dir = data_dir / str(year)
-        
-        if year_dir.exists():
+    except FileNotFoundError:        
+        if session_dir.exists():
             return "No attendance available for this month"
         
         return "No attendance available for this year"
@@ -82,23 +102,22 @@ def view(date, month, year):
     register = register.set_index(register["roll"]).drop("roll", axis=1)
     return register
     
-def percent(month1, month2, year):
+def percent(month1, month2, session):
     month1_idx = full_months.index(month1)
     month2_idx = full_months.index(month2) + 1
-    
     months = full_months[month1_idx:month2_idx]
-    
-    year_dir = data_dir / str(year)
-    meta_path = year_dir / "metadata.csv"
-    
-    if not year_dir.exists():
+    session_dir = data_dir / session
+    meta_path = get_meta_path(session)    
+
+    if not session_dir.exists():
         return (0, "No attendance available for this year")
         
     working_days = 0
     percent_df = pd.read_csv(meta_path)
     percent_df["Total"] = ""
+
     for month in months:
-        register_path = year_dir / f"{month}.csv"
+        register_path = get_register_path(session, month)
         
         if not register_path.exists():
             continue
@@ -126,8 +145,9 @@ def percent(month1, month2, year):
     
 def remove(name, options):
     index_remove = options.index(name)
-    date, month, year = get_time()
-    meta_path = data_dir / f"{year}/metadata.csv"
+    _, _, year = get_time()
+    session_dir = get_session_dir(year)
+    meta_path = get_meta_path(session_dir.name)
 
     if not meta_path.exists():
         return "No students registered yet"
@@ -139,9 +159,9 @@ def remove(name, options):
     names = names.set_index(names["roll"]).drop("roll", axis=1)
     return names
             
-def deleted(df, year):
+def deleted(df, session):
     truth = []
-    meta_path = data_dir / f"{year}/metadata.csv"
+    meta_path = get_meta_path(session)
     register = pd.read_csv(meta_path)
     full_names = tuple(register["name"])
     mismatch = len(full_names) != register.shape[0]
@@ -169,10 +189,8 @@ def password(user_input):
     true_password = str(pickle.load(file)[0])
     return user_input == true_password
 
-def get_current_month(year):
-    year_dir = data_dir / str(year)
-    months = [m.stem for m in year_dir.iterdir() if m.is_file()]
-
-    for idx, month in enumerate(full_months[-1::-1]):
-        if month in months:
-            return 11 - idx
+def get_current_month(session):
+    session_dir = data_dir / session
+    months = [m.stem for m in session_dir.iterdir() if m.is_file()]
+    months = [m.strip("1234567890-_") for m in months]
+    return full_months.index(months[-1])
