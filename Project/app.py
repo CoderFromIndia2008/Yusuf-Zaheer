@@ -1,4 +1,5 @@
 import streamlit as st
+import registeration
 import pandas as pd
 import home
 import core
@@ -62,9 +63,10 @@ elif page == options[1]:
         help="Make sure your face is clearly visible and no other faces appear in the photo."
         )
     
-    if img:
+    if img and st.button("**Predict & Mark Attendance?**"):
         st.success("Capture successful!")
         student, confidence, register = core.mark(img, model="model1")
+        st.success("Prediction successful!")
         st.write("Student:", student)
         st.write(f"Confidence: {confidence}%")
         st.divider()
@@ -89,9 +91,9 @@ elif page == options[3]:
     col1, col2, col3 = st.columns(3)
     session = col1.selectbox("Select session:", sessions, key="103")
     current_month = core.get_current_month(session)
-    month1 = col2.selectbox("Select month:", full_months, index=current_month, key="104")
+    month1 = col2.selectbox("From:", full_months, index=current_month, key="104")
     idx = full_months.index(month1)
-    month2 = col3.selectbox("Select month:", full_months[idx:], key="105")
+    month2 = col3.selectbox("To:", full_months[idx:], key="105")
     st.divider()
     
     if session and month1 and month2:
@@ -152,9 +154,8 @@ elif key and option == options[1]:
             st.success("Changes made!")
     
 elif key and option == options[2]:
-    st.subheader(":red[Sorry!]")
-    st.write("This page is still work in progress...")
-    
+    registeration.register_student()
+
 elif key and option == options[3]:
     session = st.selectbox("Select session:", sessions, key="109")
     meta_path = core.get_meta_path(session)

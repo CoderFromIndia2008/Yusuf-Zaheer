@@ -2,6 +2,8 @@ import tensorflow as tf
 import pathlib as pt
 import pandas as pd
 import numpy as np
+import functools
+import pickle
 import time
 
 #base_dir = pt.Path("/workspaces/Yusuf-Zaheer")
@@ -13,7 +15,9 @@ full_months = ["April", "May", "June", "July", "August", "September",
                "October", "November", "December", "January", "February", "March"]
 
 def get_time():
-    return time.strftime("%d %B %y").split()
+    date, month, year = time.strftime("%d %B %y").split()
+    year = int(year)
+    return date, month, year
 
 def get_register_path(session, month):
     register_path = data_dir / session / f"{full_months.index(month)+1}_{month}_{session}.csv"
@@ -24,14 +28,17 @@ def get_meta_path(session):
     return meta_path
 
 def get_session_dir(year):
-    year = int(year)
     session_dir = data_dir / f"20{year}-{year+1}"
     return session_dir
 
 def get_month_path(session, month):
     register_path = data_dir / session / f"{full_months.index(month)+1}_{month}_{session}.csv"
     return register_path
-    
+
+@functools.lru_cache(maxsize=1)
+def load_model(name):
+    return tf.keras.models.load_model(tools_dir / f"models/{name}.keras")
+
 def mark(img, model, img_size=224):
     with open(data_dir / "prediction_target.jpg", "wb") as file:
         file.write(img.getbuffer())
@@ -55,8 +62,8 @@ def mark(img, model, img_size=224):
     if not date in register.columns:
         register.loc[:, date] = "A"
 
-    model = tf.keras.models.load_model(tools_dir / f"models/{model}.keras")
     img_path = data_dir / "prediction_target.jpg"
+    model = load_model(model)
     
     img = tf.keras.utils.load_img(img_path, target_size=(img_size, img_size))
     img_array = tf.keras.utils.img_to_array(img)
@@ -171,11 +178,9 @@ def deleted(df, session):
 
     cleaned = df[truth]
     cleaned["roll"] = range(1, cleaned.shape[0]+1)
-
     return (mismatch, cleaned)
     
 def password(user_input):
-    import pickle
     password_path = tools_dir / "password.dat"
 
     if not password_path.exists():
