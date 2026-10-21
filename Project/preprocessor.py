@@ -4,10 +4,11 @@ import core
 import cv2
 
 model = core.tools_dir / "yunet.onnx"
-detector = cv2.FaceDetectorYN.create(model, "", (320, 320), 0.5, 0.3, 5000)
 
 if not model.is_file():
     raise Exception('Missing yunet.onnx')
+
+detector = cv2.FaceDetectorYN.create(model, "", (320, 320), 0.5, 0.3, 5000)
 
 def process(img, rotate=False):
     if img is None:
