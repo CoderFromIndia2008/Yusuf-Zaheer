@@ -13,11 +13,10 @@ key = False
 
 def display(register, year):
     mismatch, modified_register = core.deleted(register, year)
-    
-    if mismatch and st.button("**Show deleted?**"):
-        return modified_register
+    if mismatch and st.toggle("**Show deleted**"): 
+        return register.set_index("roll")
         
-    return register
+    return modified_register.set_index("roll")
 
 options = [
     "**:material/Home: Home**",
@@ -81,7 +80,10 @@ elif page == options[2]:
     
     if session and month:
         output = core.view(date, month, session)
-        st.write(display(output, session))
+        if type(output) == str:
+            st.write(output)
+        else:
+            st.write(display(output, session))
     
 elif page == options[3]:
     col1, col2, col3 = st.columns(3)
@@ -94,7 +96,6 @@ elif page == options[3]:
     
     if session and month1 and month2:
         working_days, output = core.percent(month1, month2, session)
-        
         if working_days != 0:
             st.write(f"Total working days: {working_days}")
         

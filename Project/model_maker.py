@@ -34,7 +34,7 @@ class ModelMaker:
             #layers.Rescaling(1/255.0),
             
             #1st convolutional layer
-            layers.Conv2D(filters=16, kernel_size=5, strides=1, activation="relu"),
+            layers.Conv2D(filters=32, kernel_size=5, strides=1, activation="relu"),
             layers.MaxPool2D(pool_size=2, padding="same"),
             layers.BatchNormalization(),
         

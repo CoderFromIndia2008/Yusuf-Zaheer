@@ -4,8 +4,8 @@ import pandas as pd
 import numpy as np
 import time
 
-#base_dir = pt.Path("/workspaces/Yusuf-Zaheer")
-base_dir = pt.Path("/mount/src/yusuf-zaheer/")
+base_dir = pt.Path("/workspaces/Yusuf-Zaheer")
+#base_dir = pt.Path("/mount/src/yusuf-zaheer/")
 data_dir = base_dir / "database"
 tools_dir = base_dir / "tools"
 
@@ -91,15 +91,13 @@ def view(date, month, session):
         
     if date != 0:
         if str(date) in register.columns:
-            columns = ["name", str(date)]
-            register = register.set_index(register["roll"])
+            columns = ["roll", "name", str(date)]
             
             return register[columns]
         
         else:
             return "No attendance available for this date"
             
-    register = register.set_index(register["roll"]).drop("roll", axis=1)
     return register
     
 def percent(month1, month2, session):
@@ -113,8 +111,7 @@ def percent(month1, month2, session):
         return (0, "No attendance available for this year")
         
     working_days = 0
-    percent_df = pd.read_csv(meta_path)
-    percent_df["Total"] = ""
+    percent_df = None
 
     for month in months:
         register_path = get_register_path(session, month)
@@ -123,6 +120,9 @@ def percent(month1, month2, session):
             continue
             
         register = pd.read_csv(register_path)
+        if percent_df == None:
+            percent_df = register[["roll", "name"]]
+            percent_df["Total"] = ""
         
         #register.columns = (roll, names, date, date, date, ...)
         working_days += len(register.columns) - 2
@@ -140,7 +140,6 @@ def percent(month1, month2, session):
         percent_df.loc[idx, "Total"] = str(row.count("P"))
         percent_df.loc[idx, "%"] = f"{row.count('P') * 100 / working_days:.0f}%"
         
-    percent_df = percent_df.set_index(percent_df["roll"]).drop("roll", axis=1)
     return (working_days, percent_df)
     
 def remove(name, options):
@@ -156,7 +155,6 @@ def remove(name, options):
     names = names.drop(index_remove, axis=0)
     names.iloc[index_remove:, 0] -= 1
     names.to_csv(meta_path, index=False)
-    names = names.set_index(names["roll"]).drop("roll", axis=1)
     return names
             
 def deleted(df, session):
@@ -164,7 +162,7 @@ def deleted(df, session):
     meta_path = get_meta_path(session)
     register = pd.read_csv(meta_path)
     full_names = tuple(register["name"])
-    mismatch = len(full_names) != register.shape[0]
+    mismatch = len(full_names) != df.shape[0]
             
     if not mismatch:
         return (mismatch, df)
@@ -173,7 +171,8 @@ def deleted(df, session):
         truth.append(df.loc[idx, "name"] in full_names)
 
     cleaned = df[truth]
-    cleaned["roll"] = range(1, sum(truth) + 1)
+    cleaned["roll"] = range(1, cleaned.shape[0]+1)
+
     return (mismatch, cleaned)
     
 def password(user_input):
@@ -193,4 +192,7 @@ def get_current_month(session):
     session_dir = data_dir / session
     months = [m.stem for m in session_dir.iterdir() if m.is_file()]
     months = [m.strip("1234567890-_") for m in months]
-    return full_months.index(months[-1])
+    
+    for month in full_months[-1::-1]:
+        if month in months:
+            return full_months.index(month)
