@@ -105,22 +105,21 @@ def percent(month1, month2, session):
     month2_idx = full_months.index(month2) + 1
     months = full_months[month1_idx:month2_idx]
     session_dir = data_dir / session
-    meta_path = get_meta_path(session)    
 
     if not session_dir.exists():
         return (0, "No attendance available for this year")
         
     working_days = 0
-    percent_df = None
+    percent_df = pd.DataFrame()
 
-    for month in months:
+    for iter, month in enumerate(months):
         register_path = get_register_path(session, month)
         
         if not register_path.exists():
             continue
             
         register = pd.read_csv(register_path)
-        if percent_df == None:
+        if iter == 0:
             percent_df = register[["roll", "name"]]
             percent_df["Total"] = ""
         
