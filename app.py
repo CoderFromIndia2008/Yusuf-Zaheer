@@ -31,25 +31,6 @@ st.sidebar.caption("Attendance Marking and Management System with AI")
 st.sidebar.divider()
 page = st.sidebar.radio(":violet[**Pages**]", options, key="100")
 st.sidebar.divider()
-st.sidebar.text("""
- ____________________
-/                    \
-|    AI Attendance   |
-|       System       |
-\____________________/
-         !  !
-         !  !
-         L_ !
-        / _)!
-       / /__L
- _____/ (____)
-        (____)
- _____  (____)
-      \_(____)
-         !  !
-         !  !
-         \__/
-""")
 
 #PAGE 1: HOME
 if page == options[0]:
@@ -78,6 +59,7 @@ if page == options[0]:
         st.divider()
 
     home.home()
+    home.ascii()
 
 #PAGE 2: MARK ATTENDANCE
 elif page == options[1]:
