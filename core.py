@@ -47,7 +47,7 @@ def GetCurrentMonth(session):
     for month in full_months[-1::-1]:
         if month in months:
             return full_months.index(month)
-    return "January"
+    return 0
 
 #I am using this decorator to reduce loading time
 @functools.lru_cache(maxsize=1)

@@ -245,10 +245,10 @@ def modify():
     "**Remove Student**"
     ]
     tab1, tab2, tab3, tab4, tab5 = st.tabs(options)
-    tab1.change_log()
-    tab2.modify_name()
-    tab3.modify_register()
-    tab4.register_student()
-    tab5.removed_student()
+    with tab1: change_log()
+    with tab2: modify_name()
+    with tab3: modify_register()
+    with tab4: register_student()
+    with tab5: remove_student()
     
         

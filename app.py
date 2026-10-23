@@ -151,7 +151,7 @@ elif page == options[4]:
     if st.session_state["key"] == False:
         CheckPassword()
 
-    if st.button(":material/lock: Close modification page", type="tertiary"):
+    if st.button(":material/lock: Close modification page"):
         st.session_state["key"] = False
 
     if st.session_state["key"] == True:
