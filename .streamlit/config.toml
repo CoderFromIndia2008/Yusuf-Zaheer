@@ -4,10 +4,10 @@ primaryColor="slateBlue"
 backgroundColor="mintCream"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
-headingFont = "sans-serif"
 font = "sans-serif"
 
 [theme.sidebar]
 backgroundColor="aliceBlue"
 secondaryBackgroundColor="skyBlue"
 baseRadius="none"
+

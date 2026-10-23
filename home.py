@@ -1,12 +1,14 @@
-def home():
-    import streamlit as st
+import streamlit as st
+import time
+import core
 
-    st.subheader(":blue[:material/potted_plant: Purpose:]")
+def home():
+    st.subheader(":blue[:material/potted_plant: Purpose]")
 
     st.write("""The project aims to provide a way for teachers to mark attendance through an automatic AI based system,
     this reduces the responsibilities of the teacher and gives them more room to breathe before classes begin.""")
 
-    st.subheader(":blue[:material/manufacturing: Working:]")
+    st.subheader(":blue[:material/manufacturing: Working]")
 
     st.markdown("""
     - Images are collected on which classification is done, the collection is through streamlit's file_uploader() and camera_input().
@@ -16,21 +18,31 @@ def home():
     - Rest of the code, which offers extra features like viewing attendance register, attendance percentage, quickly registering and removing students is done through Pandas' DataFrames.
     """)
 
-    st.subheader(":blue[:material/diversity_3: Made by:]")
+    st.subheader(":blue[:material/diversity_3: Team]")
 
-    st.write("""
-    - Arush (Data Expert)
-    - Aryan Vishwakarma (Video Producer)
-    - Jaffar (Information Researcher)
-    - Krishna V. Gupta (Communication Leader)
-    - Yusuf Zaheer (Main Coder)
-    - Zoheb Arsh (Web Designer)
-    """)
+    with st.container(border=True):
+        col1, col2 = st.columns(2)
+        col1.markdown("Arush")
+        col1.caption("Data Expert")
+        col2.markdown("Aryan")
+        col2.caption("Video Producer")
 
-    st.subheader(":blue[:material/movie: Video]:")
+        col3, col4 = st.columns(2)
+        col3.markdown("Jaffer")
+        col3.caption("Information Researcher")
+        col4.markdown("Krishna")
+        col4.caption("Communication Leader")
+
+        col5, col6 = st.columns(2)
+        col5.markdown("Yusuf")
+        col5.caption("Main Coder")
+        col6.markdown("Zoheb")
+        col6.caption("Web Designer")
+
+    st.subheader(":blue[:material/movie: Video]")
     #st.video("/workspaces/attendance-system/our_video.mov")
 
-    st.subheader(":blue[:material/menu_book: Resources:]")
+    st.subheader(":blue[:material/menu_book: Resources]")
     st.write("""
     - [Deep Learning course by FreeCodeCamp](https://youtu.be/IA3WxTTPXqQ)
     - [OpenCV course by FreeCodeCamp](https://youtu.be/oXlwWbU8l2o)
@@ -40,10 +52,18 @@ def home():
     - The support of our teachers, friends and families was also vital to the success of this project.
     """)
 
-    import time
-    with st.expander("Easter Egg"):
-        st.write(":blue[Do You Like Balloons?]")
+    with st.expander("Easter Egg", type="compact"):
+
+        if core.month in ["December", "January"]:
+            st.write(":blue[Do you like snow?]")
+            show = "snow"
+        else:
+            st.write(":blue[Do You Like Balloons?]")
+            show = "balloons"
         if st.button(":green[**Yes**]"):
-            for i in range(5):
-                st.balloons()
+            for _ in range(5):
+                if show == "balloons":
+                    st.balloons()
+                else:
+                    st.snow()
                 time.sleep(0.7)

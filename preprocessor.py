@@ -1,7 +1,7 @@
-import pathlib as pt
 import random as rn
 import core
 import cv2
+import streamlit as st
 
 model = core.tools_dir / "yunet.onnx"
 
@@ -10,10 +10,10 @@ if not model.is_file():
 
 detector = cv2.FaceDetectorYN.create(model, "", (320, 320), 0.5, 0.3, 5000)
 
-def process(img, rotate=False):
+def process(img=None, path=None, rotate=False):
     if img is None:
-        print("Could not read")
-        return None
+        img = cv2.imread(path)
+        st.image(img)
 
     h, w = img.shape[:2]
     detector.setInputSize((w, h))
@@ -31,20 +31,20 @@ def process(img, rotate=False):
     top = max(0, y - pad_y)
     right = min(w, x + fw + pad_x)
     bottom = min(h, y + fh + pad_y)
-    crop = frame[top:bottom, left:right]
+    crop = img[top:bottom, left:right]
     
     if crop.size == 0:
         print("Invalid face crop")
         return None
         
     gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
-    equal = cv2.histEqualize(gray)
-    resized = cv2.resize(equal, (224, 224), interpolation = cv2.INTER_AREA)
+    equal = cv2.equalizeHist(gray)
+    face = cv2.resize(equal, (224, 224), interpolation = cv2.INTER_AREA)
     
     if rotate:
-        h, w = resized.shape[:2]
+        h, w = face.shape[:2]
         angle = rn.randint(10, 15) * rn.choice([1, -1])
-        rotation_matrix = cv.getRotationMatrix2D((w/2,h/2), angle, 1)
-        face = cv.warpAffine(resized, rotation_matrix, (w, h))
+        rotation_matrix = cv2.getRotationMatrix2D((w/2,h/2), angle, 1)
+        face = cv2.warpAffine(face, rotation_matrix, (w, h))
     
     return face
