@@ -102,7 +102,6 @@ def MarkAttendance(img, model_name, img_size=224):
     
 def ViewRegister(date, month, session):   
     register_path = GetRegisterPath(session, month)
-    session_dir = data_dir / session
     
     if not register_path.exists():
         return None
@@ -113,6 +112,7 @@ def ViewRegister(date, month, session):
         return register
         
     if not str(date) in register.columns:
+        print("heidnei")
         return None
             
     columns = ["roll", "name", str(date)]
