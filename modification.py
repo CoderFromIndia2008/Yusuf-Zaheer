@@ -2,6 +2,7 @@ import streamlit as st
 import random as rn
 import pandas as pd
 import preprocessor
+import pickle
 import core
 import csv
 import cv2
@@ -31,34 +32,40 @@ def CameraCapture(name, camera_index):
     capture.release()
 
 def change_log():
-    log_path = core.tools_dir / "change_log.txt"
+    log_path = core.tools_dir / "change_log.dat"
     log_path.touch(exist_ok=True)
-    file = open(log_path)
-    changes = file.readlines()
-    file.close()
-    log = changes
-    if changes == []:
-        log = ["No changes made yet."]   
-
+    records = []
+    file = open(log_path, "rb")
+    while True:
+        try: records.append(pickle.load(file))
+        except: break
+    records.reverse()        
     with st.container(border=True):
-        for change in log[-1::-1]:
-            message = change.partition(";")
-
-            if len(message) == 3:
-                details = message[2].partition(":")
-                st.write(message[0])
-                st.write(details[0])
-                for change in details[2].split(" | "):
+        if records == []:
+            st.write("No changes yet.")
+            return None
+        for record in records[:10]:
+            st.write(record[0])
+            if len(record)>2:
+                st.write(record[1])
+                for change in record[2:]:
                     st.caption(f":green-background[{change}]")
-            else:
-                st.subheader(message[0])
-                st.write(message[2])
-    return changes
 
-def write_change_log(change):
-    report = f"- {core.hour}:{core.minute} {core.date}-{core.month[:3]}-20{core.year}; {change}\n"
-    with open(core.tools_dir / "change_log.txt", "a") as file:
-        file.write(report)
+    txt = []
+    for record in records:
+        txt.append(";".join(record))
+    txt = "\n".join(txt)
+    st.download_button(
+        ":material/download: Download change log",
+        txt,
+        width="stretch"
+    )
+
+def write_change_log(changes):
+    record = [f"- {core.hour}:{core.minute} {core.date}-{core.month[:3]}-20{core.year}"]
+    record.extend(changes)
+    with open(core.tools_dir / "change_log.dat", "ab") as file:
+        pickle.dump(record, file)
 
 def upload_videos(name, num):
     video = st.file_uploader("Upload a video", type=["mp4", "mov", "webm"], key=f"{num}file_upload")
@@ -67,12 +74,12 @@ def upload_videos(name, num):
     file = open(core.tools_dir / "collection_target.mp4", "wb")
     file.write(video.getbuffer())
     file.close()
-    CameraCapture(name, core.tool_dir / "collection_target.mp4")
+    CameraCapture(name, core.tools_dir / "collection_target.mp4")
 
 def modify():
     options = [
     "**Change Log**",
-    "**Modify Name/Roll**",
+    "**Modify Name**",
     "**Modify Register**",
     "**Register Student**",
     "**Remove Student**"
@@ -81,19 +88,19 @@ def modify():
 
     with tab1:
         st.subheader(":blue[:material/history: Change log]")
-        st.caption("Complete log history of actions like changing student name, attendance, registration and removal.")
+        st.caption("Brief log history of actions like changing student name, attendance. For complete history, click the download button below.")
         changes = change_log()
 
-    #MODIFY NAME OR ROLL
+    #MODIFY NAME
     with tab2:
         st.subheader(":blue[:material/person_edit: Modify Student Details]")
-        st.caption("Change name or roll of one or more students in the table below.")
+        st.caption("Change name of one or more students in the table below.")
         st.write("")
         session = st.selectbox("Academic session", sessions, key="106")
         meta_path = core.GetMetaPath(session)
         metadata = pd.read_csv(meta_path)
         st.write("")
-        modified = st.data_editor(metadata, hide_index=True)
+        modified = st.data_editor(metadata, column_order=("name",), hide_index=True)
         change_register = False
         if not (metadata.equals(modified)) and st.button("**Make changes**", width="stretch", type="primary"):
             modified.to_csv(meta_path, index=False)
@@ -102,25 +109,22 @@ def modify():
 
         if change_register:
             truth = []
-            full_names = tuple(modified["name"])
+            changes = ["Changed name(s)", f"session: {session}"]
             for idx in metadata.index:
-                truth.append(metadata.loc[idx, "name"] not in full_names)
-
+                mismatch = metadata.loc[idx, "name"] != modified.loc[idx, "name"]
+                truth.append(mismatch)
+                if mismatch:
+                    changes.append(f"{metadata.loc[idx, 'name']} (roll: {metadata.loc[idx, 'roll']}) -> {modified.loc[idx, 'name']}")
             for month in full_months:
                 register_path = core.GetRegisterPath(session, month)
                 if not register_path.exists():
                     continue
-
                 register = pd.read_csv(register_path)
-                changes = []
                 for idx, changed in enumerate(truth):
                     if changed:
-                        changes.append(f"{register.loc[idx, 'name']} -> {modified.loc[idx, 'name']}")
                         register.loc[idx, "name"] = modified.loc[idx, "name"]
-
                 register.to_csv(register_path, index=False)
-            changes = " | ".join(changes)
-            write_change_log(f"Changed name(s): {changes}")
+            write_change_log(changes)
 
     #MODIDY REGISTER
     with tab3:
@@ -143,14 +147,13 @@ def modify():
                 st.success("Changes made!")
 
         if change_register:
-            changes = []
+            changes = [f"Changed register", f"month: {month} | session: {session}"]
             for idx_row in register.index:
                 for idx_col, mark in enumerate(register.iloc[idx_row, 2:]):
                     if mark != modified.iloc[idx_row, idx_col+2]:
-                        change = f"{register.loc[idx_row, 'name']} on {idx_col+3} {month[:3]}: {mark} -> {modified.iloc[idx_row, idx_col+2]}"
+                        change = f"{register.loc[idx_row, 'name']} (roll: {register.loc[idx_row, 'roll']}) for date {idx_col+1}: {mark} -> {modified.iloc[idx_row, idx_col+2]}"
                         changes.append(change)
-            changes = " | ".join(changes)
-            write_change_log(f"Changed register for {month} {session}: {changes}")
+            write_change_log(changes)
 
     #REGISTER STUDENT
     with tab4:
@@ -164,6 +167,7 @@ def modify():
           step=1,
           key="1001"
         )
+
         st.divider()
         st.subheader(":blue[:material/help: Instructions]")
         st.caption("Upload three videos for model training (face recognition).")
@@ -193,10 +197,21 @@ def modify():
             metadata.loc[0] = (roll, name)
             metadata.to_csv(meta_path, index=False)
             st.success("Registration Successful!")
-            write_change_log(f"Registered name = {name}, roll = {roll}")
+            change = ["Registered student", f"name: {name} | roll: {roll}"]
+            write_change_log(change)
+            return None
+        elif not meta_path.exists():
+            st.error("No register for this session.")
             return None
       
         metadata = pd.read_csv(meta_path)
+        if name in list(metadata["name"]):
+            st.error("Name already registered")
+            return None
+        elif roll in list(metadata["roll"]):
+            st.error("Roll number already exists")
+            return None
+        
         records = []
         for i in range(metadata.shape[0]):
             _roll, _name = metadata.iloc[i]
@@ -206,15 +221,14 @@ def modify():
         records.sort()
   
         if name and roll and st.button("**Register**", width="stretch", key="2002", type="primary"):
-            st.divider()
             with open(meta_path, "w") as file:
                 writer = csv.writer(file)
                 writer.writerow(["roll", "name"])
                 writer.writerows(records)
             st.success("Registration Successful!")
-            write_change_log(f"Registered {name}, Roll No. {roll}")
+            change = ["Registered student", f"name: {name} | roll: {roll}"]
+            write_change_log(change)
             metadata = pd.read_csv(meta_path)
-            st.write(metadata)
   
     #REMOVE STUDENT
     with tab5:
@@ -239,6 +253,7 @@ def modify():
                 idx = options.index(option)
                 name = names[idx]
                 st.success("Student removed")
-                st.write(core.RemoveStudent(idx))
-                write_change_log(f"Removed {name} in {session}")
+                core.RemoveStudent(idx)
+                change = ["Removed student", f"name: {name} | roll: {idx+1}"]
+                write_change_log(change)
 

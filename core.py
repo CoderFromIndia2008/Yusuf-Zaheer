@@ -165,7 +165,6 @@ def RemoveStudent(idx):
     metadata = metadata.drop(idx, axis=0)
     metadata.iloc[idx:, 0] -= 1
     metadata.to_csv(meta_path, index=False)
-    return metadata
             
 def AdjustNames(original, session):
     #incase a student has been struck off from the attendance register, 
@@ -190,7 +189,7 @@ def AdjustNames(original, session):
     
 def PasswordVerify(user_input=None):
     password_path = tools_dir / "password.dat"
-    
+
     if user_input == None:
         message = "Submit password"
         if not password_path.exists():
