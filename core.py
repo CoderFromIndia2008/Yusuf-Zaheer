@@ -190,9 +190,11 @@ def AdjustNames(original, session):
     
 def PasswordVerify(user_input=None):
     password_path = tools_dir / "password.dat"
-    message = "Submit password"
+    
     if user_input == None:
-        message = "Set password"
+        message = "Submit password"
+        if not password_path.exists():
+            message = "Set password"
         return message
     
     if not password_path.exists():
