@@ -31,6 +31,7 @@ st.sidebar.caption("Attendance Marking and Management System with AI")
 st.sidebar.divider()
 page = st.sidebar.radio(":violet[**Pages**]", options, key="100")
 st.sidebar.divider()
+home.ascii()
 
 #PAGE 1: HOME
 if page == options[0]:
