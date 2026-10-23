@@ -3,7 +3,6 @@ import pandas as pd
 import functools
 import pickle
 import time
-import cv2
 
 base_dir = pt.Path.cwd()
 data_dir = base_dir / "database"
@@ -26,7 +25,6 @@ def GetSessionDir(year):
     
 def GetSessionList():
     sessions = []
-    
     for session in data_dir.iterdir():
         if session.is_dir():
             sessions.append(session.name)
@@ -49,9 +47,9 @@ def GetCurrentMonth(session):
     for month in full_months[-1::-1]:
         if month in months:
             return full_months.index(month)
+    return "January"
 
 #I am using this decorator to reduce loading time
-#without this decorator, the app loads the heavy model each time it reruns
 @functools.lru_cache(maxsize=1)
 def LoadModel(name):
     import tensorflow as tf 
@@ -112,7 +110,6 @@ def ViewRegister(date, month, session):
         return register
         
     if not str(date) in register.columns:
-        print("heidnei")
         return None
             
     columns = ["roll", "name", str(date)]
@@ -160,11 +157,15 @@ def AttendancePercent(from_month, to_month, session):
     
 def RemoveStudent(idx):
     session_dir = GetSessionDir(year)
-    meta_path = GetMetaPath(session_dir.name)    
+    meta_path = GetMetaPath(session_dir.name)
+    if not meta_path.exists():
+        return None
+        
     metadata = pd.read_csv(meta_path)
     metadata = metadata.drop(idx, axis=0)
     metadata.iloc[idx:, 0] -= 1
     metadata.to_csv(meta_path, index=False)
+    return metadata
             
 def AdjustNames(original, session):
     #incase a student has been struck off from the attendance register, 

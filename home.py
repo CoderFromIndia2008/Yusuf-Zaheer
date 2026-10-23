@@ -22,21 +22,21 @@ def home():
 
     with st.container(border=True):
         col1, col2 = st.columns(2)
-        col1.markdown("Arush")
+        col1.markdown("**Arush**")
         col1.caption("Data Expert")
-        col2.markdown("Aryan")
+        col2.markdown("**Aryan**")
         col2.caption("Video Producer")
 
         col3, col4 = st.columns(2)
-        col3.markdown("Jaffer")
+        col3.markdown("**Jaffer**")
         col3.caption("Information Researcher")
-        col4.markdown("Krishna")
+        col4.markdown("**Krishna**")
         col4.caption("Communication Leader")
 
         col5, col6 = st.columns(2)
-        col5.markdown("Yusuf")
+        col5.markdown("**Yusuf**")
         col5.caption("Main Coder")
-        col6.markdown("Zoheb")
+        col6.markdown("**Zoheb**")
         col6.caption("Web Designer")
 
     st.subheader(":blue[:material/movie: Video]")
@@ -53,17 +53,13 @@ def home():
     """)
 
     with st.expander("Easter Egg", type="compact"):
-
         if core.month in ["December", "January"]:
             st.write(":blue[Do you like snow?]")
-            show = "snow"
+            run = st.snow
         else:
             st.write(":blue[Do You Like Balloons?]")
-            show = "balloons"
+            run = st.balloons
         if st.button(":green[**Yes**]"):
-            for _ in range(5):
-                if show == "balloons":
-                    st.balloons()
-                else:
-                    st.snow()
-                time.sleep(0.7)
+            for i in range(5):
+                run()
+                time.sleep(0.75)

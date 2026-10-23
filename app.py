@@ -16,7 +16,7 @@ def DisplayAdjusted(original, session):
     if mismatch and st.toggle("Display removed student(s)"): 
         st.write(register.set_index("roll"))
         return None
-    st.dataframe(modified.set_index("roll"), )
+    st.write(modified.set_index("roll"))
 
 options = [
     "**:material/Home: Home**",
@@ -26,12 +26,11 @@ options = [
     "**:material/manufacturing: Modify**",
 ]
 
-side = st.sidebar
-side.title(":violet[**:material/familiar_face_and_zone: AI Attendance**]")
-side.caption("Attendance Marking and Management System with AI")
-side.divider()
-page = side.radio(":violet[**Pages**]", options, key="100")
-side.divider()
+st.sidebar.title(":violet[**:material/familiar_face_and_zone: AI Attendance**]")
+st.sidebar.caption("Attendance Marking and Management System with AI")
+st.sidebar.divider()
+page = st.sidebar.radio(":violet[**Pages**]", options, key="100")
+st.sidebar.divider()
 
 #PAGE 1: HOME
 if page == options[0]:
@@ -39,8 +38,8 @@ if page == options[0]:
     st.caption("Summary of today's attendance and learn about the project.")
     st.divider()
     st.subheader(":blue[:material/today: Today's overview]")
-    st.caption(f"Attendance for {core.date} {core.month} 20{core.year}")
     date, month, year = core.date, core.month, core.year
+    st.caption(f"Attendance for {date} {month} 20{year}")
     session = core.GetSession(year, month)
     register = core.ViewRegister(date, month, session)
     if register is None or str(date) not in register.columns:
@@ -131,31 +130,28 @@ elif page == options[3]:
 #PAGE 5: MAKE CHANGES TO DATABASE
 elif page == options[4]:
     st.title(":violet[:material/manufacturing: Make Changes]")
-    st.caption("This section can change attendance records. Only authorized staff should access it.")
+    st.caption("Change attendance records and student details.")
     st.write("")
     if "key" not in st.session_state:
         st.session_state["key"] = False
 
-    @st.dialog(":material/key: Authentication Required")
+    @st.dialog(":violet[:material/key: Authentication Required]")
     def CheckPassword():
         user_input = st.text_input("Enter password", type="password")
-        st.caption("Hint: Password is 123")
+        st.caption(":gray[Hint: Password is 123]")
 
         message = core.PasswordVerify()
-        if st.button(message, key="1100", width="stretch", type="primary"):
-            if not user_input:
-                st.error("Please enter the password above.")
+        if st.button(message, key="1100", width="stretch", type="primary", disabled=(not user_input)):
+            st.session_state["key"] = core.PasswordVerify(user_input)
+            if st.session_state["key"] == True:
+                st.rerun()
             else:
-                st.session_state["key"] = core.PasswordVerify(user_input)
-                if st.session_state["key"] == True:
-                    st.rerun()
-                else:
-                    st.error("Incorrect Password")
+                st.error("Incorrect Password")
 
     if st.session_state["key"] == False:
         CheckPassword()
 
-    if st.button(":material/lock: Close modification page"):
+    if st.button(":material/lock: Close modification page", type="tertiary"):
         st.session_state["key"] = False
 
     if st.session_state["key"] == True:
