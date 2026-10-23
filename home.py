@@ -65,7 +65,7 @@ def home():
                 time.sleep(0.75)
 
 def ascii():
-    st.markdown("""
+    st.text("""
                                                   ,o88888
                                                ,o8888888'
                          ,:o:o:oooo.        ,8O88Pd8888"
