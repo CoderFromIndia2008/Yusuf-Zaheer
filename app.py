@@ -59,7 +59,6 @@ if page == options[0]:
         st.divider()
 
     home.home()
-    home.ascii()
 
 #PAGE 2: MARK ATTENDANCE
 elif page == options[1]:
@@ -86,7 +85,7 @@ elif page == options[1]:
         else: 
             st.success("Prediction successful!")
             st.write("Student:", student)
-            st.write(f"Confidence: {confidence}%")
+            st.write(f"Confidence: {confidence*100:.2f}%")
             st.divider()
             st.write(register)
     

@@ -42,12 +42,13 @@ def change_log():
         if records == []:
             st.write("No changes yet.")
             return None
-        for record in records[:10]:
-            st.write(record[0])
+        for record in records[:5]:
+            st.write(f"**:gray[:material/schedule: {record[0][1:]}]**")
             if len(record)>2:
-                st.write(record[1])
+                st.write(f"**:green[{record[1]}]**")
                 for change in record[2:]:
-                    st.caption(f":green-background[{change}]")
+                    st.caption(f"**:green-background[{change}]**")
+                st.divider()
 
     txt = []
     for record in records:
@@ -133,7 +134,6 @@ def modify_register():
           
     if (not register.equals(modified)) and st.button("**Make changes**", width="stretch", key="2001", type="primary"):
         modified.to_csv(register_path, index=False)
-        change_register = True
         st.success("Changes made!")
         changes = [f"Changed register", f"month: {month} | session: {session}"]
         for idx_row in register.index:
@@ -186,7 +186,6 @@ def register_student():
         write_change_log(change)
         return None
     elif not meta_path.exists():
-        st.error("No register for this session.")
         return None
       
     metadata = pd.read_csv(meta_path)
@@ -216,8 +215,11 @@ def register_student():
 def remove_student():
     st.subheader(":blue[:material/delete: Remove Student]")
     st.caption("Remove a student from the register. Previous attendance is not deleted.")
-    session = st.selectbox("Academic session", sessions, key="109")
+    session = core.GetSession(core.year, core.month)
     meta_path = core.GetMetaPath(session)
+    if not meta_path.exists():
+        st.error("No students registered")
+        return None
     metadata = pd.read_csv(meta_path)    
     options, names = [], []
     for idx, name in enumerate(metadata["name"]):
@@ -225,6 +227,7 @@ def remove_student():
         names.append(name)
     if len(options) == 0:
         st.error("No students registered")
+        return None
     else:
         option = st.selectbox("Select a student", options, key="110", index=None)
         st.divider()

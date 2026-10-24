@@ -5,3 +5,17 @@ roll,name
 4,Krishna
 5,Yusuf
 6,Zoheb
+
+[theme]
+base="light"
+primaryColor="slateBlue"
+backgroundColor="mintCream"
+secondaryBackgroundColor="darkSeaGreen"
+baseRadius="full"
+font = "sans-serif"
+
+[theme.sidebar]
+backgroundColor="aliceBlue"
+secondaryBackgroundColor="skyBlue"
+baseRadius="none"
+

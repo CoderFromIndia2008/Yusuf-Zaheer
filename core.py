@@ -1,5 +1,7 @@
+import tensorflow as tf
 import pathlib as pt
 import pandas as pd
+import numpy as np
 import functools
 import pickle
 import time
@@ -56,15 +58,14 @@ def LoadModel(name):
     return tf.keras.models.load_model(tools_dir / f"{name}.keras")
 
 def MarkAttendance(img, model_name, img_size=224):
-    return (None, None, None)
-    img_path = data_dir / "prediction_target.png"
+    img_path = tools_dir / "prediction_target.png"
     
     with open(img_path, "wb") as file:
         file.write(img.getbuffer())
 
     #importing here to avoid circular import
     import preprocessor
-    img = preprocessor.process(path=img_path)
+    img = preprocessor.process(path=img_path, save=True)
     if img is None:
         return (None, None, None)
 
@@ -89,14 +90,18 @@ def MarkAttendance(img, model_name, img_size=224):
     img_array = tf.keras.utils.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)
     
-    #predictions = model.predict(img_array)
-    ###work here###
+    predicted = model.predict(img_array)[0]
+    students = list(register["name"])
+    idx = np.argmax(predicted)
+    confidence = max(predicted)
     
-    #register.loc[idx, date] = "P"            
-    #register.to_csv(register_path, index=False)
+    register.loc[idx, date] = "P"            
+    register.to_csv(register_path, index=False)
+
+    print({"pred":predicted, "confidence":confidence, "idx":idx, "student":students[idx]})
     
-    #columns = ["roll", "name", date]
-    #return student, confidence, register[columns]
+    columns = ["roll", "name", date]
+    return students[idx], confidence, register[columns]
     
 def ViewRegister(date, month, session):   
     register_path = GetRegisterPath(session, month)

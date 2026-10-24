@@ -1,7 +1,6 @@
 import random as rn
 import core
 import cv2
-import streamlit as st
 
 model = core.tools_dir / "yunet.onnx"
 
@@ -10,10 +9,9 @@ if not model.is_file():
 
 detector = cv2.FaceDetectorYN.create(model, "", (320, 320), 0.5, 0.3, 5000)
 
-def process(img=None, path=None, rotate=False):
+def process(img=None, path=None, rotate=False, save=False):
     if img is None:
         img = cv2.imread(path)
-        st.image(img)
 
     h, w = img.shape[:2]
     detector.setInputSize((w, h))
@@ -46,5 +44,6 @@ def process(img=None, path=None, rotate=False):
         angle = rn.randint(10, 15) * rn.choice([1, -1])
         rotation_matrix = cv2.getRotationMatrix2D((w/2,h/2), angle, 1)
         face = cv2.warpAffine(face, rotation_matrix, (w, h))
-    
+    if save:
+        cv2.imwrite(path, face)
     return face
