@@ -35,7 +35,7 @@ with st.expander("More filters"):
 
 st.divider()
 
-register = core.ViewRegister(date, month, year)
+register = core.ViewRegister(date, month, session)
 
 utils.Display(register, session)
 
