@@ -211,7 +211,7 @@ def RegisterStudent():
     "Add a new student to the session.",
     )
     
-    name = st.text_input("Student name", key="1000").strip()
+    name = st.text_input("Student name", value=None, key="1000")
     roll = st.number_input(
     "Student roll number", 
     min_value=0,
@@ -241,8 +241,8 @@ def RegisterStudent():
         with col3: Upload(name, 3)
         
     metadata, path = utils.GetFile(type="meta")
-  
-    if metadata is not None and st.button("**Register**", width="stretch", key="2002", type="primary"):
+
+    if name and roll and metadata is None and st.button("**Register**", width="stretch", key="2002", type="primary"):
         utils.GetSession().mkdir(exist_ok=True)
         
         metadata = pd.DataFrame(columns=["roll", "name"])
@@ -251,12 +251,12 @@ def RegisterStudent():
         
         st.success("Registration Successful!")
         
-        change_log = ["Registered student", f"name: {name} | roll: {roll}"]
+        change_log = ["Created session + Registered student", f"Name: {name} | Roll: {roll}"]
         WriteLog(change_log)
         
         return None
         
-    elif metadata is None:
+    elif not (name and roll) or metadata is None :
         return None
       
     if name in tuple(metadata["name"]):
@@ -274,7 +274,7 @@ def RegisterStudent():
         metadata.to_csv(path, index=False)            
         st.success("Registration Successful!")
         
-        change_log = ["Registered student", f"name: {name} | roll: {roll}"]
+        change_log = ["Registered student", f"Name: {name} | Roll: {roll}"]
         WriteLog(change_log)
     
 #remove a student from the current session's metadata file
@@ -284,12 +284,8 @@ def RemoveStudent():
     "delete",
     "Remove a student from the register. Previous attendance is not deleted.",
     )
-
-    st.write("hello")
     
     metadata, path = utils.GetFile(type="meta")
-
-    st.write("bye")
 
     if metadata is None:
         st.error("No students registered")
@@ -329,6 +325,6 @@ def RemoveStudent():
     
         change_log = [
         "Removed student", 
-        f"Name: {name} | Roll No.: {idx+1}"
+        f"Name: {name} | Roll: {idx+1}"
         ]
         WriteLog(change_log)

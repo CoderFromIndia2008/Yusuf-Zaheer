@@ -19,9 +19,10 @@ key="1"
 month = col2.selectbox(
 "Month", 
 utils.full_months, 
-index=utils.cur_month_idx,
+index=utils.Default("month", session),
 key="2",
 )
+
 
 with st.expander("More filters"):
     date = st.number_input(
@@ -29,7 +30,7 @@ with st.expander("More filters"):
     min_value=0, 
     max_value=31, 
     step=1,
-    value=int(utils.date),
+    value=utils.Default("date", session),
     key="3"
     ) 
 

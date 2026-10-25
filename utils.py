@@ -41,7 +41,6 @@ def GetFile(*arg, type):
     elif type == "meta":
         arg = arg or [GetSession().name]
         session = arg[0]
-        st.write(session)
         path = data_dir / session / f"metadata_{session}.csv"
         
     if not path.exists():
@@ -177,3 +176,17 @@ def process(img=None, path=None, rotate=False, save=False):
         cv2.imwrite(path, face)
         
     return face
+
+def Default(value, session):
+    if value == "month":
+        default = cur_month_idx
+    else: 
+        default = 0
+
+    if session == GetSession().name:
+        if value == "month":
+            default = cur_month_idx
+        else:
+            default = int(date)
+
+    return default
