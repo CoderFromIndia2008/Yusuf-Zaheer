@@ -51,7 +51,7 @@ def GetFile(*arg, type):
 #display a register if exists, choose to display with/without removed students
 def Display(original, session):
     if original is None:
-        st.error("No attendance available")
+        st.error("No attendance available.")
         return None
         
     metadata, _ = GetFile(session, type="meta")
@@ -103,7 +103,7 @@ def pretty(value, colour, bold=False, icon=None):
     return f":{colour}[{value}]"
     
 #password management
-text = pretty("Authentication Required", "violet", icon="key")
+text = pretty("Authentication Required", "violet", True, "key")
 
 @st.dialog(text)
 def Password():
@@ -124,7 +124,7 @@ def Password():
         st.session_state["key"] = user == password
 
         if st.session_state["key"] == False:
-            st.error("Wrong password")
+            st.error("Wrong password.")
         
     if st.session_state["key"] == True:
         st.rerun()
@@ -142,7 +142,7 @@ def process(img=None, path=None, rotate=False, save=False):
     faces = detector.detect(img)[1]
     
     if faces is None:
-        st.errir("No face found")
+        st.errir("No face found.")
         return None
         
     x, y, fw, fh = max(faces, key=lambda f: f[2] * f[3])[:4]
@@ -159,7 +159,7 @@ def process(img=None, path=None, rotate=False, save=False):
     crop = img[top:bottom, left:right]
     
     if crop.size == 0:
-        st.error("Invalid face crop")
+        st.error("Invalid face crop.")
         return None
         
     gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)

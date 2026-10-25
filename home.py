@@ -24,7 +24,7 @@ else:
     register = core.ViewRegister(utils.date, utils.month, session)
 
 if register is None:
-    st.info(f"No attendance available for today")
+    st.info(f"No attendance available for today.")
 
 else:
     total_strength = register.shape[0]

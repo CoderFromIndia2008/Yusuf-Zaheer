@@ -57,7 +57,7 @@ def ChangeLog():
     records.reverse()
 
     num = 5
-    with st.expander(":material/discover_tune: Filter"):
+    with st.expander(":material/discover_tune: More filters"):
         num = st.number_input(
         "Number of records shown", 
         min_value=0, 
@@ -66,7 +66,7 @@ def ChangeLog():
         value=5,
         key="2020"
         )
-    
+
     with st.container(border=True):
         if records == []:
             st.write("No changes yet.")
@@ -273,11 +273,11 @@ def RegisterStudent():
         return None
       
     if name in tuple(metadata["name"]):
-        st.error("Name already registered")
+        st.error("Name already registered.")
         return None
         
     elif roll in tuple(metadata["roll"]):
-        st.error("Roll number already exists")
+        st.error("Roll number already exists.")
         return None
 
     metadata.loc[metadata.shape[0]] = (roll, name)
@@ -301,7 +301,7 @@ def RemoveStudent():
     metadata, path = utils.GetFile(type="meta")
 
     if metadata is None:
-        st.error("No students registered")
+        st.error("No students registered.")
         return None
         
     options, names = [], []
@@ -310,7 +310,7 @@ def RemoveStudent():
         names.append(name)
         
     if len(options) == 0:
-        st.error("No students registered")
+        st.error("No students registered.")
         return None
         
     option = st.selectbox(
@@ -335,7 +335,7 @@ def RemoveStudent():
     if option and st.button("**Remove Student**", width="stretch", key="2003", type="primary"):
         metadata.to_csv(path, index=False)
     
-        st.success("Student removed")
+        st.success("Student removed.")
     
         change_log = [
         "Removed student", 
