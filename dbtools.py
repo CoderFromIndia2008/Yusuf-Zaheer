@@ -49,7 +49,7 @@ def ChangeLog():
         try:
             record = pickle.load(file)
             records.append(record)
-            txt_file += record + "\n"
+            txt_file = txt_file + record + "\n"
             
         except:
             break
@@ -74,8 +74,7 @@ def ChangeLog():
                 st.info(text)
                 st.divider()
 
-    st.write("hello")
-    st.write(txt_file)
+    st.write("hello", txt_file)
 
     st.download_button(
     "Download change log",
