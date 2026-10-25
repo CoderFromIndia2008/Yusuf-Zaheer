@@ -9,7 +9,7 @@ utils.title(
 Click on a column header to order by ascending or descending."
 )
 
-utils.MakeState("from", utils.month)
+utils.MakeState("from")
 utils.MakeState("session", utils.sessions[0] if utils.sessions != [] else None)
 
 col1, col2, col3 = st.columns([1.2, 1, 1])
@@ -21,7 +21,7 @@ key="4",
 index=None
 ) or st.session_state["session"]
 
-if st.sessions["from"] is not None:
+if st.session_state["from"] is not None:
     idx = utils.full_months.index(st.session_state["from"])
 else:
     idx = utils.cur_month_idx

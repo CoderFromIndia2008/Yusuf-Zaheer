@@ -66,7 +66,7 @@ def ChangeLog():
             text += "\n"
             
             if len(record) > 2:
-                text += utils.pretty(record[1], "gray", True)
+                text += utils.pretty(record[1], "gray", True) + "\n"
 
                 for change in record[2:]:
                     text += utils.pretty(change, "green", True) + "\n"
@@ -223,7 +223,7 @@ def RegisterStudent():
     )
     
     st.divider()
-    utils.title(
+    utils.subheader(
     "Instructions",
     "help",
     "Upload three videos for model training (face recognition)."
@@ -288,7 +288,7 @@ def RemoveStudent():
     )
     
     metadata, path = utils.GetFile(type="meta")
-    
+    st.write(metdata, path)
     if metadata is None:
         st.error("No students registered")
         return None
