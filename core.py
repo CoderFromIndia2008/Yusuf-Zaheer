@@ -103,10 +103,10 @@ def MonthWiseRegister(stud_idx, session):
 
     df = pd.DataFrame(data)
 
-    for idx in range(12):
+    for idx, month in enumerate(utils.full_months):
         register, path = utils.GetFile(month, session, type="register")
 
-        df.loc[idx, "month"] = utils.full_months[idx]
+        df.loc[idx, "month"] = month
 
         if register is None:
             df.loc[idx, ("total", "colour")] = (0, "gray")
