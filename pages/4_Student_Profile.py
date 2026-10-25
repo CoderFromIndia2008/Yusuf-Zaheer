@@ -52,6 +52,7 @@ else:
     st.divider()
 
 utils.subheader("Attendance trends", "bar_chart", "Observe the increase and decrease in attendance throughout the year.", divider=False)
+st.write("")
 
 month_wise = core.MonthWiseRegister(idx, session)
 
