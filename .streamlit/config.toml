@@ -15,7 +15,7 @@ font="sans-serif"
 textColor="black"
 
 [theme.sidebar]
-fontColor="#ffffff"
-backgroundColor="#6c584c"
-secondaryBackgroundColor="#a662a8"
+textColor="#ffffff"
+backgroundColor="#436e6f"
+secondaryBackgroundColor="#879693"
 baseRadius="full"
