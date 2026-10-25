@@ -13,14 +13,12 @@ utils.subheader("Today's overview", "today")
 
 st.caption(f"Attendance for {utils.date} {utils.month[:3]} {utils.year}")
 
-session = utils.GetSession()
-st.write(session, utils.sessions)
+session = utils.GetSession().name
 if session not in utils.sessions:
     register = None
     
 else:
     register = core.ViewRegister(utils.date, utils.month, session)
-    st.write(register)
 
 if register is None:
     st.info(f"No attendance available for today.")
