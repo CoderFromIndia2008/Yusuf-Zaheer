@@ -7,9 +7,9 @@ baseRadius="full"
 font = "sans-serif"
 
 [theme.dark]
-primaryColor="#183e4b"
-backgroundColor="#8ba0a4"
-secondaryBackgroundColor="#d74a49"
+primaryColor="slateBlue"
+backgroundColor="#c8d0dc"
+secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font="sans-serif"
 textColor="black"

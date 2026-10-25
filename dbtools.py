@@ -305,7 +305,7 @@ def RemoveStudent():
         return None
         
     names = list(metadata["name"])
-    options = list(metadata["roll"] + ". " + metadata["name"])
+    options = list(str(metadata["roll"]) + ". " + metadata["name"])
         
     if len(options) == 0:
         st.error("No students registered.")
