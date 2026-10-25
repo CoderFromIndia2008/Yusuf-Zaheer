@@ -3,12 +3,11 @@ import utils
 import core
 import time
 
-st.sidebar.title(":violet[**:material/familiar_face_and_zone: AI Attendance**]")
-st.sidebar.caption("Attendance Marking and Management System with AI.")
-st.sidebar.divider()
 
 text = utils.pretty("Home", colour="violet", icon="home")
 st.set_page_config(text)
+
+st.sidebar.title(":violet[**:material/familiar_face_and_zone: AI Attendance**]")
 
 utils.title(
 "Home", 
