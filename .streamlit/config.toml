@@ -1,20 +1,22 @@
 [theme]
 base="light"
-primaryColor="#92ba92"
+primaryColor="#5e62a9"
 backgroundColor="#eaeaea"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font = "sans-serif"
+textColor="#183e4b"
 
 [theme.dark]
-primaryColor="#92ba92"
+primaryColor="#5e62a9"
 backgroundColor="#eaeaea"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font="sans-serif"
+textColor="#183e4b"
 
 [theme.sidebar]
 textColor="#ffffff"
-backgroundColor="#1b4552"
+backgroundColor="#92ba92"
 secondaryBackgroundColor="#879693"
 baseRadius="full"
