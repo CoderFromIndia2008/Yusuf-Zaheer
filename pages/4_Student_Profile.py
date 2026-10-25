@@ -50,7 +50,7 @@ else:
 
     with col1: utils.metric("Total attendance", f"{total}/{total_working_days}", "blue")
 
-    with col2: utils.metric("Present %", percent, "gray")
+    with col2: utils.metric("Total Present %", percent, "gray")
 
     st.divider()
 
@@ -59,4 +59,4 @@ st.write("")
 
 month_wise = core.MonthWiseRegister(idx, session)
 
-st.bar_chart(month_wise, x_label="Months", y_label="Attendance")
+st.bar_chart(month_wise["Total"], x_label="Months", y_label="Attendance", color=month_wise["colour"])

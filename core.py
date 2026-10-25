@@ -95,8 +95,7 @@ def AttendancePercent(from_month, to_month, session):
     return (percent_df, working_days)
     
 def MonthWiseRegister(idx, session):
-    month_wise = pd.DataFrame([("", 0) for i in range(12)], index=utils.full_months, columns=("str", "Total"))
-    working_days = 0
+    month_wise = pd.DataFrame([("", 0, 0.0, "red") for i in range(12)], index=utils.full_months, columns=("str", "Total", "%", "colour"))
 
     for month in utils.full_months:
         register, path = utils.GetFile(month, session, type="register")
@@ -104,9 +103,17 @@ def MonthWiseRegister(idx, session):
         if register is None:
             continue
 
+        working_days = len(register.columns) - 2
         for column in register.columns[2:]:
             month_wise.loc[month, "str"] += register.loc[idx, column]
         
         month_wise.loc[month, "Total"] = month_wise.loc[month, "str"].count("P")
+        month_wise.loc[month, "%"] = month_wise.loc[month, "Total"] * 100 / working_days
 
-    return month_wise["Total"]
+        if month_wise.loc[month, "%"] >= 80:
+            month_wise.loc[month, "colour"] = "green"
+
+        elif month_wise.loc[month, "%"] >= 60:
+            month_wise.loc[month, "colour"] = "yellow"
+
+    return month_wise
