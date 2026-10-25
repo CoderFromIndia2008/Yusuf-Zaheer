@@ -68,7 +68,7 @@ def AttendancePercent(from_month, to_month, session):
     months = utils.full_months[from_idx:to_idx]
     
     working_days = 0
-    percent_df = pd.DataFrame()
+    percent_df = pd.DataFrame())
 
     for iter, month in enumerate(months):
         register, _ = utils.GetFile(month, session, type="register")
@@ -79,6 +79,8 @@ def AttendancePercent(from_month, to_month, session):
         if iter == 0:
             percent_df = register[["roll", "name"]]
             percent_df["Total"] = ""
+
+        st.write(iter, percent_df)
         
         working_days += len(register.columns) - 2
                     
