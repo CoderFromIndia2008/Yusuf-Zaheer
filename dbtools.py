@@ -42,14 +42,13 @@ def ChangeLog():
     path = utils.tools_dir / "change_log.dat"
     path.touch(exist_ok=True)
     
-    records, txt_file = [], ""
+    records = []
     file = open(path, "rb")
     
     while True:
         try:
             record = pickle.load(file)
             records.append(record)
-            txt_file = txt_file + record + "\n"
             
         except:
             break
@@ -74,11 +73,13 @@ def ChangeLog():
                 st.info(text)
                 st.divider()
 
-    st.write("hello", txt_file)
+    records.reverse()
+    records = "\n".join(records)
+    st.write("hello", records)
 
     st.download_button(
     "Download change log",
-    txt_file,
+    records,
     file_name="change_log.txt",
     icon=":material/download:",
     width="stretch"
