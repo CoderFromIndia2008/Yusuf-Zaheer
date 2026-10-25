@@ -8,7 +8,7 @@ font = "sans-serif"
 
 [theme.dark]
 primaryColor="slateBlue"
-backgroundColor="#c8d0dc"
+backgroundColor="#F9FAFB"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font="sans-serif"
