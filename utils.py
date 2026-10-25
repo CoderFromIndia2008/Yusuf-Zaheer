@@ -108,7 +108,7 @@ def pretty(value, colour, bold=False, icon=None):
     return f":{colour}[{value}]"
     
 #password management
-text = utils.pretty("Authentication Required", "violet", icon="key")
+text = pretty("Authentication Required", "violet", icon="key")
 
 @st.dialog(text)
 def Password():
