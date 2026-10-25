@@ -116,4 +116,5 @@ def MonthWiseRegister(idx, session):
         elif month_wise.loc[month, "%"] >= 60:
             month_wise.loc[month, "colour"] = "yellow"
 
-    return month_wise
+    colours = list(month_wise["colour"])
+    return month_wise["Total"], colours
