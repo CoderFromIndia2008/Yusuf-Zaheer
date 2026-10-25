@@ -22,26 +22,19 @@ names = list(metadata["name"])
 with col2: 
     name = st.selectbox("Select student", names, index=None, key="333")
 
-col1, col2 = st.columns(2)
-
-with col1:
-    from_month = st.selectbox("From month", utils.full_months, key="444")
-
-idx = utils.full_months.index(from_month)
-with col2:
-    to_month = st.selectbox("To month", utils.full_months[idx:], key="555")
-
-register, working_days = core.AttendancePercent(from_month, to_month, session)
+st.divider()
+register, working_days = core.AttendancePercent("April", "March", session)
 
 if register is None:
     st.error("No attendance available.")
 
 else:
-    utils.subheader("Attendance overview", "history_edu", "")
+    utils.subheader("Attendance overview", "history_edu", "Summary of this student's attendance.")
 
-    roll = (register["name"] == name).index(True) + 1
+    roll = list(register["name"] == name).index(True) + 1
     percent = register.loc[roll-1, "%"]
 
+    st.divider()
     col1, col2, col3 = st.columns(3)
 
     with col1: utils.metric("Present this month", name, "green")
