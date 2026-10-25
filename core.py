@@ -110,8 +110,8 @@ def MonthWiseRegister(idx, session):
         month_wise.loc[month, "Total"] = month_wise.loc[month, "A and P"].count("P")
         month_wise.loc[month, "%"] = month_wise.loc[month, "Total"] * 100 / working_days
 
-    month_wise["Below 60"] = month_wise[month_wise["%"] <= 60]
-    month_wise["Below 80"] = month_wise[month_wise["%"] <= 80]
-    month_wise["Above 80"] = month_wise[month_wise["%"] >= 80]
+    month_wise["Below 60"] = list(month_wise[month_wise["%"] <= 60].index)
+    month_wise["Below 80"] = list(month_wise[month_wise["%"] <= 80].index)
+    month_wise["Above 80"] = list(month_wise[month_wise["%"] >= 80].index)
 
     return month_wise[["Below 60", "Below 80", "Above 80"]]
