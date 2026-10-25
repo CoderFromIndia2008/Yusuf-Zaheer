@@ -17,7 +17,7 @@ with st.container(border=True):
     """)
     
     img = st.camera_input("Take a photo")
-    model = st.file_uploader("Upload a model", type=["keras"])
+    model = st.file_uploader("Upload a model")
     
 if img:
     st.success("Capture successful!")
