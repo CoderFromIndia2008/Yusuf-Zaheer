@@ -65,7 +65,6 @@ elif page == options[1]:
     st.title(":violet[:material/photo_camera: Mark Attendance]")
     st.caption("Just take a photo and the attendance will be marked automatically.")
     st.divider()
-    st.warning("TEMPORARILY DISABLED")
     with st.container(border=True):
         st.write("**Before taking the photo**")
         st.markdown("""
@@ -74,11 +73,12 @@ elif page == options[1]:
         - Avoid other faces appearing in the photo.
         """)
         img = st.camera_input("Take a photo")
-    
+    with st.expander("Filter", type="compact"):
+        model = st.selectbox("Model", core.models, width=100)
     if img:
         st.success("Capture successful!")
     if img and st.button("**Predict & Mark Attendance**", width="stretch"):
-        student, confidence, register = core.MarkAttendance(img, model_name="China")
+        student, confidence, register = core.MarkAttendance(img, model_name=model)
 
         if not student:
             st.error("No student detected!")
