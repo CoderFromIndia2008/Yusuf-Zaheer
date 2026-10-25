@@ -109,7 +109,7 @@ def MonthWiseRegister(stud_idx, session):
         df.loc[idx, "month"] = month
 
         if register is None:
-            df.loc[idx, ("total", "colour")] = (0, "gray")
+            df.loc[idx, ("total", "colour")] = (0, "#dee4e9")
             continue
 
         temp = ""
@@ -121,13 +121,13 @@ def MonthWiseRegister(stud_idx, session):
         percent = df.loc[idx, "total"] * 100 / working_days
 
         if percent >= 80:
-            colour = "#ff595e"
+            colour = "#51a16a"
     
         elif percent >= 60:
-            colour = "#ffca3a"
+            colour = "#f8e16f"
 
         else:
-            colour = "#ff595e"
+            colour = "#d74a49"
 
         df.loc[idx, "colour"] = colour
     

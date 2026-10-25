@@ -60,5 +60,3 @@ st.write("")
 df = core.MonthWiseRegister(idx, session)
 
 st.bar_chart(df, x="month", y="total", x_label="Months", y_label="Attendance", color="colour")
-
-st.write(df)
