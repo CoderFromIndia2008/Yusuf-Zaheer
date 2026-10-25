@@ -104,7 +104,7 @@ def MonthWiseRegister(session):
         if register is None:
             continue
 
-        for col in register.columns[2:]:
+        for column in register.columns[2:]:
             month_wise.loc[month] += register[column]
         
         month_wise.loc[month] = str(month_wise.loc[month].count("P"))
