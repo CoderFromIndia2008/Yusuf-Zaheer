@@ -10,7 +10,7 @@ utils.title(
 
 utils.MakeState("date", utils.date)
 utils.MakeState("month", utils.month)
-utils.MakeState("session", sessions[0] if sessions != [] else None)
+utils.MakeState("session", utils.sessions[0] if utils.sessions != [] else None)
 
 col1, col2 = st.columns(2)
 

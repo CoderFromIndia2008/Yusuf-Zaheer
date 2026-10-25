@@ -10,7 +10,7 @@ Click on a column header to order by ascending or descending."
 )
 
 utils.MakeState("from", utils.month)
-utils.MakeState("session", sessions[0] if sessions != [] else None)
+utils.MakeState("session", utils.sessions[0] if utils.sessions != [] else None)
 
 col1, col2, col3 = st.columns([1.2, 1, 1])
 
