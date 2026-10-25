@@ -79,8 +79,6 @@ def AttendancePercent(from_month, to_month, session):
         elif working_days == 0:
             percent_df = register[["roll", "name"]]
             percent_df["Total"] = ""
-
-        st.write(iter, percent_df)
         
         working_days += len(register.columns) - 2
                     
