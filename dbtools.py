@@ -237,7 +237,8 @@ def RegisterStudent():
     utils.subheader(
     "Instructions",
     "help",
-    "Upload three videos for model training (face recognition)."
+    "Upload three videos for model training (face recognition).",
+    divider=False
     )
     
     st.write("""
