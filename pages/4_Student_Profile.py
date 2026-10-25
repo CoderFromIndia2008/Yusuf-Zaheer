@@ -59,4 +59,4 @@ st.write("")
 
 month_wise, colours = core.MonthWiseRegister(idx, session)
 
-st.bar_chart(month_wise["Total"], x_label="Months", y_label="Attendance", color=colours)
+st.bar_chart(month_wise, x_label="Months", y_label="Attendance", color=colours)
