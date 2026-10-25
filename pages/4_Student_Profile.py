@@ -31,15 +31,21 @@ if register is None:
 else:
     utils.subheader("Attendance overview", "history_edu", "Summary of this student's attendance.")
 
-    roll = list(register["name"] == name).index(True) + 1
-    percent = register.loc[roll-1, "%"]
+    idx = list(register["name"] == name).index(True)
+    percent = register.loc[idx, "%"]
+    total = register.loc[loc, "Total"]
 
-    st.divider()
     col1, col2, col3 = st.columns(3)
 
-    with col1: utils.metric("Present this month", name, "green")
+    register, path = core.AttendancePercent(utils.month, utils.month, session)
+    if register is None:
+        this_month = 0
+    else:
+        this_month = register.loc[idx, "Total"]
 
-    with col2: utils.metric("Total attendance", roll, "blue")
+    with col1: utils.metric("Present this month", this_month, "green")
+
+    with col2: utils.metric("Total attendance", total, "blue")
 
     with col3: utils.metric("Present %", percent, "gray")
 
