@@ -5,12 +5,12 @@ import numpy as np
 import utils
 
 #mark student attendance using face recignition (cnn model in tools/models)
-@st.cache_resource()
-def LoadModel(name):
-    return tf.keras.models.load_model(utils.tools_dir / f"{name}.keras")   
+#@st.cache_resource()
+#def LoadModel():
+    #return tf.keras.models.load_model(utils.tools_dir / f"models/face_recognition.keras")   
 
 def MarkAttendance(img, model):
-    img_path = utils.tools_dir / "prediction_target.png"
+    img_path = utils.tools_dir / "etc/prediction_target.png"
     with open(img_path, "wb") as file:
         file.write(img.getbuffer())
         
@@ -30,7 +30,7 @@ def MarkAttendance(img, model):
     if not utils.date in register.columns:
         register.loc[:, utils.date] = "A"
 
-    model = LoadModel(model)
+    #model = LoadModel()
     img = tf.keras.utils.load_img(img_path, target_size=(224,224))
     img_array = tf.keras.utils.img_to_array(img)
     img_array = tf.expand_dims(img_array, 0)

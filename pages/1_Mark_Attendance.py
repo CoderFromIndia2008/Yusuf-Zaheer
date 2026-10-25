@@ -17,10 +17,11 @@ with st.container(border=True):
     """)
     
     img = st.camera_input("Take a photo")
+    model = st.file_uploader("Upload a model", type=["keras"])
     
 if img:
     st.success("Capture successful!")
-    student, confidence, register = core.MarkAttendance(img, "model_3")
+    student, confidence, register = core.MarkAttendance(img, model)
     st.success("Prediction successful!")
     st.write("Student:", student)
     st.write(f"Confidence: {confidence:.1f}%")

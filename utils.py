@@ -7,7 +7,7 @@ import time
 import cv2
 
 #important files and directories
-base_dir = pt.Path("/workspaces/Yusuf-Zaheer")
+base_dir = pt.Path.cwd()
 data_dir = base_dir / "database"
 tools_dir = base_dir / "tools"
 password_path = tools_dir / "password.dat"
@@ -135,7 +135,7 @@ def Password():
         st.rerun()
     
 #image preprocessing
-yunet_path = tools_dir / "yunet.onnx"
+yunet_path = tools_dir / "models/face_detection.onnx"
 detector = cv2.FaceDetectorYN.create(yunet_path, "", (320, 320), 0.5, 0.3, 5000)
 
 def process(img=None, path=None, rotate=False, save=False):

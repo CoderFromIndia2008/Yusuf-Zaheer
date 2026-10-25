@@ -8,5 +8,5 @@ font = "sans-serif"
 
 [theme.sidebar]
 backgroundColor="#E6E6FA"
-secondaryBackgroundColor="skyBlue"
-baseRadius="none"
+secondaryBackgroundColor="#a662a8"
+baseRadius="full"

@@ -23,7 +23,7 @@ def VideoToDataset(name, camera_index):
         processed_img = utils.ProcessImage(frame, rotate=rotate)
         
         split = rn.choices(['Train', 'Test', 'Evaluate'], [75, 20, 5])[0]
-        folder = utils.tools_dir / "Dataset" / split / name
+        folder = utils.tools_dir / "dataset" / split / name
         folder.mkdir(parents=True, exist_ok=True)
         
         cv2.imwrite(folder / f"{count}.png", processed_img)
@@ -102,7 +102,7 @@ def Upload(name, num):
     if not video:
         return None
         
-    img_path = utils.tools_dir / "collection_target.mp4"
+    img_path = utils.tools_dir / "etc/collection_target.mp4"
     
     with open(img_path, "wb") as file:
         file.write(video.getbuffer())
