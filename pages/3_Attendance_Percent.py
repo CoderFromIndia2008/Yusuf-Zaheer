@@ -34,6 +34,4 @@ key="6"
 register, working_days = core.AttendancePercent(from_month, to_month, session)
 
 st.metric("Total working days", working_days)
-utils.Display(register, session)
-    
-    
+utils.Display(register, session
