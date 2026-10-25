@@ -42,14 +42,14 @@ def ChangeLog():
     path = utils.tools_dir / "change_log.dat"
     path.touch(exist_ok=True)
     
-    records, txt = [], ""
+    records, txt_file = [], ""
     file = open(path, "rb")
     
     while True:
         try:
             record = pickle.load(file)
             records.append(record)
-            txt += record + "\n"
+            txt_file += record + "\n"
             
         except:
             break
@@ -63,20 +63,21 @@ def ChangeLog():
             
         for record in records[:5]:
             text = utils.pretty(record[0][1:], "gray", True, "schedule")
-            text += "\n"
+            text += "\n\n"
             
             if len(record) > 2:
-                text += utils.pretty(record[1], "gray", True) + "\n"
+                text += utils.pretty(record[1], "gray", True) + "\n\n"
 
                 for change in record[2:]:
-                    text += utils.pretty(change, "green", True) + "\n"
+                    text += utils.pretty(change, "green", True) + "\n\n"
                     
-                st.write(f":blue-background[{text}]")
+                st.info(text)
                 st.divider()
-
+    st.write(txt_file)
     st.download_button(
     "Download change log",
-    txt,
+    txt_file,
+    file_name="change_log.txt",
     icon=":material/download:",
     width="stretch"
     )
