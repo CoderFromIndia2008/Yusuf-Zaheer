@@ -288,7 +288,7 @@ def RemoveStudent():
     )
     
     metadata, path = utils.GetFile(type="meta")
-    st.write(metdata, path)
+    st.write(metadata, path)
     if metadata is None:
         st.error("No students registered")
         return None
