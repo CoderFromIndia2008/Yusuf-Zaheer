@@ -42,7 +42,7 @@ def ChangeLog():
     path = utils.tools_dir / "change_log.dat"
     path.touch(exist_ok=True)
     
-    records, txt_file = [] = ""
+    records, txt_file = [], ""
     file = open(path, "rb")
     
     while True:
