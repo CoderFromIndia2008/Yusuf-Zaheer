@@ -130,5 +130,5 @@ def MonthWiseRegister(stud_idx, session):
             colour = "#93a2ba"
 
         df.loc[idx, "colour"] = colour
-    
+    st.write(df)    
     return df
