@@ -13,8 +13,7 @@ minute, hour, date, month, year = time.strftime("%M %H %d %B %y").split()
 year = int(year)
 full_months = ["April", "May", "June", "July", "August", "September", 
                "October", "November", "December", "January", "February", "March"]
-
-#month = "December"
+models = [model.stem for model in tools_dir.iterdir() if model.suffix == ".keras"]
 
 def GetRegisterPath(session, month):
     return data_dir / session / f"{full_months.index(month)+1}_{month}_{session}.csv"
@@ -91,17 +90,17 @@ def MarkAttendance(img, model_name, img_size=224):
     img_array = tf.expand_dims(img_array, 0)
     
     predicted = model.predict(img_array)[0]
-    students = list(register["name"])
+    students = {0:("Zoheb", 3), 1:("Aryan", 1), 2:("Yusuf",2), 3:("Arush",0)}
     idx = np.argmax(predicted)
     confidence = max(predicted)
     
-    register.loc[idx, date] = "P"            
+    register.loc[students[idx][1], date] = "P"            
     register.to_csv(register_path, index=False)
 
-    print({"pred":predicted, "confidence":confidence, "idx":idx, "student":students[idx]})
+    print({"pred":predicted, "confidence":confidence, "idx":idx, "student":students[idx][0]})
     
     columns = ["roll", "name", date]
-    return students[idx], confidence, register[columns]
+    return students[idx][0], confidence, register[columns]
     
 def ViewRegister(date, month, session):   
     register_path = GetRegisterPath(session, month)
