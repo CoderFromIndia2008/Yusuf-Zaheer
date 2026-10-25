@@ -7,11 +7,12 @@ baseRadius="full"
 font = "sans-serif"
 
 [theme.dark]
-primaryColor="#8ba0a4"
-backgroundColor="#eaeaea"
+primaryColor="#183e4b"
+backgroundColor="#8ba0a4"
 secondaryBackgroundColor="#d74a49"
 baseRadius="full"
 font="sans-serif"
+textColor="black"
 
 [theme.sidebar]
 backgroundColor="#E6E6FA"
