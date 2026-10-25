@@ -107,6 +107,6 @@ def MonthWiseRegister(idx, session):
         for column in register.columns[2:]:
             month_wise.loc[month] += register.loc[idx, column]
         
-        month_wise.loc[month] = str(month_wise.loc[month].count("P"))
+        month_wise.loc[month] = month_wise.loc[month].count("P")
 
     return month_wise
