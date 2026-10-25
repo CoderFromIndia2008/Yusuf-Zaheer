@@ -8,7 +8,7 @@ utils.title(
 "View attendance register of any session, any month and any date."
 )
 
-utils.MakeState("date", utils.date)
+utils.MakeState("date", int(utils.date))
 utils.MakeState("month", utils.month)
 utils.MakeState("session", utils.sessions[0] if utils.sessions != [] else None)
 
@@ -29,7 +29,7 @@ key="2",
 ) or st.session_state["month"]
 
 with st.expander("More filters"):
-    st.session_state["date"]  = st.number_input(
+    st.session_state["date"] = st.number_input(
     "Choose a date (0 = whole month)", 
     min_value=0, 
     max_value=31, 
