@@ -187,6 +187,8 @@ def Default(value, session):
         if value == "month":
             default = cur_month_idx
         else:
-            default = int(date)
+            register = GetFile(type="register")
+            if register is not None and date in register.columns:
+                default = int(date)
 
     return default

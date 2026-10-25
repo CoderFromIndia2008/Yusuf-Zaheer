@@ -73,7 +73,10 @@ def ChangeLog():
                     
                 st.info(text)
                 st.divider()
+
+    st.write("hello")
     st.write(txt_file)
+
     st.download_button(
     "Download change log",
     txt_file,
