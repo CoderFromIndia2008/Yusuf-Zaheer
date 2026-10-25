@@ -71,7 +71,7 @@ def ChangeLog():
                 for change in record[2:]:
                     text += utils.pretty(change, "green", True) + "\n"
                     
-                st.info(text)
+                st.write(f":blue-background[{text}]")
                 st.divider()
 
     st.download_button(
@@ -217,7 +217,8 @@ def RegisterStudent():
     min_value=0,
     max_value=38,
     step=1,
-    key="1001"
+    key="1001",
+    value=None
     )
     
     st.divider()
@@ -313,9 +314,10 @@ def RemoveStudent():
         name = names[idx]
         metadata = metadata.drop(idx, axis=0)
         
-    if option and st.toggle("Sort roll numbers"):
+    if option and st.toggle("Sort roll numbers", value=True):
         metadata.iloc[idx:, 0] -= 1
 
+    st.caption("Your changes will appear in the table below.")
     st.write(metadata.set_index("roll"))
 
     if option and st.button("**Remove Student**", width="stretch", key="2003", type="primary"):
