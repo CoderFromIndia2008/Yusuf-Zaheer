@@ -20,33 +20,33 @@ if metadata is None:
 names = list(metadata["name"])
 
 with col2: 
-    name = st.selectbox("Select student", names, index=None, key="333")
+    name = st.selectbox("Select student", names, key="333")
 
 st.divider()
-register, working_days = core.AttendancePercent("April", "March", session)
+full_register, total_working_days = core.AttendancePercent("April", "March", session)
 
-if register is None:
+if full_register is None:
     st.error("No attendance available.")
 
 else:
     utils.subheader("Attendance overview", "history_edu", "Summary of this student's attendance.")
 
-    idx = list(register["name"] == name).index(True)
-    percent = register.loc[idx, "%"]
-    total = register.loc[idx, "Total"]
+    idx = list(full_register["name"] == name).index(True)
+    percent = full_register.loc[idx, "%"]
+    total = full_register.loc[idx, "Total"]
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3, border=True)
 
-    register, path = core.AttendancePercent(utils.month, utils.month, session)
+    month_register, month_working_days = core.AttendancePercent(utils.month, utils.month, session)
     if register is None:
         this_month = 0
     else:
-        this_month = register.loc[idx, "Total"]
+        this_month = month_register.loc[idx, "Total"]
 
-    with col1: utils.metric("Present this month", this_month, "green")
+    with col1: utils.metric("Present this month", f"{this_month}/{month_working_days}", "green")
 
-    with col2: utils.metric("Total attendance", total, "blue")
+    with col2: utils.metric("Total attendance", f"{total}/{total_working_days}", "blue")
 
-    with col3: utils.metric("Present %", percent, "gray")
+    with col3: utils.metric("Present %", f"{percent}%", "gray")
 
     st.divider()
