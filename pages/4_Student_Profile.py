@@ -38,7 +38,7 @@ else:
     col1, col2, col3 = st.columns(3, border=True)
 
     month_register, month_working_days = core.AttendancePercent(utils.month, utils.month, session)
-    if register is None:
+    if month_register is None:
         this_month = 0
     else:
         this_month = month_register.loc[idx, "Total"]
