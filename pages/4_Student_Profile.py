@@ -11,7 +11,7 @@ utils.title(
 col1, col2 = st.columns(2)
 
 with col1:
-    session = st.selectbox("Session", utils.GetSession, key="222")
+    session = st.selectbox("Session", utils.GetSession(), key="222")
 
 metadata, path = utils.GetFile(type="meta")
 if metadata is None:
