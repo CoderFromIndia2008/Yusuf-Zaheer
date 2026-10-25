@@ -57,7 +57,7 @@ def ChangeLog():
     records.reverse()
 
     num = 5
-    with st.expander(":material/filter: Filter"):
+    with st.expander(":material/discover_tune: Filter"):
         num = st.number_input(
         "Number of records shown", 
         min_value=0, 
