@@ -26,9 +26,18 @@ elif st.button("Close modification page", icon=":material/lock:"):
 else:
     tabs = st.tabs(options)
     
-    with tabs[0]: dbtools.ChangeLog()
-    with tabs[1]: dbtools.ModifyName()
-    with tabs[2]: dbtools.ModifyRegister()
-    with tabs[3]: dbtools.RegisterStudent()
-    with tabs[4]: dbtools.RemoveStudent()
+    with tabs[0]: 
+        dbtools.ChangeLog()
+
+    with tabs[1]: 
+        dbtools.ModifyName()
+
+    with tabs[2]:
+        dbtools.ModifyRegister()
+
+    with tabs[3]: 
+        dbtools.RegisterStudent()
+
+    with tabs[4]: 
+        dbtools.RemoveStudent()
     

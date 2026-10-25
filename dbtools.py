@@ -32,12 +32,11 @@ def VideoToDataset(name, camera_index):
 
 #Display last 5 change log and download complete change log file
 def ChangeLog():
-    utils.title(
+    utils.subheader(
     "Change log",
     "history",
     "Brief log history of actions like changing student name, attendance. \
     For complete history, click the download button below.",
-    config=False
     )
     
     path = utils.tools_dir / "change_log.dat"
@@ -70,7 +69,7 @@ def ChangeLog():
                 text += utils.pretty(record[1], "gray", True)
 
                 for change in record[2:]:
-                    text += utils.pretty(change, "green", True)
+                    text += utils.pretty(change, "green", True) + "\n"
                     
                 st.info(text)
                 st.divider()
@@ -111,11 +110,10 @@ def Upload(name, num):
     
 #change name of a student in a given session. 
 def ModifyName():
-    utils.title(
+    utils.subheader(
     "Modify Student Details",
     "person_edit",
     "Change name of one or more students in the table below.",
-    config=False
     )
     
     session = st.selectbox("Academic session", utils.sessions, key="106")
@@ -165,11 +163,10 @@ def ModifyName():
 
 #change attendance from present to absent and vice versa in any register
 def ModifyRegister():
-    utils.title(
+    utils.subheader(
     "Modify Attendance",
     "edit_document",
     "Change attendance of one or more students in the table below.",
-    config=False
     )
     
     col1, col2 = st.columns(2)
@@ -210,11 +207,10 @@ def ModifyRegister():
     
 #add a new student to the current session metadata file
 def RegisterStudent():
-    utils.title(
+    utils.subheader(
     "Register Student",
     "person_add",
     "Add a new student to the session.",
-    config=False
     )
     
     name = st.text_input("Student name", key="1000").strip()
@@ -285,11 +281,10 @@ def RegisterStudent():
     
 #remove a student from the current session's metadata file
 def RemoveStudent():
-    utils.title(
+    utils.subheader(
     "Remove Student",
     "delete",
     "Remove a student from the register. Previous attendance is not deleted.",
-    config=False
     )
     
     metadata, path = utils.GetFile(type="meta")

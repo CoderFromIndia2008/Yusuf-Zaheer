@@ -25,13 +25,14 @@ key="102",
 ) or st.session_state["month"] 
 
 with st.expander("More filters"):
+    utils.MakeState("date")
     st.session_state["date"]  = st.number_input(
     "Choose a date (0 = whole month)", 
     min_value=0, 
     max_value=31, 
     step=1,
-    index=None
-    ) or st.session_state["date"]
+    value=st.session_state["date"] or 0
+    )
 
 st.divider()
 

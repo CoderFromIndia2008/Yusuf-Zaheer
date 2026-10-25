@@ -19,11 +19,16 @@ index=None
 ) or st.session_state["session"]
 
 utils.MakeState("from")
+if st.sessions["from"] is not None:
+    idx = utils.full_months.index(st.session_state["from"])
+else:
+    idx = utils.cur_month_idx
+    
 st.session_state["from"] = col2.selectbox(
 "From month", 
 utils.full_months, 
 key="104",
-index=utils.full_months.index(st.session_state["from"]) or utils.cur_month_idx, 
+index=idx, 
 )
 
 idx = utils.full_months.index(st.session_state["from"])

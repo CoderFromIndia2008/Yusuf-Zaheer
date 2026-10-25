@@ -42,9 +42,9 @@ def GetSession(m=None, y=None):
 def GetFile(*arg, type):
     if type == "register":
         arg = arg or [month, GetSession()]
-        month, session = arg[0], arg[1]
-        idx = full_months.index(month)+1
-        path = data_dir / session / f"{idx}_{month}_{session}.csv"
+        m, s = arg[0], arg[1]
+        idx = full_months.index(m)+1
+        path = data_dir / s / f"{idx}_{m}_{s}.csv"
         
     elif type == "meta":
         arg = arg or [GetSession()]
@@ -85,9 +85,12 @@ def title(value, icon, desc, config=True):
     st.caption(desc)
     st.divider()
     
-def subheader(name, icon):
+def subheader(name, icon, desc=None):
     st.subheader(f":blue[:material/{icon}: {name}]")
-    
+    if desc:
+        st.caption(desc)
+        st.divider()
+
 def metric(title, value, colour):
     st.metric(f":{colour}[**{title}**]", value)  
 
