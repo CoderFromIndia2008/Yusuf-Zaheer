@@ -10,11 +10,7 @@ utils.title(
 
 col1, col2 = st.columns(2)
 
-session = col1.selectbox(
-"Academic session", 
-utils.sessions, 
-key="1"
-) 
+session = col1.selectbox("Academic session", utils.sessions, key="1") 
 
 month = col2.selectbox(
 "Month", 
