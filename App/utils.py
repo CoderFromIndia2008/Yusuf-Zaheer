@@ -6,30 +6,29 @@ import pickle
 import time
 import cv2
 
-#IMPORTANT FILES/DIRECTORIES
+#important files and directories
 base_dir = pt.Path("/workspaces/Yusuf-Zaheer")
 data_dir = base_dir / "database"
 tools_dir = base_dir / "tools"
 password_path = tools_dir / "password.dat"
 
-#TIME
+#time
 hour, minute, date, month, year = time.strftime("%h %M %d %B %Y").split()
 full_months = ["April", "May", "June", "July", "August", "September", "October", "November", "December", "January", "February", "March"]
-
-if "month" not in st.session_state:
-    st.session_state["month"] = month 
-
 cur_month_idx = full_months.index(month)
 
-#SESSIONS
+#session management
 sessions = [s.name for s in data_dir.iterdir() if s.is_dir()]
 sessions.sort(reverse=True, key=lambda x: int(x[-2:]))
 
-if "session" not in st.session_state:
-    if len(sessions) != 0:
-        st.session_state["session"] = sessions[-1]
+#make session state variable
+def MakeState(key, default=None):
+    if key not in st.session_state:
+        st.session_state[key] = default
 
-#SESSION MANAGEMENT
+MakeState("month", month)
+MakeState("session", sessions[0] if sessions != [] else None)
+
 def GetSession(m=None, y=None):
     m, y = m or month, y or year
     y = int(y[-2:])
@@ -39,7 +38,7 @@ def GetSession(m=None, y=None):
 
     return data_dir / f"20{y}-{y+1}"
     
-#FILE MANAGEMENT
+#read a file
 def GetFile(*arg, type):
     if type == "register":
         arg = arg or [month, GetSession()]
@@ -57,7 +56,7 @@ def GetFile(*arg, type):
         
     return (pd.read_csv(path), path)
         
-#DISPLAY REGISTER WITH/WITHOUT REMOVED STUDENTS
+#display a register if exists, choose to display with/without removed students
 def Display(original, session):
     if original is None:
         st.error("No attendance available")
@@ -77,10 +76,10 @@ def Display(original, session):
     modified["roll"] = tuple(metadata["roll"])    
     st.write(modified.set_index("roll"))
         
-#PAGE HEADINGS
+#page headings and text styling
 def title(value, icon, desc, config=True):
     if config:
-        st.set_page_config(value)
+        st.set_page_config(value, icon=f":material/{icon}"),
         
     st.title(f":violet[:material/{icon}: {value}]")
     st.caption(desc)
@@ -108,11 +107,10 @@ def pretty(value, colour, bold=False, icon=None):
         
     return f":{colour}[{value}]"
     
-#PASSWORD MANAGEMENT
-if "key" not in st.session_state:
-        st.session_state["key"] = False
+#password management
+text = utils.pretty("Authentication Required", "violet", icon="key")
 
-@st.dialog(":violet[:material/key: Authentication Required]")
+@st.dialog(text)
 def Password():
     user = st.text_input("Enter password", type="password")
     password_exists = password_path.exists()
@@ -127,14 +125,18 @@ def Password():
         file = open(password_path, "rb")
         password = pickle.load(file)
         file.close()
+        
         st.session_state["key"] = user == password
+
+        if st.session_state["key"] == False:
+            st.error("Wrong password")
         
     if st.session_state["key"] == True:
         st.rerun()
     
-#IMAGE PREPROCESSING
-path = tools_dir / "yunet.onnx"
-detector = cv2.FaceDetectorYN.create(path, "", (320, 320), 0.5, 0.3, 5000)
+#image preprocessing
+yunet_path = tools_dir / "yunet.onnx"
+detector = cv2.FaceDetectorYN.create(yunet_path, "", (320, 320), 0.5, 0.3, 5000)
 
 def process(img=None, path=None, rotate=False, save=False):
     if img is None:

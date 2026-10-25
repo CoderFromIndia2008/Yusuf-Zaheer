@@ -7,7 +7,8 @@ import core
 import csv
 import cv2
 
-def CameraCapture(name, camera_index):        
+#Turn videos ro frame, preprocess them and save to dataset for model training.
+def VideoToDataset(name, camera_index):        
     capture = cv2.VideoCapture(camera_index)
     count = 0
     
@@ -18,7 +19,7 @@ def CameraCapture(name, camera_index):
         if not success:
             break
             
-        rotate = rn.choice([True, False])
+        rotate = rn.choices([True, False], [35, 65])[0]
         processed_img = utils.ProcessImage(frame, rotate=rotate)
         
         split = rn.choices(['Train', 'Test', 'Evaluate'], [75, 20, 5])[0]
@@ -29,6 +30,7 @@ def CameraCapture(name, camera_index):
         
     capture.release()
 
+#Display last 5 change log and download complete change log file
 def ChangeLog():
     utils.title(
     "Change log",
@@ -74,11 +76,13 @@ def ChangeLog():
                 st.divider()
 
     st.download_button(
-    ":material/download: Download change log",
+    "Download change log",
     txt,
+    icon=":material/download:",
     width="stretch"
     )
 
+#add new change log
 def WriteLog(changes):
     record = [f"- {utils.hour}:{utils.minute} {utils.date}- \
     {utils.month[:3]}-20{utils.year}"]
@@ -87,6 +91,7 @@ def WriteLog(changes):
     with open(utils.tools_dir / "change_log.dat", "ab") as file:
         pickle.dump(record, file)
 
+#upload a video
 def Upload(name, num):
     video = st.file_uploader(
     "Upload a video", 
@@ -102,8 +107,9 @@ def Upload(name, num):
     with open(img_path, "wb") as file:
         file.write(video.getbuffer())
         
-    CameraCapture(name, img_path)
+    VideoToDataset(name, img_path)
     
+#change name of a student in a given session. 
 def ModifyName():
     utils.title(
     "Modify Student Details",
@@ -156,7 +162,8 @@ def ModifyName():
         register.to_csv(path, index=False)
         
     WriteLog(change_log)
-    
+
+#change attendance from present to absent and vice versa in any register
 def ModifyRegister():
     utils.title(
     "Modify Attendance",
@@ -201,6 +208,7 @@ def ModifyRegister():
         
         WriteLog(change_log)
     
+#add a new student to the current session metadata file
 def RegisterStudent():
     utils.title(
     "Register Student",
@@ -264,26 +272,18 @@ def RegisterStudent():
     elif roll in tuple(metadata["roll"]):
         st.error("Roll number already exists")
         return None
+
+    metadata.iloc[metadata.shape[0]] = (roll, name)
+    metadata = metadata.sort_values("roll")
         
-    records = []
-    for i in range(metadata.shape[0]):
-        _roll, _name = metadata.iloc[i]
-        records.append((_roll, _name))
-        
-    records.append((roll, name))
-    records.sort()
-  
     if name and roll and st.button("**Register**", width="stretch", key="2002", type="primary"):
-        with open(path, "w") as file:
-            writer = csv.writer(file)
-            writer.writerow(["roll", "name"])
-            writer.writerows(records)
-            
+        metadata.to_csv(path, index=False)            
         st.success("Registration Successful!")
         
         change_log = ["Registered student", f"name: {name} | roll: {roll}"]
         WriteLog(change_log)
     
+#remove a student from the current session's metadata file
 def RemoveStudent():
     utils.title(
     "Remove Student",
@@ -315,12 +315,17 @@ def RemoveStudent():
     )
     st.divider()
         
-    if option and st.button("**Remove Student**", width="stretch", key="2003", type="primary"):
+    if option:
         idx = options.index(option)
         name = names[idx]
-        
         metadata = metadata.drop(idx, axis=0)
+        
+    if option and st.toggle("Sort roll numbers"):
         metadata.iloc[idx:, 0] -= 1
+
+    st.write(metadata.set_index("roll"))
+
+    if option and st.button("**Remove Student**", width="stretch", key="2003", type="primary"):
         metadata.to_csv(path, index=False)
     
         st.success("Student removed")

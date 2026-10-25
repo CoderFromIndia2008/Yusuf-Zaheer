@@ -14,14 +14,16 @@ col1, col2, col3 = st.columns([1.2, 1, 1])
 st.session_state["session"] = col1.selectbox(
 "Academic session", 
 utils.sessions, 
-key="103"
+key="103",
+index=None
 ) or st.session_state["session"]
 
+utils.MakeState("from")
 st.session_state["from"] = col2.selectbox(
 "From month", 
 utils.full_months, 
-index=utils.cur_month_idx, 
-key="104"
+key="104",
+index=utils.full_months.index(st.session_state["from"]) or utils.cur_month_idx, 
 )
 
 idx = utils.full_months.index(st.session_state["from"])

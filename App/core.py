@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import utils
 
-#MARK ATTENDANCE USING CNN
+#mark student attendance using face recignition (cnn model in tools/models)
 @st.cache_resource()
 def LoadModel(name):
     return tf.keras.models.load_model(utils.tools_dir / f"{name}.keras")   
@@ -46,7 +46,7 @@ def MarkAttendance(img, model):
     columns = ["roll", "name", utils.now.day]
     return (register[columns], students[idx], confidence*100)
     
-#VIEW ATTENDANCE REGISTER
+#view attendance register for any date, month and session
 def ViewRegister(date, month, session):   
     register, _ = utils.GetFile(month, session, type="register")
     if register is None:
@@ -61,7 +61,7 @@ def ViewRegister(date, month, session):
     columns = ["roll", "name", str(date)]
     return register[columns]
     
-#VIEW ATTENDANCE TOTAL AND PERCENTAGE 
+#show attendance total and percentage of all students in a month range
 def AttendancePercent(from_month, to_month, session):
     from_idx = utils.full_months.index(from_month)
     to_idx = utils.full_months.index(to_month) + 1

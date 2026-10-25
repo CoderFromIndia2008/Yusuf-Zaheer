@@ -10,13 +10,17 @@ utils.title(
 
 col1, col2 = st.columns(2)
 
-session = col1.selectbox("Academic session", utils.sessions, key="101")
-st.session_state["session"] = session or st.session_state["session"]
+st.session_state["session"] = col1.selectbox(
+"Academic session", 
+utils.sessions, 
+index=None, 
+key="101"
+) or st.session_state["session"]
 
 st.session_state["month"] = col2.selectbox(
 "Month", 
 utils.full_months, 
-index=utils.cur_month_idx,
+index=None,
 key="102",
 ) or st.session_state["month"] 
 
@@ -25,7 +29,9 @@ with st.expander("More filters"):
     "Choose a date (0 = whole month)", 
     min_value=0, 
     max_value=31, 
-    step=1)
+    step=1,
+    index=None
+    ) or st.session_state["date"]
 
 st.divider()
 

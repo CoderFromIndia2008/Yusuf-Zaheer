@@ -16,18 +16,19 @@ options = [
 "**Remove Student**"
 ]
 
+utils.MakeState("key", False)
 if st.session_state["key"] == False:
     utils.Password()
 
-if st.button(":material/lock: Close modification page"):
+elif st.button("Close modification page", icon=":material/lock:"):
     st.session_state["key"] = False
 
-if st.session_state["key"] == True:
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(options)
+else:
+    tabs = st.tabs(options)
     
-    with tab1: dbtools.ChangeLog()
-    with tab2: dbtools.ModifyName()
-    with tab3: dbtools.ModifyRegister()
-    with tab4: dbtools.RegisterStudent()
-    with tab5: dbtools.RemoveStudent()
+    with tabs[0]: dbtools.ChangeLog()
+    with tabs[1]: dbtools.ModifyName()
+    with tabs[2]: dbtools.ModifyRegister()
+    with tabs[3]: dbtools.RegisterStudent()
+    with tabs[4]: dbtools.RemoveStudent()
     
