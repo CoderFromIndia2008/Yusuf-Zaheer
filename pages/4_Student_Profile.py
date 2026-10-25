@@ -57,6 +57,6 @@ else:
 utils.subheader("Attendance trends", "bar_chart", "Observe the increase and decrease in attendance throughout the year.", divider=False)
 st.write("")
 
-month_wise, colours = core.MonthWiseRegister(idx, session)
+month_wise = core.MonthWiseRegister(idx, session)
 
-st.bar_chart(month_wise, x_label="Months", y_label="Attendance", color=colours)
+st.bar_chart(month_wise, x_label="Months", y_label="Attendance", color=["red", "yellow", "green"])

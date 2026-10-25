@@ -114,4 +114,4 @@ def MonthWiseRegister(idx, session):
     month_wise["Below 80"] = month_wise[month_wise["%"] <= 80]
     month_wise["Above 80"] = month_wise[month_wise["%"] >= 80]
 
-    return month_wise[["Below 60", "Below 80", "Above 80"]], ["red", "yellow", "green"]
+    return month_wise[["Below 60", "Below 80", "Above 80"]]
