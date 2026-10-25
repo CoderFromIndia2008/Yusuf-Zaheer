@@ -3,10 +3,6 @@ import utils
 import core
 import time
 
-
-text = utils.pretty("Home", colour="violet", icon="home")
-st.set_page_config(text)
-
 utils.title(
 "Home", 
 "home", 
