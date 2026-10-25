@@ -15,7 +15,7 @@ with col1:
 
 metadata, path = utils.GetFile(session, type="meta")
 if metadata is None:
-    st.error("No attendance available.")
+    st.error("No students registered.")
 
 names = list(metadata["name"])
 
