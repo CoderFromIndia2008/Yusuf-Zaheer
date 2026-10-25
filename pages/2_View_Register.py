@@ -15,7 +15,7 @@ session = col1.selectbox("Academic session", utils.sessions, key="1")
 month = col2.selectbox(
 "Month", 
 utils.full_months, 
-index=utils.Default("month", session),
+index=utils.month if session == utils.GetSession().name else 0,
 key="2",
 )
 
@@ -26,7 +26,7 @@ with st.expander(":material/discover_tune: More filters"):
     min_value=0, 
     max_value=31, 
     step=1,
-    value=utils.Default("date", session, month),
+    value=utils.date if month == utils.month and session == utils.GetSession().name else 0,
     key="3"
     ) 
 

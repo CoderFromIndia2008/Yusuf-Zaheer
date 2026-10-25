@@ -21,7 +21,7 @@ from_month = col2.selectbox(
 "From month", 
 utils.full_months, 
 key="5",
-index=utils.Default("month", session), 
+index=utils.month if session == utils.GetSession().name else 0,
 )
 
 idx = utils.full_months.index(from_month)
