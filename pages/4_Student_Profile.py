@@ -11,9 +11,9 @@ utils.title(
 col1, col2 = st.columns(2)
 
 with col1:
-    session = st.selectbox("Session", utils.GetSession(), key="222")
+    session = st.selectbox("Session", utils.GetSession().name, key="222")
 
-metadata, path = utils.GetFile(type="meta")
+metadata, path = utils.GetFile(session, type="meta")
 if metadata is None:
     st.error("No attendance available.")
 
@@ -22,7 +22,17 @@ names = list(metadata["name"])
 with col2: 
     name = st.selectbox("Select student", names, index=None, key="333")
 
-register, working_days = core.AttendancePercent("April", utils.cur_month_idx, session)
+col1, col2 = st.columns(2)
+
+with col1:
+    from_month = st.selectbox("From month", utils.full_months, key="444")
+
+idx = utils.full_months.index(from_month)
+with col2:
+    to_month = st.selectbox("To month", utils.full_months[idx:], key="555")
+
+register, working_days = core.AttendancePercent(from_month, to_month, session)
+
 if register is None:
     st.error("No attendance available.")
 
