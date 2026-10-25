@@ -34,20 +34,23 @@ else:
     idx = list(full_register["name"] == name).index(True)
     percent = full_register.loc[idx, "%"]
     total = full_register.loc[idx, "Total"]
-
-    col1, col2, col3 = st.columns(3, border=True)
-
     month_register, month_working_days = core.AttendancePercent(utils.month, utils.month, session)
+    
     if month_register is None:
         this_month = 0
     else:
         this_month = month_register.loc[idx, "Total"]
 
-    with col1: utils.metric("Present this month", f"{this_month}/{month_working_days}", "green")
+    if session == utils.GetSession().name:
+        col0, col1, col2 = st.columns(3, border=True)
+        with col0: utils.metric("Present this month", f"{this_month}/{month_working_days}", "green")
 
-    with col2: utils.metric("Total attendance", f"{total}/{total_working_days}", "blue")
+    else:
+        col1, col2 = st.columns(2, border=True)
 
-    with col3: utils.metric("Present %", percent, "gray")
+    with col1: utils.metric("Total attendance", f"{total}/{total_working_days}", "blue")
+
+    with col2: utils.metric("Present %", percent, "gray")
 
     st.divider()
 
