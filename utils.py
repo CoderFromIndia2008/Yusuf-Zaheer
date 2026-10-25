@@ -38,13 +38,13 @@ def GetSession(m=None, y=None):
 #read a file
 def GetFile(*arg, type):
     if type == "register":
-        arg = arg or [month, GetSession()]
+        arg = arg or [month, GetSession().name]
         m, s = arg[0], arg[1]
         idx = full_months.index(m)+1
         path = data_dir / s / f"{idx}_{m}_{s}.csv"
         
     elif type == "meta":
-        arg = arg or [GetSession()]
+        arg = arg or [GetSession().name]
         session = arg[0]
         st.write(session)
         path = data_dir / session / f"metadata_{session}.csv"

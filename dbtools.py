@@ -286,9 +286,13 @@ def RemoveStudent():
     "delete",
     "Remove a student from the register. Previous attendance is not deleted.",
     )
+
+    st.write("hello")
     
     metadata, path = utils.GetFile(type="meta")
-    st.write(metadata, path)
+
+    st.write("bye")
+    
     if metadata is None:
         st.error("No students registered")
         return None
