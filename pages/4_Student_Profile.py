@@ -53,6 +53,6 @@ else:
 
 utils.subheader("Attendance trends", "bar_chart", "Observe the increase and decrease in attendance throughout the year.")
 
-month_wise = core.MonthWiseRegister(session)
+month_wise = core.MonthWiseRegister(idx, session)
 
 st.bar_chart(month_wise, x=utils.full_months)
