@@ -79,7 +79,7 @@ def Display(original, session):
 #page headings and text styling
 def title(value, icon, desc, config=True):
     if config:
-        st.set_page_config(value, page_icon=f":material/{icon}"),
+        st.set_page_config(value, page_icon=f":material/{icon}:"),
         
     st.title(f":violet[:material/{icon}: {value}]")
     st.caption(desc)
