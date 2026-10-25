@@ -8,8 +8,9 @@ utils.title(
 "Change attendance records and student details."
 )
 
-utils.MakeState("key", False)
-
+if "key" not in st.session_state:
+    st.session_state["key"] = False
+    
 options = [
 "**Change Log**",
 "**Modify Name**",

@@ -117,7 +117,6 @@ def ModifyName():
     )
     
     session = st.selectbox("Academic session", utils.sessions, key="106")
-    st.session_state["month"] = session or st.session_state["session"]
     
     metadata, path = utils.GetFile(session, type="meta")
     
@@ -172,7 +171,6 @@ def ModifyRegister():
     col1, col2 = st.columns(2)
     
     session = col1.selectbox("Academic session", utils.sessions, key="107")
-    st.session_state["month"] = session or st.session_state["session"]
     
     month = col2.selectbox(
     "Month", 

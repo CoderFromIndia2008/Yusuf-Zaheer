@@ -21,11 +21,6 @@ cur_month_idx = full_months.index(month)
 sessions = [s.name for s in data_dir.iterdir() if s.is_dir()]
 sessions.sort(reverse=True, key=lambda x: int(x[-2:]))
 
-#make session state variable
-def MakeState(key, default=None):
-    if key not in st.session_state:
-        st.session_state[key] = default
-
 def GetSession(m=None, y=None):
     m, y = m or month, y or year
     y = int(y[-2:])
@@ -182,5 +177,3 @@ def process(img=None, path=None, rotate=False, save=False):
         cv2.imwrite(path, face)
         
     return face
-
-    
