@@ -1,13 +1,13 @@
 [theme]
 base="light"
-primaryColor="#c7522a"
+primaryColor="#5e62a9"
 backgroundColor="#eaeaea"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font = "sans-serif"
 
 [theme.dark]
-primaryColor="#c7522a"
+primaryColor="#5e62a9"
 backgroundColor="#eaeaea"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"

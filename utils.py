@@ -75,7 +75,7 @@ def title(value, icon, desc):
     st.divider()
     
 def subheader(name, icon, desc=None):
-    st.subheader(f":blue[:material/{icon}: {name}]")
+    st.subheader(f"**:blue[:material/{icon}: {name}]**")
     if desc:
         st.caption(desc)
         st.divider()
