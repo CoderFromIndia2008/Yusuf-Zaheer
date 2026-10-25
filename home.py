@@ -12,6 +12,10 @@ utils.title(
 "Summary of today's attendance and learn about the project."
 )
 
+st.sidebar.title(":violet[**:material/familiar_face_and_zone: AI Attendance**]")
+st.sidebar.caption("Attendance Marking and Management System with AI.")
+st.sidebar.divider()
+
 utils.subheader("Today's overview", "today")
 
 st.caption(f"Attendance for {utils.date} {utils.month[:3]} {utils.year}")
