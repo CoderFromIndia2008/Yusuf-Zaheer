@@ -30,9 +30,9 @@ key="2",
 
 with st.expander("More filters"):
     default = 0
-    if st.session_state["session"] == st.GetSession().name:
+    if st.session_state["session"] == utils.GetSession().name:
         default = st.session_state["date"]
-        
+
     st.session_state["date"] = st.number_input(
     "Choose a date (0 = whole month)", 
     min_value=0, 

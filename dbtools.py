@@ -269,7 +269,7 @@ def RegisterStudent():
         st.error("Roll number already exists")
         return None
 
-    metadata.iloc[metadata.shape[0]] = (roll, name)
+    metadata.loc[metadata.shape[0]] = (roll, name)
     metadata = metadata.sort_values("roll")
         
     if name and roll and st.button("**Register**", width="stretch", key="2002", type="primary"):
@@ -292,7 +292,7 @@ def RemoveStudent():
     metadata, path = utils.GetFile(type="meta")
 
     st.write("bye")
-    
+
     if metadata is None:
         st.error("No students registered")
         return None
