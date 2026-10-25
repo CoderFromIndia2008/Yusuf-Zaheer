@@ -62,10 +62,8 @@ df = core.MonthWiseRegister(idx, session)
 
 fig, ax = plt.subplots()
 ax.set_facecolor("none")
-ax = plt.bar(df["month"], df["total"], color=df["colour"], edgecolor="#2c3e50")
-plt.tight_layout()
-plt.ylim(0, 31)
-for idx, total in enumerate(df["total"]):
-    plt.text(total, idx, str(total))
-
+bars = ax.bar(df["month"], df["total"], color=df["colour"], edgecolor="#2c3e50")
+ax.tight_layout()
+ax.ylim(0, 31)
+ax.bar_label(bars, label_type="center", color="#525e75")
 st.pyplot(fig, transparent=True)
