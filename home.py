@@ -9,7 +9,7 @@ st.set_page_config(text)
 
 text = utils.pretty("AI Attendance", "violet", True, "familiar_face_and_zone")
 st.sidebar.title(text)
-st.divider()
+st.sidebar.divider()
 
 utils.title(
 "Home", 
