@@ -21,7 +21,7 @@ month_length = {
     "November": 30,
     "December": 31,
     "January": 31,
-    "February": 29 if year == 24 else 28,
+    "February": 28,
     "March": 31
 }
 
