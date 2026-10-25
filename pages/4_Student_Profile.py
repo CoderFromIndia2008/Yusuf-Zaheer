@@ -29,7 +29,7 @@ if full_register is None:
     st.error("No attendance available.")
 
 else:
-    utils.subheader("Attendance overview", "history_edu", "Summary of this student's attendance.")
+    utils.subheader("Attendance overview", "history_edu", "Summary of this student's attendance.", divider=False)
 
     idx = list(full_register["name"] == name).index(True)
     percent = full_register.loc[idx, "%"]
