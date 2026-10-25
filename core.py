@@ -94,3 +94,19 @@ def AttendancePercent(from_month, to_month, session):
         
     return (percent_df, working_days)
     
+def MonthWiseRegister(session):
+    month_wise = pd.Series() 
+    working_days = 0
+
+    for month in utils.full_months:
+        register, path = utils.GetFile(month, session, type="register")
+
+        if register is None:
+            continue
+
+        for col in register.columns[2:]:
+            month_wise.loc[month] += register[column]
+        
+        month_wise.loc[month] = str(month_wise.loc[month].count("P"))
+
+    return month_wise
