@@ -55,13 +55,24 @@ def ChangeLog():
             break
         
     records.reverse()
+
+    num = 5
+    with st.expander(":material/filter: Filter"):
+        num = st.number_input(
+        "Number of records shown", 
+        min_value=0, 
+        max_value=len(records), 
+        step=1, 
+        value=5,
+        key="2020"
+        )
     
     with st.container(border=True):
         if records == []:
             st.write("No changes yet.")
             return None
             
-        for record in records[:5]:
+        for record in records[:num]:
             text = utils.pretty(record[0][1:], "gray", True, "schedule")
             text += "\n\n"
             
@@ -73,8 +84,6 @@ def ChangeLog():
                     
                 st.info(text)
                 st.divider()
-
-    st.write("hello", txt_file)
 
     st.download_button(
     "Download change log",

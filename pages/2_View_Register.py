@@ -24,7 +24,7 @@ key="2",
 )
 
 
-with st.expander("More filters"):
+with st.expander(":material/filter: More filters"):
     date = st.number_input(
     "Choose a date (0 = whole month)", 
     min_value=0, 
