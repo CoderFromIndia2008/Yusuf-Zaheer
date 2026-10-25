@@ -11,7 +11,7 @@ utils.title(
 col1, col2 = st.columns(2)
 
 with col1:
-    session = st.selectbox("Session", utils.GetSession().name, key="222")
+    session = st.selectbox("Session", utils.sessions, key="222")
 
 metadata, path = utils.GetFile(session, type="meta")
 if metadata is None:
@@ -47,6 +47,6 @@ else:
 
     with col2: utils.metric("Total attendance", f"{total}/{total_working_days}", "blue")
 
-    with col3: utils.metric("Present %", f"{percent}%", "gray")
+    with col3: utils.metric("Present %", percent, "gray")
 
     st.divider()
