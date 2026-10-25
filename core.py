@@ -17,7 +17,7 @@ def MarkAttendance(img, model):
     img = utils.process(path=img_path, save=True)
     if img is None:
         st.error("No faces detected/image not found.")
-        return None
+        return (None, None, None)
 
     register, path = utils.GetFile(type="register")
     if register is None:
@@ -25,7 +25,7 @@ def MarkAttendance(img, model):
         
         if register is None:
             st.error("No students registered")
-            return None
+            return (None, None, None)
   
     if not utils.date in register.columns:
         register.loc[:, utils.date] = "A"

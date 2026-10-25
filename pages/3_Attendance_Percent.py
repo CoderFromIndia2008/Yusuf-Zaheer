@@ -9,16 +9,18 @@ utils.title(
 Click on a column header to order by ascending or descending."
 )
 
+utils.MakeState("from", utils.month)
+utils.MakeState("session", sessions[0] if sessions != [] else None)
+
 col1, col2, col3 = st.columns([1.2, 1, 1])
 
 st.session_state["session"] = col1.selectbox(
 "Academic session", 
 utils.sessions, 
-key="103",
+key="4",
 index=None
 ) or st.session_state["session"]
 
-utils.MakeState("from")
 if st.sessions["from"] is not None:
     idx = utils.full_months.index(st.session_state["from"])
 else:
@@ -27,7 +29,7 @@ else:
 st.session_state["from"] = col2.selectbox(
 "From month", 
 utils.full_months, 
-key="104",
+key="5",
 index=idx, 
 )
 
@@ -35,7 +37,7 @@ idx = utils.full_months.index(st.session_state["from"])
 st.session_state["to"] = col3.selectbox(
 "To month", 
 utils.full_months[idx:], 
-key="105"
+key="6"
 )
     
 register, working_days = core.AttendancePercent(

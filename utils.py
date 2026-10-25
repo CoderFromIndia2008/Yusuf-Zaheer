@@ -26,9 +26,6 @@ def MakeState(key, default=None):
     if key not in st.session_state:
         st.session_state[key] = default
 
-MakeState("month", month)
-MakeState("session", sessions[0] if sessions != [] else None)
-
 def GetSession(m=None, y=None):
     m, y = m or month, y or year
     y = int(y[-2:])
@@ -49,6 +46,7 @@ def GetFile(*arg, type):
     elif type == "meta":
         arg = arg or [GetSession()]
         session = arg[0]
+        st.write(session)
         path = data_dir / session / f"metadata_{session}.csv"
         
     if not path.exists():

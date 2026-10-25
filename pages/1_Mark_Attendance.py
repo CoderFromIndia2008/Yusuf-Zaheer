@@ -22,9 +22,10 @@ with st.container(border=True):
 if img:
     st.success("Capture successful!")
     student, confidence, register = core.MarkAttendance(img, model)
-    st.success("Prediction successful!")
-    st.write("Student:", student)
-    st.write(f"Confidence: {confidence:.1f}%")
-    st.divider()
-    st.write(register)
-        
+    if register:
+        st.success("Prediction successful!")
+        st.write("Student:", student)
+        st.write(f"Confidence: {confidence:.1f}%")
+        st.divider()
+        st.write(register.set_index("roll"))
+            

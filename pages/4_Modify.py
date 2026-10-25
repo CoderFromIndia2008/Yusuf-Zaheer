@@ -8,6 +8,8 @@ utils.title(
 "Change attendance records and student details."
 )
 
+utils.MakeState("key", False)
+
 options = [
 "**Change Log**",
 "**Modify Name**",
@@ -16,7 +18,6 @@ options = [
 "**Remove Student**"
 ]
 
-utils.MakeState("key", False)
 if st.session_state["key"] == False:
     utils.Password()
 
