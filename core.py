@@ -121,13 +121,13 @@ def MonthWiseRegister(stud_idx, session):
         percent = df.loc[idx, "total"] * 100 / working_days
 
         if percent >= 80:
-            colour = "#d74a49"
+            colour = "#72b043"
     
         elif percent >= 60:
-            colour = "#51a16a"
+            colour = "#f8cc1b"
 
         else:
-            colour = "#ffa600"
+            colour = "#e12729"
 
         df.loc[idx, "colour"] = colour
     
