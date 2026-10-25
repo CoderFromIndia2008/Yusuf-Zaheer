@@ -1,14 +1,14 @@
 [theme]
 base="light"
 primaryColor="slateBlue"
-backgroundColor="#f0ead2"
+backgroundColor="#f7ebe7"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font = "sans-serif"
 
 [theme.dark]
 primaryColor="slateBlue"
-backgroundColor="#f0ead2"
+backgroundColor="#f7ebe7"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font="sans-serif"

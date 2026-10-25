@@ -1,4 +1,3 @@
-import tensorflow as tf 
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -7,6 +6,7 @@ import utils
 #mark student attendance using face recignition (cnn model in tools/models)
 @st.cache_resource()
 def LoadModel():
+    import tensorflow as tf 
     return tf.keras.models.load_model(utils.tools_dir / f"models/face_recognition.keras")   
 
 def MarkAttendance(img):
