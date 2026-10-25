@@ -1,20 +1,21 @@
 [theme]
 base="light"
 primaryColor="slateBlue"
-backgroundColor="#F9FAFB"
+backgroundColor="#f0ead2"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font = "sans-serif"
 
 [theme.dark]
 primaryColor="slateBlue"
-backgroundColor="#F9FAFB"
+backgroundColor="#f0ead2"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font="sans-serif"
 textColor="black"
 
 [theme.sidebar]
-backgroundColor="#E6E6FA"
+fontColor="#ffffff"
+backgroundColor="#6c584c"
 secondaryBackgroundColor="#a662a8"
 baseRadius="full"
