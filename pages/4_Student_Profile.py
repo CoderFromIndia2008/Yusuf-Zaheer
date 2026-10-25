@@ -33,7 +33,7 @@ else:
 
     idx = list(register["name"] == name).index(True)
     percent = register.loc[idx, "%"]
-    total = register.loc[loc, "Total"]
+    total = register.loc[idx, "Total"]
 
     col1, col2, col3 = st.columns(3)
 
