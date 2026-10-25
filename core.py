@@ -94,24 +94,41 @@ def AttendancePercent(from_month, to_month, session):
         
     return (percent_df, working_days)
     
-def MonthWiseRegister(idx, session):
-    month_wise = pd.DataFrame([("", 0, 0.0) for i in range(12)], index=utils.full_months, columns=("A and P", "Total", "%"))
+def MonthWiseRegister(stud_idx, session):
+    data = {
+    "month": utils.full_months,
+    "total": [None]*12,
+    "colour": [None]*12
+    }
 
-    for month in utils.full_months:
+    df = pd.DataFrame(data)
+
+    for idx in range(12):
         register, path = utils.GetFile(month, session, type="register")
 
+        df.loc[idx, "month"] = utils.full_months[idx]
+
         if register is None:
+            df.loc[idx, ("total", "colour")] = (0, "gray")
             continue
 
+        temp = ""
         working_days = len(register.columns) - 2
         for column in register.columns[2:]:
-            month_wise.loc[month, "A and P"] += register.loc[idx, column]
+            temp += register.loc[stud_idx, column]
         
-        month_wise.loc[month, "Total"] = month_wise.loc[month, "A and P"].count("P")
-        month_wise.loc[month, "%"] = month_wise.loc[month, "Total"] * 100 / working_days
+        df.loc[idx, "total"] = temp.count("P")
+        percent = df.loc[idx, "total"] * 100 / working_days
 
-    month_wise["Below 60"] = list(month_wise[month_wise["%"] <= 60].index)
-    month_wise["Below 80"] = list(month_wise[month_wise["%"] <= 80].index)
-    month_wise["Above 80"] = list(month_wise[month_wise["%"] >= 80].index)
+        if percent >= 80:
+            colour = "green"
+    
+        elif percent >= 60:
+            colour = "yellow"
 
-    return month_wise[["Below 60", "Below 80", "Above 80"]]
+        else:
+            colour = "red"
+
+        df.loc[idx, "colour"] = colour
+    
+    return df
