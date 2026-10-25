@@ -11,11 +11,16 @@ utils.title(
 col1, col2 = st.columns(2)
 
 with col1:
-    name = st.selectbox("Select student", names, index=None, key="333")
-
-with col2:
     session = st.selectbox("Session", utils.GetSession, key="222")
 
+metadata, path = utils.GetFile(type="meta")
+if metadata is None:
+    st.error("No attendance available.")
+
+names = list(metadata["name"])
+
+with col2: 
+    name = st.selectbox("Select student", names, index=None, key="333")
 
 register, working_days = core.AttendancePercent("April", utils.cur_month_idx, session)
 if register is None:
