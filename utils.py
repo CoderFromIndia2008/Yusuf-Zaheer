@@ -175,16 +175,14 @@ def process(img=None, path=None, rotate=False, save=False):
         
     return face
 
-def Default(value, session):
-    if value == "month":
-        default = cur_month_idx
-    else: 
-        default = 0
+def Default(*arg, session):
+    default = 0
 
     if session == GetSession().name:
-        if value == "month":
+        if len(arg) == 1:
             default = cur_month_idx
-        else:
+
+        elif arg[0] == month:
             register, path = GetFile(type="register")
             if register is not None and date in register.columns:
                 default = int(date)
