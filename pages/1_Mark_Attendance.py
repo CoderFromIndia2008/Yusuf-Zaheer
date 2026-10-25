@@ -2,7 +2,7 @@ import streamlit as st
 import utils
 import core
 
-st.set_page_config("Mark Attendance", page_icon=":material/:photo_camera:"),
+st.set_page_config("Mark Attendance", page_icon=":material/photo_camera:"),
 
 utils.title(
 "Mark Attendance", 
