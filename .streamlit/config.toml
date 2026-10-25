@@ -6,6 +6,13 @@ secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font = "sans-serif"
 
+[theme.dark]
+primaryColor="#8ba0a4"
+backgroundColor="#eaeaea"
+secondaryBackgroundColor="#d74a49"
+baseRadius="full"
+font="sans-serif"
+
 [theme.sidebar]
 backgroundColor="#E6E6FA"
 secondaryBackgroundColor="#a662a8"

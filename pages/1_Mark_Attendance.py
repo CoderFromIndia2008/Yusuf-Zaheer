@@ -17,11 +17,10 @@ with st.container(border=True):
     """)
     
     img = st.camera_input("Take a photo")
-    model = st.file_uploader("Upload a model")
     
 if img:
     st.success("Capture successful!")
-    student, confidence, register = core.MarkAttendance(img, model)
+    student, confidence, register = core.MarkAttendance(img)
     if register:
         st.success("Prediction successful!")
         st.write("Student:", student)

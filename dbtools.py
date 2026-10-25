@@ -304,10 +304,8 @@ def RemoveStudent():
         st.error("No students registered.")
         return None
         
-    options, names = [], []
-    for idx, name in enumerate(metadata["name"]):
-        options.append(f"{idx+1}. {name}")
-        names.append(name)
+    names = list(metadata["names"])
+    options = list(metadata["roll"] + ". " + metadata["name"])
         
     if len(options) == 0:
         st.error("No students registered.")
