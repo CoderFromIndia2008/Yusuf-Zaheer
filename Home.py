@@ -7,10 +7,6 @@ import time
 text = utils.pretty("Home", colour="violet", icon="home")
 st.set_page_config(text)
 
-text = utils.pretty("AI Attendance", "violet", True, "familiar_face_and_zone")
-st.sidebar.title(text)
-st.sidebar.divider()
-
 utils.title(
 "Home", 
 "home", 

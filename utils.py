@@ -69,10 +69,7 @@ def Display(original, session):
     st.write(modified.set_index("roll"))
         
 #page headings and text styling
-def title(value, icon, desc, config=True):
-    if config:
-        st.set_page_config(value, page_icon=f":material/{icon}:"),
-        
+def title(value, icon, desc):        
     st.title(f":violet[:material/{icon}: {value}]")
     st.caption(desc)
     st.divider()
