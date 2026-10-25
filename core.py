@@ -76,7 +76,7 @@ def AttendancePercent(from_month, to_month, session):
         if register is None:
             continue
         
-        if iter == 0:
+        elif working_days == 0:
             percent_df = register[["roll", "name"]]
             percent_df["Total"] = ""
 
