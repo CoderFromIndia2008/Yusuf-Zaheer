@@ -26,7 +26,7 @@ with st.expander(":material/discover_tune: More filters"):
     min_value=0, 
     max_value=31, 
     step=1,
-    value=utils.Default("date", session),
+    value=utils.Default("date", session, month),
     key="3"
     ) 
 
