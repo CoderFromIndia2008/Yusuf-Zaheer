@@ -1,18 +1,17 @@
 [theme]
 base="light"
-primaryColor="#5e62a9"
+primaryColor="#92ba92"
 backgroundColor="#eaeaea"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font = "sans-serif"
 
 [theme.dark]
-primaryColor="#5e62a9"
+primaryColor="#92ba92"
 backgroundColor="#eaeaea"
 secondaryBackgroundColor="darkSeaGreen"
 baseRadius="full"
 font="sans-serif"
-textColor="black"
 
 [theme.sidebar]
 textColor="#ffffff"
