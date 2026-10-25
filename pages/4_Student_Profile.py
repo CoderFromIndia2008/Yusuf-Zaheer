@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import streamlit as st
 import utils
 import core
@@ -59,4 +60,10 @@ st.write("")
 
 df = core.MonthWiseRegister(idx, session)
 
-st.bar_chart(df, x="month", y="total", x_label="Months", y_label="Attendance", color="colour", sort=False)
+fig, ax = plt.subplots()
+ax.set_facecolor("none")
+ax = plt.bar(df["month"], df["total"], color=df["colour"])
+ax.xlabel("Months")
+ax.ylabel("Attendance")
+ax.tigt_layout()
+st.pyplot(ax, transparent=True)
