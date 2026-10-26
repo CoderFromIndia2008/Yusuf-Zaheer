@@ -70,7 +70,7 @@ color=df["colour"],
 label=df["label"]
 )
 
-plt.legend()
+plt.legend(loc="upper right", fancybox=True, framealpha=0.5)
 plt.ylim(0, 31)
 plt.bar_label(bars, label_type="center", color="#525e75")
 plt.tight_layout()
