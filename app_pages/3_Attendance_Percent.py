@@ -30,7 +30,7 @@ else:
         idx = utils.full_months.index(from_month)
     
     with col3:
-        to_month = utils.SelectMonth("To month", "66", session, utils.full_months[idx:], 11)
+        to_month = utils.SelectMonth("To month", "66", utils.full_months[idx:], 11)
 
 register, working_days = core.AttendancePercent(from_month, to_month, session)
 st.metric("Total working days", working_days)
