@@ -25,6 +25,12 @@ month_length = {
     "February": 28,
     "March": 31
 }
+def highlight_attendance(value):
+    if value == "P":
+        return "background-color: #D4EDDA; color: #155724"
+    elif value == "A":
+        return "background-color: #F8D7DA; color: #721C24"
+    return ""
 
 for year in years:
     path = pt.Path.cwd() / "database" / f"20{year}-{year+1}"
@@ -41,6 +47,8 @@ for year in years:
             register[f"{day}\n{weekday}"] = l
 
         df = pd.DataFrame(register)
+        df = df.style.map(highlight_attendance)
+
         path.mkdir(exist_ok = True)
         df.to_csv(path / f"{idx+1}_{month}_20{year}-{year+1}.csv", index=False)
         meta.to_csv(path / f"metadata_20{year}-{year+1}.csv", index=False)
