@@ -328,7 +328,7 @@ def RemoveStudent():
         metadata.iloc[idx:, 0] -= 1
 
     st.caption("Your changes will appear in the table below.")
-    st.pagination(metadata.set_index("roll"), "df")
+    utils.pagination(metadata.set_index("roll"), "df")
 
     if option and st.button("**Remove Student**", width="stretch", key="2003", type="primary"):
         metadata.to_csv(path, index=False)
