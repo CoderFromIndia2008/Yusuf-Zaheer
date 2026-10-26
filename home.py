@@ -4,6 +4,15 @@ import core
 import time
 import dummy_data
 
+pages = [
+    st.Page("home.py", title=":material/home: Home"),
+    st.Page("/pages/1_Mark_Attendance.py", title=":material/photo_camera: Mark Attendance")
+]
+
+pg = st.navigation(pages)
+
+pg.run()
+
 utils.title(
 "Home", 
 "home", 
