@@ -107,7 +107,7 @@ def pretty(value, colour, bold=False, icon=None):
     return f":{colour}[{value}]"
 
 #selection
-def SelectDate(default=date):
+def SelectDate(default=int(date)):
     d = st.number_input(
     "Choose a date (0 = whole month)", 
     min_value=0, 
