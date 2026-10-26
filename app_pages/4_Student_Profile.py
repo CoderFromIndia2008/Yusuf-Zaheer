@@ -18,10 +18,15 @@ if metadata is None:
     st.error("No students registered.")
     st.stop()
 
-names = list(metadata["name"])
+options, names = [], []
+for idx, name in enumerate(metadata["name"]):
+    options.append(f"{idx+1}. {name}")
+    names.append(name)
 
 with col2: 
-    name = st.selectbox("Select student", names, key="8")
+    option = st.selectbox("Select student", options, key="8")
+    idx = options.index(option)
+    name = names[idx]
 
 st.divider()
 full_register, total_working_days = core.AttendancePercent("April", "March", session)
