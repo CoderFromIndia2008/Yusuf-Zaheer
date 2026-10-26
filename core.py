@@ -101,6 +101,7 @@ def MonthWiseRegister(stud_idx, session):
     "colour": [None]*12,
     "label": [None]*12
     }
+    R, G, Y = "", "", ""
 
     df = pd.DataFrame(data)
 
@@ -123,15 +124,18 @@ def MonthWiseRegister(stud_idx, session):
 
         if percent > 70:
             colour = "#95cf92"
-            label = "100-70%"
+            label = G + "100-70%"
+            G = "_"
 
         elif percent > 60:
             colour = "#f8e16f"
-            label = "70-60%"
+            label = Y + "70-60%"
+            Y = "_"
 
         else:
             colour = "#f4895f"
-            label = "60-0%"
+            label = R + "60-0%"
+            R = "_"
 
         df.loc[idx, "colour"] = colour
         df.loc[idx, "label"] = label
