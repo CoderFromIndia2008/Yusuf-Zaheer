@@ -10,16 +10,14 @@ utils.title(
 "Summary of today's attendance and learn about the project."
 )
 
-utils.subheader("Today's overview", "today")
-
-st.caption(f"Attendance for {utils.date} {utils.month[:3]} {utils.year}")
+utils.subheader(
+"Today's overview", 
+"today", 
+f"Attendance for {utils.date} {utils.month[:3]} {utils.year}"
+)
 
 session = utils.GetSession().name
-if session not in utils.sessions:
-    register = None
-    
-else:
-    register = core.ViewRegister(utils.date, utils.month, session)
+register = core.ViewRegister(utils.date, utils.month, session)
 
 if register is None:
     st.info(f"No attendance available for today.")
@@ -29,7 +27,6 @@ else:
     present = sum(register[str(utils.date)] == "P")
     absent = sum(register[str(utils.date)] == "A")
     percent = present / total_strength * 100
-    
     col1, col2, col3 = st.columns(3, border=True)
     
     with col1:
@@ -42,9 +39,7 @@ else:
         utils.metric("Percent %", f"{percent:.1f}%", "gray")
     
     st.divider()
-    
     utils.subheader("Today's register", "table")
-
     utils.Display(register, session)
     st.divider()
 
@@ -69,7 +64,6 @@ utils.subheader ("Team", "diversity_3")
     
 with st.container(border=True):
     col1, col2 = st.columns(2)
-    
     with col1: utils.designation("Arush", "Data Expert")
     with col2: utils.designation("Aryan", "Video Producer")
 

@@ -9,7 +9,6 @@ utils.title(
 )
 
 col1, col2 = st.columns(2)
-
 session = col1.selectbox("Academic session", utils.sessions, key="1") 
 
 month = col2.selectbox(
@@ -18,7 +17,6 @@ utils.full_months,
 index=utils.cur_month_idx if session == utils.GetSession().name else 0,
 key="2",
 )
-
 
 with st.expander(":material/discover_tune: More filters"):
     date = st.number_input(
@@ -31,8 +29,6 @@ with st.expander(":material/discover_tune: More filters"):
     ) 
 
 st.divider()
-
 register = core.ViewRegister(date, month, session)
-
 utils.Display(register, session)
 

@@ -18,13 +18,20 @@ with st.container(border=True):
     
     img = st.camera_input("Take a photo")
     
-if img:
-    st.success("Capture successful!")
-    student, confidence, register = core.MarkAttendance(img)
-    if register:
-        st.success("Prediction successful!")
-        st.write("Student:", student)
-        st.write(f"Confidence: {confidence:.1f}%")
-        st.divider()
-        st.write(register.set_index("roll"))
+if not img:
+    st.stop()
+
+st.success("Capture successful!")
+
+student, confidence, register = core.MarkAttendance(img)
+
+if register is None:
+    st.stop()
+
+st.success("Prediction successful!")
+col1, col2 = st.columns(2)
+col1.metric("Student", student)
+col2.metric("Confidence", f"{confidence:.1f}%")
+st.divider()
+st.write(register.set_index("roll"))
             
