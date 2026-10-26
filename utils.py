@@ -53,12 +53,12 @@ def GetFile(*arg, type):
 
 #pagintion
 
-def pagination(df, type, rows_per_page=10, column_order=None, hide_index=None):
+def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=None):
     total_pages = (len(df) + rows_per_page - 1) // rows_per_page
 
     dataframe_slot = st.empty()
     with st.container(horizontal_alignment="right"):
-        page = st.pagination(num_pages=total_pages)
+        page = st.pagination(num_pages=total_pages, key=key)
 
     start_idx = (page - 1) * rows_per_page
     end_idx = start_idx + rows_per_page
@@ -89,7 +89,7 @@ def Display(original, session):
         write["roll"] = tuple(metadata["roll"])    
         write = write.set_index("roll")
 
-    pagination(write, "df")        
+    pagination(write, "df", "111")        
 
 #page headings and text styling
 def title(value, icon, desc):        
