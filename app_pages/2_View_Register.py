@@ -9,7 +9,7 @@ utils.title(
 )
 
 session = utils.GetSession().name
-month, date = utils.month, utils.date
+month, date = utils.month, int(utils.date)
 def reset():
     global month, date
     if session != utils.GetSession().name:
@@ -42,6 +42,11 @@ with st.expander(":material/discover_tune: More filters"):
 
 st.divider()
 register = core.ViewRegister(date, month, session)
-st.caption(f"Attendance for {date}-{month}, {session}")
+
+if date != 0:
+    st.caption(f"Attendance for {date}-{month}, {session}")
+else:
+    st.caption(f"Attendance for {month}, {session}")
+
 utils.Display(register, session)
 
