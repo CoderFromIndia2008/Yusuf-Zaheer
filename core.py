@@ -59,6 +59,8 @@ def ViewRegister(date, month, session):
     year = int(session[-2:]) if month in utils.full_months[9:] else int(session[-2:]) - 1
     day = datetime.date(year, utils.months_ordered.index(month), date)
     day = day.strftime("%a")
+
+    st.write(year, day)
         
     if not f"{date}, {day}" in register.columns:
         return None
