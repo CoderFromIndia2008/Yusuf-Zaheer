@@ -70,6 +70,7 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
     end_idx = start_idx + rows_per_page
 
     if type == "df":
+        df = df.style.map(Colour)
         return dataframe_slot.dataframe(df.iloc[start_idx:end_idx])
     
     modified = dataframe_slot.data_editor(df.iloc[start_idx:end_idx], column_order=column_order, hide_index=hide_index)
@@ -77,7 +78,7 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
     return modified, is_modified
 
 #colour
-def Colours(value):
+def Colour(value):
     if value == "P":
         return "background-color: #D4EDDA; color: #155724"
 
@@ -100,14 +101,13 @@ def Display(original, session):
 
     if (not all(exist)) and st.toggle("Display removed student(s)"):
         write = original.set_index("roll")
-        write = write.style.map(Colours)
 
     else:
         write = original[exist]
         write["roll"] = tuple(metadata["roll"])    
         write = write.set_index("roll")
 
-    pagination(write, "df", "111")        
+    pagination(write, "df", "111")
 
 #page headings and text styling
 def title(value, icon, desc):        
