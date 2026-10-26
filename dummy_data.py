@@ -33,6 +33,7 @@ for year in years:
     for idx, month in enumerate(month_length.keys()):
         register = data.copy()
         for day in range(1, month_length[month] + 1):
+            st.write(year, 1+idx, day)
             date = datetime.date(2000+year, 1+idx, day)
             weekday = date.strftime("%a")
 
