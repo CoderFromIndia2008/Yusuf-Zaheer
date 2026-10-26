@@ -123,7 +123,7 @@ def MonthWiseRegister(stud_idx, session):
         if percent > 75:
             colour = "#95cf92"
 
-        elif percent > 55:
+        elif percent > 65:
             colour = "#f8e16f"
 
         else:
