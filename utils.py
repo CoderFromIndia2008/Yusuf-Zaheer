@@ -13,7 +13,7 @@ tools_dir = base_dir / "tools"
 password_path = tools_dir / "password.dat"
 
 #time
-now = datetime.now()
+now = datetime.datetime.now()
 hour, minute, day, date, month, year = now.strftime("%h %M %a %d %B %Y").split()
 full_months = ["April", "May", "June", "July", "August", "September", "October", "November", "December", "January", "February", "March"]
 months_ordered = full_months[9:] + full_months[:9]
