@@ -2,6 +2,7 @@ import pathlib as pt
 import random as rn
 import pandas as pd
 import datetime
+import streamlit as st
 
 data = {
     "roll": (1,2,3,4,5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22),
@@ -48,6 +49,7 @@ for year in years:
 
         df = pd.DataFrame(register)
         df = df.style.map(highlight_attendance)
+        st.dataframe(df)
 
         path.mkdir(exist_ok = True)
         df.to_csv(path / f"{idx+1}_{month}_20{year}-{year+1}.csv", index=False)
