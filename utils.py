@@ -52,7 +52,7 @@ def GetFile(*arg, type):
     return (pd.read_csv(path), path)
         
 #display a register if exists, choose to display with/without removed students
-def Display(original, session):
+def Display(original, session, rows_per_page=10):
     if original is None:
         st.error("No attendance available.")
         return None
@@ -64,12 +64,23 @@ def Display(original, session):
         exist.append(original.loc[idx, "name"] in names)
 
     if (not all(exist)) and st.toggle("Display removed student(s)"):
-        st.write(original.set_index("roll"))
-        return None
+        write = original.set_index("roll")
 
-    modified = original[exist]
-    modified["roll"] = tuple(metadata["roll"])    
-    st.write(modified.set_index("roll"))
+    else:
+        write = original[exist]
+        write["roll"] = tuple(metadata["roll"])    
+        write = write.set_index("roll")
+
+    total_pages = (len(write) + rows_per_page - 1) // rows_per_page
+
+    dataframe_slot = st.empty()
+    with st.container(horizontal_alignment="right"):
+        page = st.pagination(num_pages=total_pages)
+
+    start_idx = (page - 1) * rows_per_page
+    end_idx = start_idx + rows_per_page
+    dataframe_slot.dataframe(write.iloc[start_idx:end_idx])
+
         
 #page headings and text styling
 def title(value, icon, desc):        

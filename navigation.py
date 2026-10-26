@@ -3,8 +3,8 @@ import utils
 
 pages_dir = utils.base_dir / "app_pages"
 
-st.logo(":material/familiar_face_and_zone:", size="medium")
-st.bottom.chat_input("Say something")
+st.logo(":material/familiar_face_and_zone:", size="large")
+st.sidebar.bottom.subheader(":violet[:material/familiar_face_and_zone: AI Attendance]")
 
 pages = [
 st.Page(pages_dir / "0_Home.py", title="Homepage", icon=":material/home:"),

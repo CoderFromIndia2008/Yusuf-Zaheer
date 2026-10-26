@@ -3,8 +3,8 @@ import random as rn
 import pandas as pd
 
 data = {
-    "roll": (1,2,3,4,5,6),
-    "name": ("Aryan", "Arush", "Jaffar", "Krishna", "Yusuf", "Zoheb")
+    "roll": (1,2,3,4,5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22),
+    "name": ("Aryan", "Arush", "Jaffar", "Krishna", "Yusuf", "Zoheb", "Nasir", "Archit", "Siddhanto", "Mansi", "Tejas", "Prabhat", "Vinayak", "Atulya", "Saksham", "Yashi", "Vedant", "Akansha", "Aditya", "Hashir", "Samarth", "Hasan")
     }
 
 meta = pd.DataFrame(data)
@@ -32,7 +32,7 @@ for year in years:
         register = data.copy()
         for i in range(1, month_length[month] + 1):
             l = []
-            for j in range(6):
+            for j in range(22):
                 l.append(rn.choices(["P", "A"], [75, 25])[0])                                
             register[i] = l
 
