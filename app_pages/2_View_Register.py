@@ -11,11 +11,11 @@ utils.title(
 session = utils.GetSession().name
 month, date = utils.month, utils.date
 def reset():
-    global month, session
+    global month, date
     if session != utils.GetSession().name:
         month = "April"
         date = 0
-
+    
     if month != utils.month:
         date = 0
 
@@ -25,16 +25,10 @@ session = col1.selectbox("Academic session", utils.sessions, key="1", on_change=
 month = col2.selectbox(
 "Month", 
 utils.full_months, 
-index=None,
+index=utils.cur_month_idx,
 key="2",
 on_change=reset()
-) or month
-
-if month == utils.month and session == utils.GetSession().name:
-    default =int(utils.date)
-else:
-    default = 0
-
+)
 
 with st.expander(":material/discover_tune: More filters"):
     date = st.number_input(
@@ -42,11 +36,12 @@ with st.expander(":material/discover_tune: More filters"):
     min_value=0, 
     max_value=31, 
     step=1,
-    value=None,
+    value=utils.date,
     key="3"
-    ) or date
+    ) 
 
 st.divider()
 register = core.ViewRegister(date, month, session)
+st.caption("Attendance for", date, month, session)
 utils.Display(register, session)
 
