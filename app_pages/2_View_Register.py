@@ -9,7 +9,7 @@ utils.title(
 )
 
 session = utils.GetSession().name
-month, date = utils.cur_month_idx, utils.date
+month, date = utils.month, utils.date
 def reset():
     global month, session
     if session != utils.GetSession().name:
