@@ -70,22 +70,11 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
     end_idx = start_idx + rows_per_page
 
     if type == "df":
-        df = df.style.map(Colour)
         return dataframe_slot.dataframe(df.iloc[start_idx:end_idx])
     
     modified = dataframe_slot.data_editor(df.iloc[start_idx:end_idx], column_order=column_order, hide_index=hide_index)
     is_modified = modified.equals(df)
     return modified, is_modified
-
-#colour
-def Colour(value):
-    if value == "P":
-        return "background-color: #D4EDDA; color: #155724"
-
-    elif value == "A":
-        return "background-color: #F8D7DA; color: #721C24"
-
-    return ""
 
 #display a register if exists, choose to display with/without removed students
 def Display(original, session):
