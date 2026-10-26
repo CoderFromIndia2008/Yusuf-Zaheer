@@ -58,6 +58,16 @@ def GetFile(*arg, type):
         
     return (pd.read_csv(path), path)
 
+#colour
+def Colour(value):
+    if value == "P":
+        return "background-color: #D4EDDA; color: #155724"
+
+    elif value == "A":
+        return "background-color: #F8D7DA; color: #721C24"
+
+    return ""
+
 #pagintion
 def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=None):
     total_pages = (len(df) + rows_per_page - 1) // rows_per_page
@@ -70,7 +80,7 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
     end_idx = start_idx + rows_per_page
 
     if type == "df":
-        return dataframe_slot.dataframe(df.iloc[start_idx:end_idx])
+        return dataframe_slot.dataframe(df.iloc[start_idx:end_idx].style.apply(Colour))
     
     modified = dataframe_slot.data_editor(df.iloc[start_idx:end_idx], column_order=column_order, hide_index=hide_index)
     is_modified = modified.equals(df)
