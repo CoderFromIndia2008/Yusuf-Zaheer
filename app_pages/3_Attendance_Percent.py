@@ -18,7 +18,7 @@ key="4",
 
 if session == utils.GetSession().name:
     with col2:
-        from_month = utils.SelectMonth("From month", utils.full_months, key="5")
+        from_month = utils.SelectMonth("From month", key="5")
         idx = utils.full_months.index(from_month)
     
     with col3:
