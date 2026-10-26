@@ -119,6 +119,7 @@ def SelectDate(key, default=int(date)):
     return d
     
 def SelectMonth(title, key, options=full_months, default=cur_month_idx):
+    st.write(options, key, default)
     m = st.selectbox(title, options, index=default, key=key)
     return m
 
