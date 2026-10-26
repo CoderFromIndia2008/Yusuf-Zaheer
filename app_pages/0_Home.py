@@ -23,9 +23,10 @@ if register is None:
     st.info(f"No attendance available for today.")
 
 else:
+    day = utils.GetDay(utils.date, utils.month, session)
     total_strength = register.shape[0]
-    present = sum(register[str(utils.date)] == "P")
-    absent = sum(register[str(utils.date)] == "A")
+    present = sum(register[f"{date}, {day}"] == "P")
+    absent = sum(register[f"{date}, {day}"] == "A")
     percent = present / total_strength * 100
     col1, col2, col3 = st.columns(3, border=True)
     

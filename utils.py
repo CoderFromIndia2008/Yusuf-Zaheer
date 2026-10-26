@@ -18,6 +18,11 @@ full_months = ["April", "May", "June", "July", "August", "September", "October",
 months_ordered = full_months[9:] + full_months[:9]
 cur_month_idx = full_months.index(month)
 
+def GetDay(date, month, session):
+    year = int(session[-2:]) if month in utils.full_months[9:] else int(session[-2:]) - 1
+    day = datetime.date(year, utils.months_ordered.index(month)+1, int(date))
+    return day.strftime("%a")
+
 #session management
 sessions = [s.name for s in data_dir.iterdir() if s.is_dir()]
 sessions.sort(reverse=True, key=lambda x: int(x[-2:]))
