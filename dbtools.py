@@ -137,7 +137,7 @@ def ModifyName():
         return None
     
     modified, is_modified = utils.pagination(metadata, "editor", "222", column_order=["name"], hide_index=True)
-    
+    st.write(is_modified)
     if is_modified and st.button("**Make changes**", width="stretch", type="primary"):
         modified.to_csv(path, index=False)
         st.success("Changes made!")
@@ -328,7 +328,7 @@ def RemoveStudent():
         metadata.iloc[idx:, 0] -= 1
 
     st.caption("Your changes will appear in the table below.")
-    st.write(metadata.set_index("roll"))
+    st.pagination(metadata.set_index("roll"), "df")
 
     if option and st.button("**Remove Student**", width="stretch", key="2003", type="primary"):
         metadata.to_csv(path, index=False)
