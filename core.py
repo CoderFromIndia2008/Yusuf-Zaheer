@@ -98,7 +98,8 @@ def MonthWiseRegister(stud_idx, session):
     data = {
     "month": utils.full_months,
     "total": [None]*12,
-    "colour": [None]*12
+    "colour": [None]*12,
+    "label": [None]*12
     }
 
     df = pd.DataFrame(data)
@@ -120,15 +121,19 @@ def MonthWiseRegister(stud_idx, session):
         df.loc[idx, "total"] = temp.count("P")
         percent = df.loc[idx, "total"] * 100 / working_days
 
-        if percent > 75:
+        if percent > 70:
             colour = "#95cf92"
+            label = "100-70%"
 
-        elif percent > 65:
+        elif percent > 60:
             colour = "#f8e16f"
+            label = "70-60%"
 
         else:
             colour = "#f4895f"
+            label = "60-0%"
 
         df.loc[idx, "colour"] = colour
+        df.loc[idx, "label"] = label
 
     return df

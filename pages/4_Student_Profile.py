@@ -67,7 +67,7 @@ bars = ax.bar(
 df["month"], 
 df["total"], 
 color=df["colour"],
-label=["100-75%", "75-65%", "65-0%"]
+label=df["label"]
 )
 
 plt.legend()
