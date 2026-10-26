@@ -50,9 +50,27 @@ def GetFile(*arg, type):
         return (None, path)
         
     return (pd.read_csv(path), path)
+
+#pagintion
+
+def pagination(df, type, rows_per_page=10, column_order=None, hide_index=None):
+    total_pages = (len(df) + rows_per_page - 1) // rows_per_page
+
+    dataframe_slot = st.empty()
+    with st.container(horizontal_alignment="right"):
+        page = st.pagination(num_pages=total_pages)
+
+    start_idx = (page - 1) * rows_per_page
+    end_idx = start_idx + rows_per_page
+
+    if type == "df":
+        dataframe_slot.dataframe(df.iloc[start_idx:end_idx])
+    
+    elif type == "editor":
+        return dataframe_slot.data_editor(df.iloc[start_idx:end_idx], column_order=column_order, hide_index=hide_index)
         
 #display a register if exists, choose to display with/without removed students
-def Display(original, session, rows_per_page=10):
+def Display(original, session):
     if original is None:
         st.error("No attendance available.")
         return None
@@ -71,17 +89,8 @@ def Display(original, session, rows_per_page=10):
         write["roll"] = tuple(metadata["roll"])    
         write = write.set_index("roll")
 
-    total_pages = (len(write) + rows_per_page - 1) // rows_per_page
+    pagination(write, "df")        
 
-    dataframe_slot = st.empty()
-    with st.container(horizontal_alignment="right"):
-        page = st.pagination(num_pages=total_pages)
-
-    start_idx = (page - 1) * rows_per_page
-    end_idx = start_idx + rows_per_page
-    dataframe_slot.dataframe(write.iloc[start_idx:end_idx])
-
-        
 #page headings and text styling
 def title(value, icon, desc):        
     st.title(f":violet[:material/{icon}: {value}]")
