@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import datetime
 import utils
 
 #mark student attendance using face recignition (cnn model in tools/models)
@@ -54,8 +55,12 @@ def ViewRegister(date, month, session):
         
     if date == 0:
         return register
+
+    year = int(session[-2:]) if month in utils.full_months[9:] else int(session[-2:]) - 1
+    day = datetime.date(year, utils.months_ordered.index(month), date)
+    day = day.strftime("%a")
         
-    if not str(date) in register.columns:
+    if not f"{date}, {day}" in register.columns:
         return None
             
     columns = ["roll", "name", str(date)]
