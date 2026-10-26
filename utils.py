@@ -94,7 +94,7 @@ def Display(original, session):
 
     if (not all(exist)) and st.toggle("Display removed student(s)"):
         write = original.set_index("roll")
-        write = write.style.apply(Colours)
+        write = write.style.map(Colours)
 
     else:
         write = original[exist]

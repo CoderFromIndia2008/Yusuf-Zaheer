@@ -63,7 +63,7 @@ def ViewRegister(date, month, session):
     if not f"{date}, {day}" in register.columns:
         return None
             
-    columns = ["roll", "name", str(date)]
+    columns = ["roll", "name", f"{date}, {day}"]
     return register[columns]
     
 #show attendance total and percentage of all students in a month range
