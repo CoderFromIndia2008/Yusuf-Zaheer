@@ -1,5 +1,4 @@
 import streamlit as st 
-import dummy_data
 import utils
 
 pages_dir = utils.base_dir / "app_pages"
