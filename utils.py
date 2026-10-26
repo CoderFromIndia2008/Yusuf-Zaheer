@@ -21,6 +21,7 @@ cur_month_idx = full_months.index(month)
 sessions = [s.name for s in data_dir.iterdir() if s.is_dir()]
 sessions.sort(reverse=True, key=lambda x: int(x[-2:]))
 
+#random key generator
 def GetKey():
     return rn.random()
 
