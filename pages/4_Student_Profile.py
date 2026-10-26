@@ -71,8 +71,8 @@ label=df["label"]
 )
 
 plt.legend()
-plt.tight_layout()
 plt.ylim(0, 31)
 plt.bar_label(bars, label_type="center", color="#525e75")
+plt.tight_layout()
 
 st.pyplot(fig, transparent=True)
