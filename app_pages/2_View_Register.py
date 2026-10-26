@@ -18,13 +18,19 @@ index=utils.cur_month_idx if session == utils.GetSession().name else 0,
 key="2",
 )
 
+if month == utils.month and session == utils.GetSession().name:
+    default =int(utils.date)
+else:
+    default = 0
+
+
 with st.expander(":material/discover_tune: More filters"):
     date = st.number_input(
     "Choose a date (0 = whole month)", 
     min_value=0, 
     max_value=31, 
     step=1,
-    value=int(utils.date) if month == utils.month and session == utils.GetSession().name else 0,
+    value=default,
     key="3"
     ) 
 
