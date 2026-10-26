@@ -19,8 +19,8 @@ months_ordered = full_months[9:] + full_months[:9]
 cur_month_idx = full_months.index(month)
 
 def GetDay(date, month, session):
-    year = int(session[-2:]) if month in utils.full_months[9:] else int(session[-2:]) - 1
-    day = datetime.date(year, utils.months_ordered.index(month)+1, int(date))
+    year = int(session[-2:]) if month in full_months[9:] else int(session[-2:]) - 1
+    day = datetime.date(year, months_ordered.index(month)+1, int(date))
     return day.strftime("%a")
 
 #session management
