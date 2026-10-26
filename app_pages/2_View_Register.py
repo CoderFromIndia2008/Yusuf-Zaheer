@@ -25,10 +25,10 @@ session = col1.selectbox("Academic session", utils.sessions, key="1", on_change=
 month = col2.selectbox(
 "Month", 
 utils.full_months, 
-index=utils.cur_month_idx,
+index=None,
 key="2",
 on_change=reset()
-)
+) or month
 
 with st.expander(":material/discover_tune: More filters"):
     date = st.number_input(
@@ -36,9 +36,9 @@ with st.expander(":material/discover_tune: More filters"):
     min_value=0, 
     max_value=31, 
     step=1,
-    value=int(utils.date),
+    value=None,
     key="3"
-    ) 
+    ) or date
 
 st.divider()
 register = core.ViewRegister(date, month, session)
