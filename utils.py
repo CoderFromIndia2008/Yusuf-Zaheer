@@ -13,7 +13,7 @@ tools_dir = base_dir / "tools"
 password_path = tools_dir / "password.dat"
 
 #time
-hour, minute, date, month, year = time.strftime("%h %M %d %B %Y").split()
+hour, minute, day, date, month, year = time.strftime("%h %M %a %d %B %Y").split()
 full_months = ["April", "May", "June", "July", "August", "September", "October", "November", "December", "January", "February", "March"]
 cur_month_idx = full_months.index(month)
 
@@ -68,7 +68,16 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
     modified = dataframe_slot.data_editor(df.iloc[start_idx:end_idx], column_order=column_order, hide_index=hide_index)
     is_modified = modified.equals(df)
     return modified, is_modified
-        
+
+#colour
+def Colours(value):
+    if value == "P":
+        return "background-color: #D4EDDA; color: #155724"
+
+    elif value == "A":
+        return "background-color: #F8D7DA; color: #721C24"
+
+    return ""
 
 #display a register if exists, choose to display with/without removed students
 def Display(original, session):
@@ -84,6 +93,7 @@ def Display(original, session):
 
     if (not all(exist)) and st.toggle("Display removed student(s)"):
         write = original.set_index("roll")
+        write = write.style.apply(Colours)
 
     else:
         write = original[exist]

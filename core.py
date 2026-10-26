@@ -28,7 +28,7 @@ def MarkAttendance(img):
             return (None, None, None)
   
     if not utils.date in register.columns:
-        register.loc[:, utils.date] = "A"
+        register.loc[:, f"{utils.date}, {utils.day}"] = "A"
 
     model = LoadModel()
     img = tf.keras.utils.load_img(img_path, target_size=(224,224))
