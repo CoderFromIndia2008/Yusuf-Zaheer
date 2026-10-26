@@ -61,7 +61,6 @@ st.write("")
 df = core.MonthWiseRegister(idx, session)
 
 fig, ax = plt.subplots()
-ax.set_facecolor("none")
 
 bars = ax.bar(
 df["month"], 
@@ -70,14 +69,14 @@ color=df["colour"],
 label=df["label"]
 )
 
+ax.set_facecolor("none")
+plt.bar_label(bars, label_type="center", color="#525e75")
 plt.legend(loc="lower right", fancybox=True, framealpha=0.5)
-plt.ylim(0, 31)
+
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
-plt.bar_label(bars, label_type="center", color="#525e75")
+
+plt.ylim(0, 31)
 plt.tight_layout()
 
-path = utils.tools_dir / "etc/graph.png"
-plt.savefig(path, transparent=None)
 st.pyplot(fig, transparent=True)
-st.image(path)
