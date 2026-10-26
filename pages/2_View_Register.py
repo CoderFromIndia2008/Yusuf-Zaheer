@@ -26,7 +26,7 @@ with st.expander(":material/discover_tune: More filters"):
     min_value=0, 
     max_value=31, 
     step=1,
-    value=utils.date if month == utils.month and session == utils.GetSession().name else 0,
+    value=int(utils.date) if month == utils.month and session == utils.GetSession().name else 0,
     key="3"
     ) 
 
