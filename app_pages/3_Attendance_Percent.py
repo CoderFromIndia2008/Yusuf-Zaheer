@@ -16,13 +16,22 @@ utils.sessions,
 key=utils.GetKey(),
 ) 
 
-with col2:
-    from_month = utils.SelectMonth("From month", session, utils.full_months)
-
-idx = utils.full_months.index(from_month)
-with col3:
-    to_month = utils.SelectMonth("To month", session, utils.full_months[idx:])
+if session == utils.GetSession().name:
+    with col2:
+        from_month = utils.SelectMonth("From month", utils.full_months)
+        idx = utils.full_months.index(from_month)
     
+    with col3:
+        to_month = utils.SelectMonth("To month", session, utils.full_months[idx:])
+    
+else:
+    with col2:
+        from_month = utils.SelectMonth("From month", utils.full_months, 0)
+        idx = utils.full_months.index(from_month)
+    
+    with col3:
+        to_month = utils.SelectMonth("To month", session, utils.full_months[idx:])
+
 register, working_days = core.AttendancePercent(from_month, to_month, session)
 st.metric("Total working days", working_days)
 st.caption("Click on a column header to order by ascending or descending.")

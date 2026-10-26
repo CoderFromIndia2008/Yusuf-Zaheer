@@ -16,10 +16,18 @@ key=utils.GetKey(),
 ) 
 
 with col2:
-    month = utils.SelectMonth("Month", session)
+    if session == utils.GetSession().name:
+        month = utils.SelectMonth("Month")
+    
+    else:
+        month = utils.SelectMonth("Month", default=0)
     
 with st.expander(":material/discover_tune: More filters"):
-    date = utils.SelectDate(month)
+    if month == utils.month:
+        date = utils.SelectDate()
+    
+    else:
+        date = utils.SelectDate(0)
         
 st.divider()
 register = core.ViewRegister(date, month, session)

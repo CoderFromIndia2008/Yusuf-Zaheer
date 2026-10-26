@@ -107,13 +107,7 @@ def pretty(value, colour, bold=False, icon=None):
     return f":{colour}[{value}]"
 
 #selection
-def SelectDate(m):
-    if m == month:
-        default = int(date)
-    
-    else:
-        default = 0
-
+def SelectDate(default=date):
     d = st.number_input(
     "Choose a date (0 = whole month)", 
     min_value=0, 
@@ -124,13 +118,7 @@ def SelectDate(m):
     )
     return d
     
-def SelectMonth(title, session, options=full_months):
-    if session == GetSession().name:
-        default = cur_month_idx
-
-    else:
-        default = 0
-
+def SelectMonth(title, options=full_months, default=cur_month_idx):
     m = st.selectbox(title, options, index=default, key=GetKey())
     return m
 
