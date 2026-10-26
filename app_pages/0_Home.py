@@ -13,7 +13,8 @@ utils.title(
 utils.subheader(
 "Today's overview", 
 "today", 
-f"Attendance for {utils.date} {utils.month[:3]} {utils.year}"
+f"Attendance for {utils.date} {utils.month[:3]} {utils.year}",
+divider=False
 )
 
 session = utils.GetSession().name

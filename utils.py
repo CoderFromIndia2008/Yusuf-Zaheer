@@ -78,8 +78,11 @@ def subheader(name, icon, desc=None, divider=True):
     st.subheader(f"**:blue[:material/{icon}: {name}]**")
     if desc:
         st.caption(desc)
+        st.write("")
         if divider:
             st.divider()
+    else:
+        st.write("")
 
 def metric(title, value, colour):
     st.metric(f":{colour}[**{title}**]", value)  
