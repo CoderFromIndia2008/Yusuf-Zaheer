@@ -34,8 +34,9 @@ def ChangeLog():
     utils.subheader(
     "Change log",
     "history",
-    "Brief log history of actions like changing student name, attendance. \
-    For complete history, click the download button below.",
+    "Log history of actions like changing student name, attendance. \
+    The download button is below.",
+    divider=False
     )
     
     path = utils.tools_dir / "change_log.dat"
