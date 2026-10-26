@@ -2,8 +2,8 @@ import streamlit as st
 import pathlib as pt
 import random as rn
 import pandas as pd
+import datetime
 import pickle
-import time
 import cv2
 
 #important files and directories
@@ -13,7 +13,8 @@ tools_dir = base_dir / "tools"
 password_path = tools_dir / "password.dat"
 
 #time
-hour, minute, day, date, month, year = time.strftime("%h %M %a %d %B %Y").split()
+now = datetime.now()
+hour, minute, day, date, month, year = now.strftime("%h %M %a %d %B %Y").split()
 full_months = ["April", "May", "June", "July", "August", "September", "October", "November", "December", "January", "February", "March"]
 months_ordered = full_months[9:] + full_months[:9]
 cur_month_idx = full_months.index(month)
