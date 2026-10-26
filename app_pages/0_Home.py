@@ -2,7 +2,6 @@ import streamlit as st
 import utils
 import core
 import time
-import dummy_data
 
 utils.title(
 "Home", 
