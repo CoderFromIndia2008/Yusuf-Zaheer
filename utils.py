@@ -118,9 +118,9 @@ def SelectDate(m):
     "Choose a date (0 = whole month)", 
     min_value=0, 
     max_value=31, 
-    step=1,
-    value=default,
-    key=GetKey(),
+    step=1, 
+    value=default, 
+    key=GetKey()
     )
     return d
     
@@ -131,12 +131,7 @@ def SelectMonth(title, session, options=full_months):
     else:
         default = 0
 
-    m = col2.selectbox(
-    title, 
-    options,
-    index=default,
-    key=GetKey(),
-    )
+    m = st.selectbox(title, options, index=default, key=GetKey())
     return m
 
 #password management
