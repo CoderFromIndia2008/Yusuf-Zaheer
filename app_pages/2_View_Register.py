@@ -20,14 +20,14 @@ with col2:
         month = utils.SelectMonth("Month", "2")
     
     else:
-        month = utils.SelectMonth("Month", "2", default=0)
+        month = utils.SelectMonth("Month", "22", default=0)
     
 with st.expander(":material/discover_tune: More filters"):
     if month == utils.month:
         date = utils.SelectDate("3")
     
     else:
-        date = utils.SelectDate("3", 0)
+        date = utils.SelectDate("33", 0)
         
 st.divider()
 register = core.ViewRegister(date, month, session)
