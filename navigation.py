@@ -12,5 +12,5 @@ st.Page(pages_dir / "4_Student_Profile.py", title="Student Profile", icon=":mate
 st.Page(pages_dir / "5_Modify.py", title="Make Changes", icon=":material/manufacturing:"),
 ]
 
-page = st.navigation(pages)
+page = st.navigation(pages, position="top")
 page.run()
