@@ -13,18 +13,18 @@ meta = pd.DataFrame(data)
 print("hello")
 years = 24, 25, 26
 month_length = {
-    "April": 30,
-    "May": 31,
-    "June": 30,
-    "July": 31,
-    "August": 31,
-    "September": 30,
-    "October": 31,
-    "November": 30,
-    "December": 31,
-    "January": 31,
-    "February": 28,
-    "March": 31
+    "April": (30, 4),
+    "May": (31, 5),
+    "June": (30, 6),
+    "July": (31, 7),
+    "August": [31, 8],
+    "September": (30, 9),
+    "October": [31, 10],
+    "November": [30, 11],
+    "December": (31, 12),
+    "January": (31,1),
+    "February": (28,2),
+    "March": (31, 3)
 }
 
 for year in years:
@@ -32,9 +32,8 @@ for year in years:
 
     for idx, month in enumerate(month_length.keys()):
         register = data.copy()
-        for day in range(1, month_length[month] + 1):
-            st.write(year, 1+idx, day)
-            date = datetime.date(2000+year, 1+idx, day)
+        for day in range(1, month_length[month][0] + 1):
+            date = datetime.date(2000+year, month_length[month][1], day)
             weekday = date.strftime("%a")
 
             l = []
