@@ -128,7 +128,7 @@ def ModifyName():
     "Change name of one or more students in the table below.",
     )
     
-    session = st.selectbox("Academic session", utils.sessions, key="106")
+    session = st.selectbox("Academic session", utils.sessions, key=utils.GetKey())
     
     metadata, path = utils.GetFile(session, type="meta")
     
@@ -182,13 +182,13 @@ def ModifyRegister():
     
     col1, col2 = st.columns(2)
     
-    session = col1.selectbox("Academic session", utils.sessions, key="107")
+    session = col1.selectbox("Academic session", utils.sessions, key=utils.GetKey())
     
     month = col2.selectbox(
     "Month", 
     utils.full_months, 
     index=utils.cur_month_idx, 
-    key="108"
+    key=utils.GetKey()
     )
 
     register, path = utils.GetFile(month, session, type="register")
@@ -200,7 +200,7 @@ def ModifyRegister():
     modified = st.data_editor(register, hide_index=True)
     is_modified = not register.equals(modified)
     
-    if is_modified and st.button("**Make changes**", width="stretch", key="2001", type="primary"):
+    if is_modified and st.button("**Make changes**", width="stretch", key=utils.GetKey(), type="primary"):
         modified.to_csv(path, index=False)
         st.success("Changes made!")
         change_log = [f"Changed register", f"Month: {month} | Session: {session}"]
@@ -223,13 +223,13 @@ def RegisterStudent():
     "Add a new student to the session.",
     )
     
-    name = st.text_input("Student name", value=None, key="1000")
+    name = st.text_input("Student name", value=None, key=utils.GetKey())
     roll = st.number_input(
     "Student roll number", 
     min_value=0,
     max_value=38,
     step=1,
-    key="1001",
+    key=utils.GetKey(),
     value=None
     )
     
@@ -256,7 +256,7 @@ def RegisterStudent():
         
     metadata, path = utils.GetFile(type="meta")
 
-    if name and roll and metadata is None and st.button("**Register**", width="stretch", key="2002", type="primary"):
+    if name and roll and metadata is None and st.button("**Register**", width="stretch", key=utils.GetKey(), type="primary"):
         utils.GetSession().mkdir(exist_ok=True)
         
         metadata = pd.DataFrame(columns=["roll", "name"])
@@ -284,7 +284,7 @@ def RegisterStudent():
     metadata.loc[metadata.shape[0]] = (roll, name)
     metadata = metadata.sort_values("roll")
         
-    if name and roll and st.button("**Register**", width="stretch", key="2002", type="primary"):
+    if name and roll and st.button("**Register**", width="stretch", key=utils.GetKey(), type="primary"):
         metadata.to_csv(path, index=False)            
         st.success("Registration Successful!")
         
@@ -316,7 +316,7 @@ def RemoveStudent():
     option = st.selectbox(
     "Select a student", 
     options, 
-    key="110", 
+    key=utils.GetKey(), 
     index=None
     )
     st.divider()

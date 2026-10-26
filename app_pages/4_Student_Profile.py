@@ -11,7 +11,7 @@ utils.title(
 
 col1, col2 = st.columns(2)
 
-session = col1.selectbox("Session", utils.sessions, key="222")
+session = col1.selectbox("Session", utils.sessions, key=utils.GetKey())
 
 metadata, path = utils.GetFile(session, type="meta")
 if metadata is None:
@@ -21,7 +21,7 @@ if metadata is None:
 names = list(metadata["name"])
 
 with col2: 
-    name = st.selectbox("Select student", names, key="333")
+    name = st.selectbox("Select student", names, key=utils.GetKey())
 
 st.divider()
 full_register, total_working_days = core.AttendancePercent("April", "March", session)

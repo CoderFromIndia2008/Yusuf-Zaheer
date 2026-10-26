@@ -21,8 +21,10 @@ cur_month_idx = full_months.index(month)
 sessions = [s.name for s in data_dir.iterdir() if s.is_dir()]
 sessions.sort(reverse=True, key=lambda x: int(x[-2:]))
 
-def GetSession(m=None, y=None):
-    m, y = m or month, y or year
+def GetKey():
+    return rn.random()
+
+def GetSession(m=month, y=year):
     y = int(y[-2:])
         
     if m in ["January", "February", "March"]:
@@ -102,7 +104,40 @@ def pretty(value, colour, bold=False, icon=None):
         return f":{colour}[**{value}**]"
         
     return f":{colour}[{value}]"
+
+#selection
+def SelectDate(m):
+    if m == month:
+        default = int(date)
     
+    else:
+        default = 0
+
+    d = st.number_input(
+    "Choose a date (0 = whole month)", 
+    min_value=0, 
+    max_value=31, 
+    step=1,
+    value=default,
+    key=GetKey(),
+    )
+    return d
+    
+def SelectMonth(title, session, options=full_months):
+    if session == GetSession().name:
+        default = cur_month_idx
+
+    else:
+        default = 0
+
+    m = col2.selectbox(
+    title, 
+    options,
+    index=default,
+    key=GetKey(),
+    )
+    return m
+
 #password management
 text = pretty("Authentication Required", "violet", True, "key")
 
