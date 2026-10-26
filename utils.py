@@ -66,7 +66,7 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
         return dataframe_slot.dataframe(df.iloc[start_idx:end_idx])
     
     modified = dataframe_slot.data_editor(df.iloc[start_idx:end_idx], column_order=column_order, hide_index=hide_index)
-    is_modified = modified.isequal(df)
+    is_modified = modified.equals(df)
     return modified, is_modified
         
 
