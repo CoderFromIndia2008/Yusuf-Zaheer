@@ -127,7 +127,7 @@ def ModifyName():
     "Change name of one or more students in the table below.",
     )
     
-    session = st.selectbox("Academic session", utils.sessions, key=utils.GetKey())
+    session = st.selectbox("Academic session", utils.sessions, key="10")
     
     metadata, path = utils.GetFile(session, type="meta")
     
@@ -181,13 +181,13 @@ def ModifyRegister():
     
     col1, col2 = st.columns(2)
     
-    session = col1.selectbox("Academic session", utils.sessions, key=utils.GetKey())
+    session = col1.selectbox("Academic session", utils.sessions, key="11")
     
     month = col2.selectbox(
     "Month", 
     utils.full_months, 
     index=utils.cur_month_idx, 
-    key=utils.GetKey()
+    key="12"
     )
 
     register, path = utils.GetFile(month, session, type="register")
@@ -222,13 +222,13 @@ def RegisterStudent():
     "Add a new student to the session.",
     )
     
-    name = st.text_input("Student name", value=None, key=utils.GetKey())
+    name = st.text_input("Student name", value=None, key="14")
     roll = st.number_input(
     "Student roll number", 
     min_value=0,
     max_value=38,
     step=1,
-    key=utils.GetKey(),
+    key="15",
     value=None
     )
     
@@ -315,7 +315,7 @@ def RemoveStudent():
     option = st.selectbox(
     "Select a student", 
     options, 
-    key=utils.GetKey(), 
+    key="16", 
     index=None
     )
     st.divider()

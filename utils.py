@@ -107,19 +107,19 @@ def pretty(value, colour, bold=False, icon=None):
     return f":{colour}[{value}]"
 
 #selection
-def SelectDate(default=int(date)):
+def SelectDate(key, default=int(date)):
     d = st.number_input(
     "Choose a date (0 = whole month)", 
     min_value=0, 
     max_value=31, 
     step=1, 
     value=default, 
-    key=GetKey()
+    key=key
     )
     return d
     
-def SelectMonth(title, options=full_months, default=cur_month_idx):
-    m = st.selectbox(title, options, index=default, key=GetKey())
+def SelectMonth(title, key, options=full_months, default=cur_month_idx):
+    m = st.selectbox(title, options, index=default, key=key)
     return m
 
 #password management

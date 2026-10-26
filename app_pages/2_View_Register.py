@@ -12,22 +12,22 @@ col1, col2 = st.columns(2)
 session = col1.selectbox(
 "Academic session",
 utils.sessions, 
-key=utils.GetKey(), 
+key="1", 
 ) 
 
 with col2:
     if session == utils.GetSession().name:
-        month = utils.SelectMonth("Month")
+        month = utils.SelectMonth("Month", "2")
     
     else:
-        month = utils.SelectMonth("Month", default=0)
+        month = utils.SelectMonth("Month", "2", default=0)
     
 with st.expander(":material/discover_tune: More filters"):
     if month == utils.month:
-        date = utils.SelectDate()
+        date = utils.SelectDate("3")
     
     else:
-        date = utils.SelectDate(0)
+        date = utils.SelectDate("3", 0)
         
 st.divider()
 register = core.ViewRegister(date, month, session)

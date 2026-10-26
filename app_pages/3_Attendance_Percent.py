@@ -13,24 +13,24 @@ col1, col2, col3 = st.columns([1.2, 1, 1])
 session = col1.selectbox(
 "Academic session", 
 utils.sessions, 
-key=utils.GetKey(),
+key="4",
 ) 
 
 if session == utils.GetSession().name:
     with col2:
-        from_month = utils.SelectMonth("From month", utils.full_months)
+        from_month = utils.SelectMonth("From month", utils.full_months, key="5")
         idx = utils.full_months.index(from_month)
     
     with col3:
-        to_month = utils.SelectMonth("To month", session, utils.full_months[idx:])
+        to_month = utils.SelectMonth("To month", session, utils.full_months[idx:], key="5")
     
 else:
     with col2:
-        from_month = utils.SelectMonth("From month", utils.full_months, 0)
+        from_month = utils.SelectMonth("From month", utils.full_months, 0, key="6")
         idx = utils.full_months.index(from_month)
     
     with col3:
-        to_month = utils.SelectMonth("To month", session, utils.full_months[idx:])
+        to_month = utils.SelectMonth("To month", session, utils.full_months[idx:], key="6")
 
 register, working_days = core.AttendancePercent(from_month, to_month, session)
 st.metric("Total working days", working_days)
