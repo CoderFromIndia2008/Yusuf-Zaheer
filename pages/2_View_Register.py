@@ -15,7 +15,7 @@ session = col1.selectbox("Academic session", utils.sessions, key="1")
 month = col2.selectbox(
 "Month", 
 utils.full_months, 
-index=utils.month if session == utils.GetSession().name else 0,
+index=utils.cur_month_idx if session == utils.GetSession().name else 0,
 key="2",
 )
 
