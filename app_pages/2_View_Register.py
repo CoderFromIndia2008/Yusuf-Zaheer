@@ -42,6 +42,6 @@ with st.expander(":material/discover_tune: More filters"):
 
 st.divider()
 register = core.ViewRegister(date, month, session)
-st.caption("Attendance for", date, month, session)
+st.caption(f"Attendance for {date}-{month}, {session}")
 utils.Display(register, session)
 
