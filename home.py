@@ -15,8 +15,6 @@ pages = [
 
 pg = st.navigation(pages)
 
-pg.run()
-
 utils.title(
 "Home", 
 "home", 
