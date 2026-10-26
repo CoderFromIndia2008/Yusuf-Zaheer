@@ -52,12 +52,6 @@ def GetFile(*arg, type):
     return (pd.read_csv(path), path)
 
 #pagintion
-
-is_modified = False
-def reset():
-    global is_modified
-    is_modified = True
-
 def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=None):
     total_pages = (len(df) + rows_per_page - 1) // rows_per_page
 
@@ -71,7 +65,8 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
     if type == "df":
         return dataframe_slot.dataframe(df.iloc[start_idx:end_idx])
     
-    modified = dataframe_slot.data_editor(df.iloc[start_idx:end_idx], column_order=column_order, hide_index=hide_index, on_change=reset())
+    modified = dataframe_slot.data_editor(df.iloc[start_idx:end_idx], column_order=column_order, hide_index=hide_index)
+    is_modified = modified.isequal(df)
     return modified, is_modified
         
 
