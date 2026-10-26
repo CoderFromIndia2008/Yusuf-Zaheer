@@ -16,10 +16,12 @@ utils.sessions,
 key=utils.GetKey(),
 ) 
 
-from_month = utils.SelectMonth("From month", session, utils.full_months)
+with col2:
+    from_month = utils.SelectMonth("From month", session, utils.full_months)
 
 idx = utils.full_months.index(from_month)
-to_month = utils.SelectMonth("To month", session, utils.full_months[idx:])
+with col3:
+    to_month = utils.SelectMonth("To month", session, utils.full_months[idx:])
     
 register, working_days = core.AttendancePercent(from_month, to_month, session)
 st.metric("Total working days", working_days)

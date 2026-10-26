@@ -15,7 +15,8 @@ utils.sessions,
 key=utils.GetKey(), 
 ) 
 
-month = utils.SelectMonth("Month", session)
+with col2:
+    month = utils.SelectMonth("Month", session)
     
 with st.expander(":material/discover_tune: More filters"):
     date = utils.SelectDate(month)
