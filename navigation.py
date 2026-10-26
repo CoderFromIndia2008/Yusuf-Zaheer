@@ -3,6 +3,9 @@ import utils
 
 pages_dir = utils.base_dir / "app_pages"
 
+st.logo(":material/familiar_face_and_zone:", size="medium")
+st.bottom.chat_input("Say something")
+
 pages = [
 st.Page(pages_dir / "0_Home.py", title="Homepage", icon=":material/home:"),
 st.Page(pages_dir / "1_Mark_Attendance.py", title="Mark Attendance", icon=":material/photo_camera:"),
