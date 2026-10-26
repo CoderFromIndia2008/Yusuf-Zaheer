@@ -3,7 +3,6 @@ import random as rn
 import pandas as pd
 import pickle
 import utils
-import core
 import csv
 import cv2
 
