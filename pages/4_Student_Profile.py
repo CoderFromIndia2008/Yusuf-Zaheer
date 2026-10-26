@@ -63,13 +63,14 @@ df = core.MonthWiseRegister(idx, session)
 fig, ax = plt.subplots()
 ax.set_facecolor("none")
 
-bars = ax.bar(df["month"], df["total"], color=df["colour"])#, edgecolor="#2c3e50")
+bars = ax.bar(
+df["month"], 
+df["total"], 
+color=df["colour"],
+label=["100-75%", "75-65%", "65-0%"]
+)
 
-plt.legend("""
-#95cf92 Above 75
-#f8e16f Above 65
-#f4895f Below 65
-""")
+plt.legend()
 plt.tight_layout()
 plt.ylim(0, 31)
 plt.bar_label(bars, label_type="center", color="#525e75")
