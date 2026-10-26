@@ -1,7 +1,7 @@
 import streamlit as st 
 import utils
 
-page_dir = utils.base_dir / "app_pages"
+pages_dir = utils.base_dir / "app_pages"
 
 pages = [
 st.Page(pages_dir / "0_Home.py", title="Homepage", icon=":material/home:"),
