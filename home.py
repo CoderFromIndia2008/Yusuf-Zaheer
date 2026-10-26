@@ -4,17 +4,6 @@ import core
 import time
 import dummy_data
 
-pages = [
-    st.Page(utils.base_dir / "home.py", title=":material/home: Home"),
-    st.Page(utils. base_dir / "pages/1_Mark_Attendance.py", title=":material/photo_camera: Mark Attendance"),
-    st.Page(utils. base_dir / "pages/2_View_Register.py", title=":material/table: View Register"),
-    st.Page(utils. base_dir / "pages/3_Attendance_Percent.py", title=":material/percent: Attendance Percent"),
-    st.Page(utils. base_dir / "pages/4_Student_Profile.py", title=":material/school: Student Profile"),
-    st.Page(utils. base_dir / "pages/5_Modify.py", title=":material/manufacturing: Make Changes")
-]
-
-pg = st.navigation(pages)
-
 utils.title(
 "Home", 
 "home", 

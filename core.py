@@ -3,6 +3,19 @@ import pandas as pd
 import numpy as np
 import utils
 
+pages = [
+    st.Page(utils.base_dir / "home.py", title="Home"),
+    st.Page(utils. base_dir / "pages/1_Mark_Attendance.py", title="Mark Attendance"),
+    st.Page(utils. base_dir / "pages/2_View_Register.py", title="View Register"),
+    st.Page(utils. base_dir / "pages/3_Attendance_Percent.py", title="Attendance Percent"),
+    st.Page(utils. base_dir / "pages/4_Student_Profile.py", title="Student Profile"),
+    st.Page(utils. base_dir / "pages/5_Modify.py", title="Make Changes")
+]
+
+st.write(pages)
+pg = st.navigation(pages)
+pg.run()
+
 #mark student attendance using face recignition (cnn model in tools/models)
 @st.cache_resource()
 def LoadModel():
