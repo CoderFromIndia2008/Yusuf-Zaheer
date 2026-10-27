@@ -83,7 +83,7 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
         return dataframe_slot.dataframe(df.iloc[start_idx:end_idx].style.map(Colour))
 
     elif type == "%":
-        return dataframe_slot.dataframe(df.iloc[start_idx:end_idx].style.bar(subset=["%"], color="#d65f5f"))
+        return dataframe_slot.dataframe(df.iloc[start_idx:end_idx].style.bar(subset=["Tota"], color="#d65f5f"))
     
     modified = dataframe_slot.data_editor(df.iloc[start_idx:end_idx], column_order=column_order, hide_index=hide_index)
     return modified
