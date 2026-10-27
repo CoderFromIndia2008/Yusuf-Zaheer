@@ -79,7 +79,6 @@ bars = ax.bar(df["month"], df["total"], color=df["colour"], label=df["label"])
 
 ax.set_facecolor("none")
 plt.ylim(0, 31)
-plt.yticks([5,10,15,20,25,30])
 plt.bar_label(bars, label_type="center", color="#525e75")
 plt.legend(loc="lower right", fancybox=True, framealpha=0.5)
 plt.tight_layout()
