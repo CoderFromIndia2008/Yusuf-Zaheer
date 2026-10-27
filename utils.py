@@ -118,7 +118,7 @@ def Display(original, session, type="df"):
     else:
         df = original[exist]
         df["roll"] = tuple(metadata["roll"])    
-        df = write.set_index("roll")
+        df = df.set_index("roll")
 
     pagination(df, "df", "1102")
 
