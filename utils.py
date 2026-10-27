@@ -85,13 +85,12 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
     elif type == "%":
         return slot.dataframe(
         df.iloc[start_idx:end_idx].
-        style.bar(subset=["Total"], 
-        color="#d65f5f")
+        style.bar(subset=["Total"], color="#d65f5f")
         )
     
     else:
         modified = slot.data_editor(
-        df.iloc[start_idx:end_idx].style.map(Colour), 
+        df.iloc[start_idx:end_idx], 
         column_order=column_order, 
         hide_index=hide_index
         )
@@ -118,7 +117,7 @@ def Display(original, session, type="df"):
         df["roll"] = tuple(metadata["roll"])    
         df = df.set_index("roll")
 
-    pagination(df, "df", "1102")
+    pagination(df, type, "1102")
 
 #page headings and text styling
 def title(value, icon, desc):        
