@@ -72,7 +72,7 @@ def Colour(value):
 def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=None):
     total_pages = (len(df) + rows_per_page - 1) // rows_per_page
 
-    dataframe_slot = st.empty()
+    slot = st.empty()
     with st.container(horizontal_alignment="right"):
         page = st.pagination(num_pages=total_pages, key=key)
 
@@ -80,13 +80,23 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
     end_idx = start_idx + rows_per_page
 
     if type == "df":
-        return dataframe_slot.dataframe(df.iloc[start_idx:end_idx].style.map(Colour))
+        return slot.dataframe(df.iloc[start_idx:end_idx].style.map(Colour))
 
     elif type == "%":
-        return dataframe_slot.dataframe(df.iloc[start_idx:end_idx].style.bar(subset=["Total"], color="#d65f5f"))
+        return slot.dataframe(
+        df.iloc[start_idx:end_idx].
+        style.bar(subset=["Total"], 
+        color="#d65f5f")
+        )
     
-    modified = dataframe_slot.data_editor(df.iloc[start_idx:end_idx], column_order=column_order, hide_index=hide_index)
-    return modified
+    else:
+        modified = slot.data_editor(
+        df.iloc[start_idx:end_idx], 
+        column_order=column_order, 
+        hide_index=hide_index
+        )
+
+    return df.iloc[:start_idx].concatenate(modified).concatenate(df.iloc[end_idx:])
 
 #display a register if exists, choose to display with/without removed students
 def Display(original, session, type="df"):
@@ -101,18 +111,14 @@ def Display(original, session, type="df"):
         exist.append(original.loc[idx, "name"] in names)
 
     if (not all(exist)) and st.toggle("Display removed student(s)"):
-        write = original.set_index("roll")
+        df = original.set_index("roll")
 
     else:
-        write = original[exist]
-        write["roll"] = tuple(metadata["roll"])    
-        write = write.set_index("roll")
+        df = original[exist]
+        df["roll"] = tuple(metadata["roll"])    
+        df = write.set_index("roll")
 
-    if type == "df":
-        pagination(write, "df", "111")
-    
-    else:
-        pagination(write, "%", "368")
+    pagination(df, "df", "1102")
 
 #page headings and text styling
 def title(value, icon, desc):        
@@ -196,7 +202,7 @@ def Password():
 yunet_path = tools_dir / "models/face_detection.onnx"
 detector = cv2.FaceDetectorYN.create(yunet_path, "", (320, 320), 0.5, 0.3, 5000)
 
-def process(img=None, path=None, rotate=False, save=False):
+def Process(img=None, path=None, rotate=False, save=False):
     if img is None:
         img = cv2.imread(path)
 
@@ -239,17 +245,3 @@ def process(img=None, path=None, rotate=False, save=False):
         cv2.imwrite(path, face)
         
     return face
-
-def Default(value, session, month=None):
-    default = 0
-
-    if session == GetSession().name:
-        if value == "month":
-            default = cur_month_idx
-
-        elif value == "date" and month == full_months[cur_month_idx]:
-            register, path = GetFile(type="register")
-            if register is not None and date in register.columns:
-                default = int(date)
-
-    return default

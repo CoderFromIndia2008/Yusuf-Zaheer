@@ -135,6 +135,9 @@ def ModifyName():
     if metadata is None:
         st.error("No students registered yet.")
         return None
+
+    modified = utils.pagination(metadata, "editor", "19462")
+    st.write(modified)
     
     modified = st.data_editor(metadata, hide_index=True,  column_order=["name"])
     not_modified = modified.equals(metadata)
