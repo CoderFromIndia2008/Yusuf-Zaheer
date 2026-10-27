@@ -255,7 +255,7 @@ def RegisterStudent():
         
     metadata, path = utils.GetFile(type="meta")
 
-    if name and roll and metadata is None and st.button("**Register**", width="stretch", key=utils.GetKey(), type="primary"):
+    if metadata is None and st.button("**Register**", width="stretch", key="27292", disabled=not(name and roll), type="primary"):
         utils.GetSession().mkdir(exist_ok=True)
         
         metadata = pd.DataFrame(columns=["roll", "name"])
