@@ -136,9 +136,7 @@ def ModifyName():
         st.error("No students registered yet.")
         return None
 
-    modified = utils.pagination(metadata, "editor", "19462")
-    
-    modified = st.data_editor(metadata, hide_index=True,  column_order=["name"])
+    modified = utils.pagination(metadata, "editor", "19462", hide_index=True, column_order=["name"])
     not_modified = modified.equals(metadata)
     if st.button("**Make changes**", width="stretch", type="primary", disabled=not_modified):
         modified.to_csv(path, index=False)
@@ -198,7 +196,7 @@ def ModifyRegister():
         st.error("No register available for this month.")
         return None
 
-    modified = st.data_editor(register, hide_index=True)
+    modified = utils.pagination(register, "editor", "183928", hide_index=True)
     not_modified = modified.equals(register)
     
     if st.button("**Make changes**", width="stretch", key=utils.GetKey(), type="primary", disabled=not_modified):
