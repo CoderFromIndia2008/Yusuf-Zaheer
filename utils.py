@@ -91,7 +91,7 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
     
     else:
         modified = slot.data_editor(
-        df.iloc[start_idx:end_idx], 
+        df.iloc[start_idx:end_idx].style.map(Colour), 
         column_order=column_order, 
         hide_index=hide_index
         )
