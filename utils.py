@@ -81,24 +81,17 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
 
     if type == "df":
         return slot.dataframe(df.iloc[start_idx:end_idx].style.map(Colour))
-
-    elif type == "%":
-        return slot.dataframe(
-        df.iloc[start_idx:end_idx].
-        style.bar(subset=["Total"], color="#d65f5f")
-        )
     
-    else:
-        modified = slot.data_editor(
-        df.iloc[start_idx:end_idx], 
-        column_order=column_order, 
-        hide_index=hide_index
-        )
+    modified = slot.data_editor(
+    df.iloc[start_idx:end_idx], 
+    column_order=column_order, 
+    hide_index=hide_index
+    )
 
-        return pd.concat((df.iloc[:start_idx], modified, df.iloc[end_idx:]))
+    return pd.concat((df.iloc[:start_idx], modified, df.iloc[end_idx:]))
 
 #display a register if exists, choose to display with/without removed students
-def Display(original, session, type="df"):
+def Display(original, session):
     if original is None:
         st.error("No attendance available.")
         return None
@@ -117,7 +110,7 @@ def Display(original, session, type="df"):
         df["roll"] = tuple(metadata["roll"])    
         df = df.set_index("roll")
 
-    pagination(df, type, "1102")
+    pagination(df, "df", "1102")
 
 #page headings and text styling
 def title(value, icon, desc):        
