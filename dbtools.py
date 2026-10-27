@@ -137,7 +137,7 @@ def ModifyName():
         return None
     
     modified, is_modified = utils.pagination(metadata.set_index("roll"), "editor", "222", column_order=["name"])
-    if st.button("**Make changes**", width="stretch", type="primary", disabled=is_modified):
+    if st.button("**Make changes**", width="stretch", type="primary", disabled=not is_modified):
         modified.to_csv(path, index=False)
         st.success("Changes made!")
         
@@ -197,7 +197,7 @@ def ModifyRegister():
 
     modified, is_modified = utils.pagination(register, "editor", "333", hide_index=True)
     
-    if st.button("**Make changes**", width="stretch", key=utils.GetKey(), type="primary", disabled=is_modified):
+    if st.button("**Make changes**", width="stretch", key=utils.GetKey(), type="primary", disabled=not is_modified):
         modified.to_csv(path, index=False)
         st.success("Changes made!")
         change_log = [f"Changed register", f"Month: {month} | Session: {session}"]
@@ -329,7 +329,7 @@ def RemoveStudent():
     st.caption("Your changes will appear in the table below.")
     utils.pagination(metadata.set_index("roll"), "df", "1001")
 
-    if st.button("**Remove Student**", width="stretch", key="2003", type="primary", disabled=option is not None):
+    if st.button("**Remove Student**", width="stretch", key="2003", type="primary", disabled=option is None):
         metadata.to_csv(path, index=False)
     
         st.success("Student removed.")
