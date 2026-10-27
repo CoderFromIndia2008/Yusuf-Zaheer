@@ -88,7 +88,7 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
         return dataframe_slot.dataframe(df.iloc[start_idx:end_idx].style.map(Colour))
     
     modified = dataframe_slot.data_editor(df.iloc[start_idx:end_idx], column_order=column_order, hide_index=hide_index, on_change=reset())
-    return modified, not is_modified
+    return modified, is_modified
 
 #display a register if exists, choose to display with/without removed students
 def Display(original, session):
