@@ -329,7 +329,7 @@ def RemoveStudent():
     st.caption("Your changes will appear in the table below.")
     utils.pagination(metadata.set_index("roll"), "df", "1001")
 
-    if st.button("**Remove Student**", width="stretch", key="2003", type="primary", disbled=option is not None):
+    if st.button("**Remove Student**", width="stretch", key="2003", type="primary", disabled=option is not None):
         metadata.to_csv(path, index=False)
     
         st.success("Student removed.")
