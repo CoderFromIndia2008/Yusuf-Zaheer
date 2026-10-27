@@ -96,7 +96,9 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
         hide_index=hide_index
         )
 
-    return df.iloc[:start_idx].concatenate(modified).concatenate(df.iloc[end_idx:])
+        st.write("Hello world")
+
+        st.write(df.iloc[:start_idx].concatenate(modified).concatenate(df.iloc[end_idx:]))
 
 #display a register if exists, choose to display with/without removed students
 def Display(original, session, type="df"):
