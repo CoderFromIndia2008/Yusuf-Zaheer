@@ -136,8 +136,9 @@ def ModifyName():
         st.error("No students registered yet.")
         return None
     
-    modified, is_modified = utils.pagination(metadata.set_index("roll"), "editor", "222", column_order=["name"])
-    if st.button("**Make changes**", width="stretch", type="primary", disabled=not is_modified):
+    modified = st.data_editor(metadata.set_index("roll"),  column_order=["name"])
+    not_modified = modified.equals(metadata)
+    if st.button("**Make changes**", width="stretch", type="primary", disabled=not_modified):
         modified.to_csv(path, index=False)
         st.success("Changes made!")
         
@@ -195,9 +196,10 @@ def ModifyRegister():
         st.error("No register available for this month.")
         return None
 
-    modified, is_modified = utils.pagination(register, "editor", "333", hide_index=True)
+    modified = st.data_editor(register, hide_index=True)
+    not_modified = modified.equals(register)
     
-    if st.button("**Make changes**", width="stretch", key=utils.GetKey(), type="primary", disabled=not is_modified):
+    if st.button("**Make changes**", width="stretch", key=utils.GetKey(), type="primary", disabled=not_modified):
         modified.to_csv(path, index=False)
         st.success("Changes made!")
         change_log = [f"Changed register", f"Month: {month} | Session: {session}"]
@@ -281,7 +283,7 @@ def RegisterStudent():
     metadata.loc[metadata.shape[0]] = (roll, name)
     metadata = metadata.sort_values("roll")
         
-    if name and roll and st.button("**Register**", width="stretch", key=utils.GetKey(), type="primary"):
+    if st.button("**Register**", width="stretch", key=utils.GetKey(), type="primary", disabled=not(name and roll)):
         metadata.to_csv(path, index=False)            
         st.success("Registration Successful!")
         
