@@ -136,7 +136,7 @@ def ModifyName():
         st.error("No students registered yet.")
         return None
     
-    modified = st.data_editor(metadata.set_index("roll"),  column_order=["name"])
+    modified = st.data_editor(metadata.set_index, hide_index=True,  column_order=["name"])
     not_modified = modified.equals(metadata)
     if st.button("**Make changes**", width="stretch", type="primary", disabled=not_modified):
         modified.to_csv(path, index=False)
