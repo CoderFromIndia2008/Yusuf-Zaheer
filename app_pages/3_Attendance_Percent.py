@@ -13,6 +13,8 @@ session = col1.selectbox(
 utils.sessions, 
 key="session input 2",
 ) 
+with st.expander(":material/discover_tune: More filters"):
+    sort = st.toggle("Sort by highest attendance")
 
 if session == utils.getSession().name:
     with col2:
@@ -30,12 +32,10 @@ else:
 
 register, working_days = core.attendancePercent(from_month, to_month, session)
 st.metric("Total working days", working_days)
-utils.display(register, session)
 
+if sort:
+    st.write(register.sort_values("Total", ascending=False))
+else:
+    utils.display(register, session)
 
-if not st.button("Sort by descending", width="stretch", type="primary"):
-    st.stop()
-
-register = utils.display(register, session, return_df=True)
-st.write(register.sort_values("Total"))
 
