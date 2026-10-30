@@ -29,7 +29,6 @@ month_length = {
 
 for year in years:
     path = pt.Path.cwd() / "database" / f"20{year}-{year+1}"
-
     for idx, month in enumerate(month_length.keys()):
         register = data.copy()
         for day in range(1, month_length[month][0] + 1):
