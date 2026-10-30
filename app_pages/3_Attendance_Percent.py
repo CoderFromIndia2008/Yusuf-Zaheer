@@ -15,6 +15,7 @@ key="session input 2",
 ) 
 with st.expander(":material/discover_tune: More filters"):
     sort = st.toggle("Sort by highest attendance")
+st.divider()
 
 if session == utils.getSession().name:
     with col2:
@@ -34,7 +35,7 @@ register, working_days = core.attendancePercent(from_month, to_month, session)
 st.metric("Total working days", working_days)
 
 if sort:
-    st.write(register.sort_values("Total", ascending=False))
+    st.write(register.sort_values("Total", ascending=False).set_index("roll"))
 else:
     utils.display(register, session)
 
