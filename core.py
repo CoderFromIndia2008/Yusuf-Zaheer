@@ -73,7 +73,7 @@ def attendancePercent(from_month, to_month, session):
     percent_df = pd.DataFrame()
 
     for month in months:
-        register, _ = utils.GetFile(month, session, type="register")
+        register, _ = utils.getFile(month, session, type="register")
         
         if register is None:
             continue
