@@ -28,8 +28,9 @@ def markAttendance(img):
             st.error("No students registered")
             return (None, None, None)
   
+    today = f"{utils.date}, {utils.day}"
     if not utils.date in register.columns:
-        register.loc[:, f"{utils.date}, {utils.day}"] = "A"
+        register.loc[:, today] = "A"
 
     model = loadModel()
     img = tf.keras.utils.load_img(img_path, target_size=(224,224))
@@ -42,22 +43,22 @@ def markAttendance(img):
     idx = np.argmax(predicted)
     confidence = max(predicted)
 
-    register.loc[idx, utils.now.day] = "P"            
+    register.loc[idx, today] = "P"            
     register.to_csv(path, index=False)
     
-    columns = ["roll", "name", utils.now.day]
+    columns = ["roll", "name", today]
     return (register[columns], students[idx], confidence*100)
     
 #view attendance register for any date, month and session
 def viewRegister(date, month, session):   
-    register, _ = utils.GetFile(month, session, type="register")
+    register, _ = utils.getFile(month, session, type="register")
     if register is None:
         return None
         
     if date == 0:
         return register
 
-    day = utils.GetDay(date, month, session)
+    day = utils.getDay(date, month, session)
     if not f"{date}, {day}" in register.columns:
         return None
             
@@ -107,7 +108,7 @@ def monthWiseRegister(stud_idx, session):
     df = pd.DataFrame(data)
 
     for idx, month in enumerate(utils.full_months):
-        register, path = utils.GetFile(month, session, type="register")
+        register, path = utils.getFile(month, session, type="register")
         df.loc[idx, "month"] = month[:3]
 
         if register is None:
