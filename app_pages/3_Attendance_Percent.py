@@ -36,6 +36,6 @@ utils.display(register, session)
 if not st.button("Sort by descending", width="stretch", type="primary"):
     st.stop()
 
-register = st.display(register, session, return_df=True)
+register = utils.display(register, session, return_df=True)
 st.write(register.sort_values("Total"))
 
