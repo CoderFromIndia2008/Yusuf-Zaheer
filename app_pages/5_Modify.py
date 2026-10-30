@@ -19,7 +19,7 @@ if "key" not in st.session_state:
     st.session_state["key"] = False  
 
 if st.session_state["key"] == False:
-    utils.Password()
+    utils.password()
 
 elif st.button("Close modification page", icon=":material/lock:"):
     st.session_state["key"] = False

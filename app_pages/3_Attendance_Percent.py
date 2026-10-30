@@ -35,7 +35,7 @@ register, working_days = core.attendancePercent(from_month, to_month, session)
 st.metric("Total working days", working_days)
 
 if sort:
-    st.write(register.sort_values("Total", ascending=False).set_index("roll"))
+    st.dataframe(register.sort_values("Total", ascending=False), height="content", hide_index=True)
 else:
     utils.display(register, session)
 
