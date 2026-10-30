@@ -69,7 +69,6 @@ divider=False
 )
 st.write("")
 df = core.monthWiseRegister(idx, session)
-st.write(df)
 fig, ax = plt.subplots()
 bars = ax.bar(df["month"], df["total"], color=df["colour"], label=df["label"])
 ax.set_facecolor("none")

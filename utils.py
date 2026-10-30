@@ -65,7 +65,7 @@ def colour(value):
     return ""
 
 #pagintion
-def pagination(df, type, key, column_order=None, hide_index=None):
+def pagination(df, column_order=None, hide_index=None):
     rows_per_page = 10
     total_pages = (len(df) + rows_per_page - 1) // rows_per_page
 
@@ -76,18 +76,8 @@ def pagination(df, type, key, column_order=None, hide_index=None):
     start_idx = (page - 1) * rows_per_page
     end_idx = start_idx + rows_per_page
 
-    if type == "df":
-        slot.dataframe(df.iloc[start_idx:end_idx].style.map(colour))
-        return None
+    slot.dataframe(df.iloc[start_idx:end_idx].style.map(colour), key="display")
     
-    modified = slot.data_editor(
-        df.iloc[start_idx:end_idx], 
-        column_order=column_order, 
-        hide_index=hide_index
-    )
-
-    return pd.concat((df.iloc[:start_idx], modified, df.iloc[end_idx:]))
-
 #display a register if exists, choose to display with/without removed students
 def display(original, session, return_df=False):
     if original is None:
@@ -111,7 +101,7 @@ def display(original, session, return_df=False):
     if return_df:
         return df
     
-    pagination(df, "df", "display")
+    pagination(df)
 
 #page headings and text styling
 def title(value, icon, desc):        
