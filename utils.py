@@ -71,7 +71,7 @@ def pagination(df, column_order=None, hide_index=None):
 
     slot = st.empty()
     with st.container(horizontal_alignment="right"):
-        page = st.pagination(num_pages=total_pages, key=key)
+        page = st.pagination(num_pages=total_pages, key="pagination")
 
     start_idx = (page - 1) * rows_per_page
     end_idx = start_idx + rows_per_page
