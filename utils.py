@@ -39,13 +39,13 @@ def getSession(m=month, y=year):
 #read a file
 def getFile(*arg, type):
     if type == "register":
-        arg = arg or [month, GetSession().name]
+        arg = arg or [month, getSession().name]
         m, s = arg[0], arg[1]
         idx = full_months.index(m)+1
         path = data_dir / s / f"{idx}_{m}_{s}.csv"
         
     elif type == "meta":
-        arg = arg or [GetSession().name]
+        arg = arg or [getSession().name]
         session = arg[0]
         path = data_dir / session / f"metadata_{session}.csv"
         
@@ -94,7 +94,7 @@ def display(original, session):
         st.error("No attendance available.")
         return None
         
-    metadata, _ = GetFile(session, type="meta")
+    metadata, _ = getFile(session, type="meta")
     names = tuple(metadata["name"])
     exist = []
     for idx in original.index:
@@ -107,7 +107,7 @@ def display(original, session):
         df = original[exist]
         df["roll"] = tuple(metadata["roll"])    
         df = df.set_index("roll")
-        
+
     pagination(df)
 
 #page headings and text styling
