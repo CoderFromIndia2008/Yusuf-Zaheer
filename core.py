@@ -20,9 +20,9 @@ def markAttendance(img):
         st.error("No faces detected/image not found.")
         return (None, None, None)
 
-    register, path = utils.GetFile(type="register")
+    register, path = utils.getFile(type="register")
     if register is None:
-        register, path = utils.GetFile(type="meta")
+        register, path = utils.getFile(type="meta")
         
         if register is None:
             st.error("No students registered")

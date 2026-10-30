@@ -21,7 +21,7 @@ with col2:
         month = utils.selectMonth("Month", "month input 2", default=0) 
 with st.expander(":material/discover_tune: More filters"):
     if month == utils.month:
-        date = utils.aelectDate("date input 1")
+        date = utils.selectDate("date input 1")
     else:
         date = utils.selectDate("date input 2", 0)
         
