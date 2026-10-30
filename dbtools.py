@@ -182,7 +182,7 @@ def ModifyRegister():
         return None
     modified = utils.pagination(register, "editor", "183928", hide_index=True)
     not_modified = modified.equals(register)
-    if st.button("**Make changes**", width="stretch", key=utils.GetKey(), type="primary", disabled=not_modified):
+    if st.button("**Make changes**", width="stretch", key="name button", type="primary", disabled=not_modified):
         modified.to_csv(path, index=False)
         st.success("Changes made!")
 
@@ -253,7 +253,7 @@ def RegisterStudent():
         return None
     metadata.loc[metadata.shape[0]] = (roll, name)
     metadata = metadata.sort_values("roll")   
-    if st.button("**Register**", width="stretch", key=utils.GetKey(), type="primary", disabled=not(name and roll)):
+    if st.button("**Register**", width="stretch", key="register button", type="primary", disabled=not(name and roll)):
         metadata.to_csv(path, index=False)            
         st.success("Registration Successful!")
         change_log = ["Registered student", f"Name: {name} | Roll: {roll}"]
