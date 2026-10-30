@@ -36,6 +36,9 @@ for year in years:
             date = datetime.date(2000+year, month_length[month][1], day)
             weekday = date.strftime("%a")
 
+            if weekday == "Sun":
+                continue
+
             l = []
             for j in range(22):
                 l.append(rn.choices(["P", "A"], [75, 25])[0])                                

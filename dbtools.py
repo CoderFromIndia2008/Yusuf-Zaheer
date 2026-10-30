@@ -14,23 +14,18 @@ def VideoToDataset(name, camera_index):
     while True:
         success, frame = capture.read()
         count += 1
-        
         if not success:
             break
-            
         rotate = rn.choices([True, False], [35, 65])[0]
         processed_img = utils.ProcessImage(frame, rotate=rotate)
-        
         split = rn.choices(['Train', 'Test', 'Evaluate'], [75, 20, 5])[0]
         folder = utils.tools_dir / "dataset" / split / name
         folder.mkdir(parents=True, exist_ok=True)
-        
         cv2.imwrite(folder / f"{count}.png", processed_img)
-        
     capture.release()
 
 #Display last 5 change log and download complete change log file
-def ChangeLog():
+def changeLog():
     utils.subheader(
     "Change log",
     "history",
@@ -38,10 +33,9 @@ def ChangeLog():
     The download button is below.",
     divider=False
     )
-    
+
     path = utils.tools_dir / "change_log.dat"
     path.touch(exist_ok=True)
-    
     records, txt_file = [], ""
     file = open(path, "rb")
     
@@ -94,7 +88,7 @@ def ChangeLog():
     )
 
 #add new change log
-def WriteLog(changes):
+def writeLog(changes):
     record = [f"- {utils.hour}:{utils.minute} {utils.date}- \
     {utils.month[:3]}-20{utils.year}"]
     
@@ -112,12 +106,9 @@ def Upload(name, num):
     
     if not video:
         return None
-        
     img_path = utils.tools_dir / "etc/collection_target.mp4"
-    
     with open(img_path, "wb") as file:
         file.write(video.getbuffer())
-        
     VideoToDataset(name, img_path)
     
 #change name of a student in a given session. 
@@ -129,9 +120,7 @@ def ModifyName():
     )
     
     session = st.selectbox("Academic session", utils.sessions, key="10")
-    
     metadata, path = utils.GetFile(session, type="meta")
-    
     if metadata is None:
         st.error("No students registered yet.")
         return None
@@ -141,35 +130,34 @@ def ModifyName():
     if st.button("**Make changes**", width="stretch", type="primary", disabled=not_modified):
         modified.to_csv(path, index=False)
         st.success("Changes made!")
-        
     else:
         return None
 
     truth_table = []
     change_log = ["Changed name(s)", f"Session: {session}"]
-    
+
     for idx in metadata.index:
         mismatch = metadata.loc[idx, "name"] != modified.loc[idx, "name"]
         truth_table.append(mismatch)
-        
+
         if mismatch:
             change_log.append(f"{metadata.loc[idx, 'name']} \
             (Roll No. {metadata.loc[idx, 'roll']}) -> \
             {modified.loc[idx, 'name']}")
-            
+
     for month in utils.full_months:
         register, path = utils.GetFile(month, session, type="register")
-        
+
         if register is None:
             continue
-            
+
         for idx, is_changed in enumerate(truth_table):
             if is_changed:
                 register.loc[idx, "name"] = modified.loc[idx, "name"]
-                
+
         register.to_csv(path, index=False)
-        
-    WriteLog(change_log)
+
+    writeLog(change_log)
 
 #change attendance from present to absent and vice versa in any register
 def ModifyRegister():
@@ -180,9 +168,7 @@ def ModifyRegister():
     )
     
     col1, col2 = st.columns(2)
-    
     session = col1.selectbox("Academic session", utils.sessions, key="11")
-    
     month = col2.selectbox(
     "Month", 
     utils.full_months, 
@@ -191,19 +177,16 @@ def ModifyRegister():
     )
 
     register, path = utils.GetFile(month, session, type="register")
-    
     if register is None:
         st.error("No register available for this month.")
         return None
-
     modified = utils.pagination(register, "editor", "183928", hide_index=True)
     not_modified = modified.equals(register)
-    
     if st.button("**Make changes**", width="stretch", key=utils.GetKey(), type="primary", disabled=not_modified):
         modified.to_csv(path, index=False)
         st.success("Changes made!")
+
         change_log = [f"Changed register", f"Month: {month} | Session: {session}"]
-        
         for idx_row in register.index:
             for idx_col, mark in enumerate(register.iloc[idx_row, 2:]):
                 if mark != modified.iloc[idx_row, idx_col+2]:
@@ -211,8 +194,8 @@ def ModifyRegister():
                     (roll: {register.loc[idx_row, 'roll']}) \
                     for date {idx_col+1}: {mark} -> \
                     {modified.iloc[idx_row, idx_col+2]}")
-        
-        WriteLog(change_log)
+
+        writeLog(change_log)
     
 #add a new student to the current session metadata file
 def RegisterStudent():
@@ -221,7 +204,6 @@ def RegisterStudent():
     "person_add",
     "Add a new student to the session.",
     )
-    
     name = st.text_input("Student name", value=None, key="14")
     roll = st.number_input(
     "Student roll number", 
@@ -231,7 +213,6 @@ def RegisterStudent():
     key="15",
     value=None
     )
-    
     st.divider()
     utils.subheader(
     "Instructions",
@@ -239,56 +220,44 @@ def RegisterStudent():
     "Upload three videos for model training (face recognition).",
     divider=False
     )
-    
     st.write("""
     - Two videos should be indoors with different colour backgrounds.
     - One video should be outside with sky or trees in the background.
     - Make sure your whole face remains clearly visible throughout the video.
     - Make the video dynamic, move your face around, show different emotions, walk from one place to another, etc.
     """)
-    
     with st.container(border=True):
         col1, col2, col3 = st.columns(3)
         with col1: Upload(name, 1)
         with col2: Upload(name, 2)
-        with col3: Upload(name, 3)
-        
+        with col3: Upload(name, 3) 
     metadata, path = utils.GetFile(type="meta")
-
     if metadata is None and st.button("**Register**", width="stretch", key="27292", disabled=not(name and roll), type="primary"):
         utils.GetSession().mkdir(exist_ok=True)
-        
         metadata = pd.DataFrame(columns=["roll", "name"])
         metadata.loc[0] = (roll, name)
         metadata.to_csv(path, index=False)
-        
         st.success("Registration Successful!")
         
         change_log = ["Created session + Registered student", f"Name: {name} | Roll: {roll}"]
-        WriteLog(change_log)
+        writeLog(change_log)
         
-        return None
-        
+        return None  
     elif not (name and roll) or metadata is None :
         return None
-      
     if name in tuple(metadata["name"]):
         st.error("Name already registered.")
-        return None
-        
+        return None 
     elif roll in tuple(metadata["roll"]):
         st.error("Roll number already exists.")
         return None
-
     metadata.loc[metadata.shape[0]] = (roll, name)
-    metadata = metadata.sort_values("roll")
-        
+    metadata = metadata.sort_values("roll")   
     if st.button("**Register**", width="stretch", key=utils.GetKey(), type="primary", disabled=not(name and roll)):
         metadata.to_csv(path, index=False)            
         st.success("Registration Successful!")
-        
         change_log = ["Registered student", f"Name: {name} | Roll: {roll}"]
-        WriteLog(change_log)
+        writeLog(change_log)
     
 #remove a student from the current session's metadata file
 def RemoveStudent():
@@ -297,47 +266,36 @@ def RemoveStudent():
     "delete",
     "Remove a student from the register. Previous attendance is not deleted.",
     )
-    
     metadata, path = utils.GetFile(type="meta")
-
     if metadata is None:
         st.error("No students registered.")
-        return None
-        
+        return None   
     options, names = [], list(metadata["name"])
     for idx, name in enumerate(metadata["name"]):
         options.append(f"{idx+1}. {name}")
-
     if len(options) == 0:
         st.error("No students registered.")
-        return None
-        
+        return None     
     option = st.selectbox(
     "Select a student", 
     options, 
     key="16", 
     index=None
     )
-    st.divider()
-        
+    st.divider()     
     if option:
         idx = options.index(option)
         name = names[idx]
-        metadata = metadata.drop(idx, axis=0)
-        
+        metadata = metadata.drop(idx, axis=0)    
     if option and st.toggle("Sort roll numbers", value=True):
         metadata.iloc[idx:, 0] -= 1
-
     st.caption("Your changes will appear in the table below.")
     utils.pagination(metadata.set_index("roll"), "df", "1001")
-
     if st.button("**Remove Student**", width="stretch", key="2003", type="primary", disabled=option is None):
         metadata.to_csv(path, index=False)
-    
         st.success("Student removed.")
-    
         change_log = [
         "Removed student", 
         f"Name: {name} | Roll: {idx+1}"
         ]
-        WriteLog(change_log)
+        writeLog(change_log)

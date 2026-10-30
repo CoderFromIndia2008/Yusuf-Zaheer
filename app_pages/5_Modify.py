@@ -7,10 +7,6 @@ utils.title(
 "manufacturing",
 "Change attendance records and student details."
 )
-
-if "key" not in st.session_state:
-    st.session_state["key"] = False
-    
 options = [
 "**Change Log**",
 "**Modify Name**",
@@ -18,6 +14,9 @@ options = [
 "**Register Student**",
 "**Remove Student**"
 ]
+
+if "key" not in st.session_state:
+    st.session_state["key"] = False  
 
 if st.session_state["key"] == False:
     utils.Password()
@@ -27,19 +26,14 @@ elif st.button("Close modification page", icon=":material/lock:"):
 
 else:
     tabs = st.tabs(options)
-    
     with tabs[0]: 
-        dbtools.ChangeLog()
-
+        dbtools.changeLog()
     with tabs[1]: 
         dbtools.ModifyName()
-
     with tabs[2]:
         dbtools.ModifyRegister()
-
     with tabs[3]: 
         dbtools.RegisterStudent()
-
     with tabs[4]: 
         dbtools.RemoveStudent()
     

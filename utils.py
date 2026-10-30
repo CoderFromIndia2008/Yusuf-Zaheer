@@ -19,7 +19,7 @@ full_months = ["April", "May", "June", "July", "August", "September", "October",
 months_ordered = full_months[9:] + full_months[:9]
 cur_month_idx = full_months.index(month)
 
-def GetDay(date, month, session):
+def getDay(date, month, session):
     year = int(session[-2:]) if month in full_months[9:] else int(session[-2:]) - 1
     day = datetime.date(year, months_ordered.index(month)+1, int(date))
     return day.strftime("%a")
@@ -28,11 +28,7 @@ def GetDay(date, month, session):
 sessions = [s.name for s in data_dir.iterdir() if s.is_dir()]
 sessions.sort(reverse=True, key=lambda x: int(x[-2:]))
 
-#random key generator
-def GetKey():
-    return rn.random()
-
-def GetSession(m=month, y=year):
+def getSession(m=month, y=year):
     y = int(y[-2:])
         
     if m in ["January", "February", "March"]:
@@ -41,7 +37,7 @@ def GetSession(m=month, y=year):
     return data_dir / f"20{y}-{y+1}"
     
 #read a file
-def GetFile(*arg, type):
+def getFile(*arg, type):
     if type == "register":
         arg = arg or [month, GetSession().name]
         m, s = arg[0], arg[1]
@@ -59,7 +55,7 @@ def GetFile(*arg, type):
     return (pd.read_csv(path), path)
 
 #colour
-def Colour(value):
+def colour(value):
     if value == "P":
         return "background-color: #D4EDDA; color: #155724"
 
@@ -69,7 +65,8 @@ def Colour(value):
     return ""
 
 #pagintion
-def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=None):
+def pagination(df, type, key, column_order=None, hide_index=None):
+    rows_per_page = 10
     total_pages = (len(df) + rows_per_page - 1) // rows_per_page
 
     slot = st.empty()
@@ -80,18 +77,19 @@ def pagination(df, type, key, rows_per_page=10, column_order=None, hide_index=No
     end_idx = start_idx + rows_per_page
 
     if type == "df":
-        return slot.dataframe(df.iloc[start_idx:end_idx].style.map(Colour))
+        slot.dataframe(df.iloc[start_idx:end_idx].style.map(Colour))
+        return None
     
     modified = slot.data_editor(
-    df.iloc[start_idx:end_idx], 
-    column_order=column_order, 
-    hide_index=hide_index
+        df.iloc[start_idx:end_idx], 
+        column_order=column_order, 
+        hide_index=hide_index
     )
 
     return pd.concat((df.iloc[:start_idx], modified, df.iloc[end_idx:]))
 
 #display a register if exists, choose to display with/without removed students
-def Display(original, session):
+def display(original, session):
     if original is None:
         st.error("No attendance available.")
         return None
@@ -109,8 +107,8 @@ def Display(original, session):
         df = original[exist]
         df["roll"] = tuple(metadata["roll"])    
         df = df.set_index("roll")
-
-    pagination(df, "df", "1102")
+        
+    pagination(df)
 
 #page headings and text styling
 def title(value, icon, desc):        
@@ -148,18 +146,19 @@ def pretty(value, colour, bold=False, icon=None):
     return f":{colour}[{value}]"
 
 #selection
-def SelectDate(key, default=int(date)):
+def selectDate(key, default=int(date)):
     d = st.number_input(
-    "Choose a date (0 = whole month)", 
-    min_value=0, 
-    max_value=31, 
-    step=1, 
-    value=default, 
-    key=key
+        "Choose a date (0 = whole month)", 
+        min_value=0, 
+        max_value=31, 
+        step=1, 
+        value=default, 
+        key=key
     )
+
     return d
     
-def SelectMonth(title, key, options=full_months, default=cur_month_idx):
+def selectMonth(title, key, options=full_months, default=cur_month_idx):
     m = st.selectbox(title, options, index=default, key=key)
     return m
 
@@ -167,7 +166,7 @@ def SelectMonth(title, key, options=full_months, default=cur_month_idx):
 text = pretty("Authentication Required", "violet", True, "key")
 
 @st.dialog(text)
-def Password():
+def password():
     user = st.text_input("Enter password", type="password")
     password_exists = password_path.exists()
 
@@ -194,7 +193,7 @@ def Password():
 yunet_path = tools_dir / "models/face_detection.onnx"
 detector = cv2.FaceDetectorYN.create(yunet_path, "", (320, 320), 0.5, 0.3, 5000)
 
-def Process(img=None, path=None, rotate=False, save=False):
+def process(img=None, path=None, rotate=False, save=False):
     if img is None:
         img = cv2.imread(path)
 
