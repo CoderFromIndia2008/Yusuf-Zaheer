@@ -125,7 +125,7 @@ def ModifyName():
         st.error("No students registered yet.")
         return None
 
-    modified = st.data_editor(metadata, hide_index=True, column_order=["name"], key="change name")
+    modified = st.data_editor(metadata, hide_index=True, height="content", column_order=["name"], key="change name")
     not_modified = modified.equals(metadata)
     if st.button("**Make changes**", width="stretch", type="primary", disabled=not_modified):
         modified.to_csv(path, index=False)
@@ -180,7 +180,7 @@ def ModifyRegister():
     if register is None:
         st.error("No register available for this month.")
         return None
-    modified = st.data_editor(register, hide_index=True, key="change register")
+    modified = st.data_editor(register, hide_index=True, height="content", key="change register")
     not_modified = modified.equals(register)
     if st.button("**Make changes**", width="stretch", key="name button", type="primary", disabled=not_modified):
         modified.to_csv(path, index=False)
@@ -232,7 +232,8 @@ def RegisterStudent():
         with col2: Upload(name, 2)
         with col3: Upload(name, 3) 
     metadata, path = utils.getFile(type="meta")
-    if metadata is None and st.button("**Register**", width="stretch", key="27292", disabled=not(name and roll), type="primary"):
+    consent = st.button("**Register**", width="stretch", key="register student", disabled=not(name and roll), type="primary"):
+    if consent and metadata is None:
         utils.getSession().mkdir(exist_ok=True)
         metadata = pd.DataFrame(columns=["roll", "name"])
         metadata.loc[0] = (roll, name)
@@ -241,19 +242,17 @@ def RegisterStudent():
         
         change_log = ["Created session + Registered student", f"Name: {name} | Roll: {roll}"]
         writeLog(change_log)
-        
         return None  
-    elif not (name and roll) or metadata is None :
-        return None
-    if name in tuple(metadata["name"]):
+
+    if consent and name in tuple(metadata["name"]):
         st.error("Name already registered.")
         return None 
-    elif roll in tuple(metadata["roll"]):
+    elif consent and roll in tuple(metadata["roll"]):
         st.error("Roll number already exists.")
         return None
     metadata.loc[metadata.shape[0]] = (roll, name)
     metadata = metadata.sort_values("roll")   
-    if st.button("**Register**", width="stretch", key="register button", type="primary", disabled=not(name and roll)):
+    if consent:
         metadata.to_csv(path, index=False)            
         st.success("Registration Successful!")
         change_log = ["Registered student", f"Name: {name} | Roll: {roll}"]
