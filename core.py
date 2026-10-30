@@ -128,12 +128,12 @@ def monthWiseRegister(stud_idx, session):
             label = G + "100-70%"
             G = "_"
 
-        elif percent >= 60:
+        elif 70 > percent >= 60:
             colour = "#f8e16f"
             label = Y + "70-60%"
             Y = "_"
 
-        else:
+        elif percent < 60:
             colour = "#f4895f"
             label = R + "60-0%"
             R = "_"
