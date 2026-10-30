@@ -120,7 +120,7 @@ def ModifyName():
     )
     
     session = st.selectbox("Academic session", utils.sessions, key="10")
-    metadata, path = utils.GetFile(session, type="meta")
+    metadata, path = utils.getFile(session, type="meta")
     if metadata is None:
         st.error("No students registered yet.")
         return None
@@ -146,7 +146,7 @@ def ModifyName():
             {modified.loc[idx, 'name']}")
 
     for month in utils.full_months:
-        register, path = utils.GetFile(month, session, type="register")
+        register, path = utils.getFile(month, session, type="register")
 
         if register is None:
             continue
@@ -176,7 +176,7 @@ def ModifyRegister():
     key="12"
     )
 
-    register, path = utils.GetFile(month, session, type="register")
+    register, path = utils.getFile(month, session, type="register")
     if register is None:
         st.error("No register available for this month.")
         return None
@@ -231,9 +231,9 @@ def RegisterStudent():
         with col1: Upload(name, 1)
         with col2: Upload(name, 2)
         with col3: Upload(name, 3) 
-    metadata, path = utils.GetFile(type="meta")
+    metadata, path = utils.getFile(type="meta")
     if metadata is None and st.button("**Register**", width="stretch", key="27292", disabled=not(name and roll), type="primary"):
-        utils.GetSession().mkdir(exist_ok=True)
+        utils.getSession().mkdir(exist_ok=True)
         metadata = pd.DataFrame(columns=["roll", "name"])
         metadata.loc[0] = (roll, name)
         metadata.to_csv(path, index=False)
@@ -266,7 +266,7 @@ def RemoveStudent():
     "delete",
     "Remove a student from the register. Previous attendance is not deleted.",
     )
-    metadata, path = utils.GetFile(type="meta")
+    metadata, path = utils.getFile(type="meta")
     if metadata is None:
         st.error("No students registered.")
         return None   
