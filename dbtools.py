@@ -232,7 +232,7 @@ def RegisterStudent():
         with col2: Upload(name, 2)
         with col3: Upload(name, 3) 
     metadata, path = utils.getFile(type="meta")
-    consent = st.button("**Register**", width="stretch", key="register student", disabled=not(name and roll), type="primary"):
+    consent = st.button("**Register**", width="stretch", key="register student", disabled=not(name and roll), type="primary")
     if consent and metadata is None:
         utils.getSession().mkdir(exist_ok=True)
         metadata = pd.DataFrame(columns=["roll", "name"])
