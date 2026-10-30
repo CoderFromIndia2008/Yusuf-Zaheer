@@ -108,7 +108,7 @@ def display(original, session):
         df["roll"] = tuple(metadata["roll"])    
         df = df.set_index("roll")
 
-    pagination(df, "df")
+    pagination(df, "df", "display")
 
 #page headings and text styling
 def title(value, icon, desc):        
