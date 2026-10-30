@@ -31,4 +31,11 @@ else:
 register, working_days = core.attendancePercent(from_month, to_month, session)
 st.metric("Total working days", working_days)
 utils.display(register, session)
-st.caption("Click on a column header to order by ascending or descending.")
+
+
+if not st.button("Sort by descending", width="stretch", type="primary"):
+    st.stop()
+
+register = st.display(register, session, return_df=True)
+st.write(register.sort_values("Total"))
+

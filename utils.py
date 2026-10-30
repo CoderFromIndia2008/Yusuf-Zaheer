@@ -89,7 +89,7 @@ def pagination(df, type, key, column_order=None, hide_index=None):
     return pd.concat((df.iloc[:start_idx], modified, df.iloc[end_idx:]))
 
 #display a register if exists, choose to display with/without removed students
-def display(original, session):
+def display(original, session, return_df=False):
     if original is None:
         st.error("No attendance available.")
         return None
@@ -107,7 +107,10 @@ def display(original, session):
         df = original[exist]
         df["roll"] = tuple(metadata["roll"])    
         df = df.set_index("roll")
-
+            
+    if return_df:
+        return df
+    
     pagination(df, "df", "display")
 
 #page headings and text styling
