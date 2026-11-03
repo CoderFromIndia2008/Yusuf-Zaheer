@@ -28,8 +28,8 @@ with st.expander(":material/discover_tune: More filters"):
 st.divider()
 register = core.viewRegister(date, month, session)
 if date != 0:
-    st.caption(f"Attendance for {date}-{month}, {session}")
+    st.caption(f"Attendance for {date}-{month[:3]}, {session}")
 else:
-    st.caption(f"Attendance for {month}, {session}")
+    st.caption(f"Attendance for {month[:3]}, {session}")
 utils.display(register, session)
 

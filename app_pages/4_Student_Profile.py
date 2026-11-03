@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 import utils
 import core
+import io
 
 utils.title(
 "Student Profile", 
@@ -76,4 +77,9 @@ plt.ylim(0, 31)
 plt.bar_label(bars, label_type="center", color="#525e75")
 plt.legend(loc="lower right", fancybox=True, framealpha=0.5)
 plt.tight_layout()
-st.pyplot(fig, transparent=True)
+
+buf = io.BytesIO()
+fig.savefig(buf, format="png", transparent=True, dpi=300)
+st.image(buf)
+
+#st.pyplot(fig, transparent=True)
