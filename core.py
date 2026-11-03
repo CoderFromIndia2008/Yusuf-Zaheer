@@ -27,7 +27,7 @@ def markAttendance(img):
             return (None, None, None)
   
     today = f"{utils.date}, {utils.day}"
-    if not utils.date in register.columns:
+    if not today in register.columns:
         register.loc[:, today] = "A"
 
     model = loadModel()
