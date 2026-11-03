@@ -14,7 +14,7 @@ password_path = tools_dir / "password.dat"
 
 #time
 now = datetime.datetime.now()
-hour, minute, day, date, month, year = now.strftime("%h %M %a %d %B %Y").split()
+hour, minute, day, date, month, year = now.strftime("%H %M %a %d %B %Y").split()
 date = date.lstrip("0")
 full_months = ["April", "May", "June", "July", "August", "September", "October", "November", "December", "January", "February", "March"]
 months_ordered = full_months[9:] + full_months[:9]

@@ -50,14 +50,17 @@ def changeLog():
         
     records.reverse()
 
-    num = 5
+    num, max_value, default = 5, len(records), 5
+    if len(records) < 5:
+        max_value, default = len(records), len(records)
+
     with st.expander(":material/discover_tune: More filters"):
         num = st.number_input(
         "Number of records shown", 
         min_value=0, 
-        max_value=len(records), 
+        max_value=max_value, 
         step=1, 
-        value=5,
+        value=default,
         key="2020"
         )
 
@@ -89,8 +92,7 @@ def changeLog():
 
 #add new change log
 def writeLog(changes):
-    record = [f"- {utils.hour}:{utils.minute} {utils.date}- \
-    {utils.month[:3]}-20{utils.year}"]
+    record = [f"- {utils.hour}:{utils.minute} {utils.date}-{utils.month[:3]}-{utils.year}"]
     
     record.extend(changes)
     with open(utils.tools_dir / "change_log.dat", "ab") as file:
@@ -191,7 +193,7 @@ def ModifyRegister():
             for idx_col, mark in enumerate(register.iloc[idx_row, 2:]):
                 if mark != modified.iloc[idx_row, idx_col+2]:
                     change_log.append(f"{register.loc[idx_row, 'name']} \
-                    (roll: {register.loc[idx_row, 'roll']}) \
+                    (Roll No. {register.loc[idx_row, 'roll']}) \
                     for date {idx_col+1}: {mark} -> \
                     {modified.iloc[idx_row, idx_col+2]}")
 
@@ -255,7 +257,7 @@ def RegisterStudent():
     if consent:
         metadata.to_csv(path, index=False)            
         st.success("Registration Successful!")
-        change_log = ["Registered student", f"Name: {name} | Roll: {roll}"]
+        change_log = ["Registered student", f"Name: {name} | Roll No. {roll}"]
         writeLog(change_log)
     
 #remove a student from the current session's metadata file
@@ -295,6 +297,6 @@ def RemoveStudent():
         st.success("Student removed.")
         change_log = [
         "Removed student", 
-        f"Name: {name} | Roll: {idx+1}"
+        f"Name: {name} | Roll No. {idx+1}"
         ]
         writeLog(change_log)
