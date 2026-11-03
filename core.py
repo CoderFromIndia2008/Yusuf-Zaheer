@@ -40,7 +40,7 @@ def markAttendance(img):
     students = list(register["name"])
     idx = np.argmax(predicted)
     confidence = max(predicted)
-    print(predicted)
+
     register.loc[idx, today] = "P"            
     register.to_csv(path, index=False)
     
