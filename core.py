@@ -37,14 +37,14 @@ def markAttendance(img):
     img_path.unlink()
     
     predicted = model.predict(img_array)[0]
-    students = list(register["name"])
+    students = list(register["Name"])
     idx = np.argmax(predicted)
     confidence = max(predicted)
 
     register.loc[idx, today] = "P"            
     register.to_csv(path, index=False)
     
-    columns = ["roll", "name", today]
+    columns = ["Roll", "Name", today]
     return (register[columns], students[idx], confidence*100)
     
 #view attendance register for any date, month and session
@@ -60,7 +60,7 @@ def viewRegister(date, month, session):
     if not f"{date}, {day}" in register.columns:
         return None
             
-    columns = ["roll", "name", f"{date}, {day}"]
+    columns = ["Roll", "Name", f"{date}, {day}"]
     return register[columns]
     
 #show attendance total and percentage of all students in a month range
@@ -78,7 +78,7 @@ def attendancePercent(from_month, to_month, session):
             continue
         
         elif working_days == 0:
-            percent_df = register[["roll", "name"]]
+            percent_df = register[["Roll", "Name"]]
             percent_df["Total"] = ""
         
         working_days += len(register.columns) - 2

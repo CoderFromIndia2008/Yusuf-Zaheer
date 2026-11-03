@@ -7,7 +7,7 @@ import csv
 import cv2
 
 #Turn videos ro frame, preprocess them and save to dataset for model training.
-def VideoToDataset(name, camera_index):        
+def VideoToDataset(Name, camera_index):        
     capture = cv2.VideoCapture(camera_index)
     count = 0
     
@@ -19,7 +19,7 @@ def VideoToDataset(name, camera_index):
         rotate = rn.choices([True, False], [35, 65])[0]
         processed_img = utils.ProcessImage(frame, rotate=rotate)
         split = rn.choices(['Train', 'Test', 'Evaluate'], [75, 20, 5])[0]
-        folder = utils.tools_dir / "dataset" / split / name
+        folder = utils.tools_dir / "dataset" / split / Name
         folder.mkdir(parents=True, exist_ok=True)
         cv2.imwrite(folder / f"{count}.png", processed_img)
     capture.release()
@@ -99,7 +99,7 @@ def writeLog(changes):
         pickle.dump(record, file)
 
 #upload a video
-def Upload(name, num):
+def Upload(Name, num):
     video = st.file_uploader(
     "Upload a video", 
     type=["mp4", "mov", "webm"], 
@@ -111,7 +111,15 @@ def Upload(name, num):
     img_path = utils.tools_dir / "etc/collection_target.mp4"
     with open(img_path, "wb") as file:
         file.write(video.getbuffer())
-    VideoToDataset(name, img_path)
+    VideoToDataset(Name, img_path)
+
+def data_editor(original, key):
+    cols = original.columns
+    original = original.set_index("Roll")
+    modified = st.data_editor(original, height="content", key=key)
+    modified = modified.reset_index()
+    modified.columns = cols
+    return modified
     
 #change name of a student in a given session. 
 def ModifyName():
@@ -127,8 +135,9 @@ def ModifyName():
         st.error("No students registered yet.")
         return None
 
-    modified = st.data_editor(metadata, hide_index=True, height="content", column_order=["name"], key="change name")
+    modified = data_editor(metadata, key="change name")
     not_modified = modified.equals(metadata)
+
     if st.button("**Make changes**", width="stretch", type="primary", disabled=not_modified):
         modified.to_csv(path, index=False)
         st.success("Changes made!")
@@ -139,13 +148,13 @@ def ModifyName():
     change_log = ["Changed name(s)", f"Session: {session}"]
 
     for idx in metadata.index:
-        mismatch = metadata.loc[idx, "name"] != modified.loc[idx, "name"]
+        mismatch = metadata.loc[idx, "Name"] != modified.loc[idx, "Name"]
         truth_table.append(mismatch)
 
         if mismatch:
-            change_log.append(f"{metadata.loc[idx, 'name']} \
-            (Roll No. {metadata.loc[idx, 'roll']}) -> \
-            {modified.loc[idx, 'name']}")
+            change_log.append(f"{metadata.loc[idx, 'Name']} \
+            (Roll No. {metadata.loc[idx, 'Roll']}) -> \
+            {modified.loc[idx, 'Name']}")
 
     for month in utils.full_months:
         register, path = utils.getFile(month, session, type="register")
@@ -155,7 +164,7 @@ def ModifyName():
 
         for idx, is_changed in enumerate(truth_table):
             if is_changed:
-                register.loc[idx, "name"] = modified.loc[idx, "name"]
+                register.loc[idx, "Name"] = modified.loc[idx, "Name"]
 
         register.to_csv(path, index=False)
 
@@ -182,9 +191,11 @@ def ModifyRegister():
     if register is None:
         st.error("No register available for this month.")
         return None
-    modified = st.data_editor(register, hide_index=True, height="content", key="change register")
+
+    modified = data_editor(register, "change register")
     not_modified = modified.equals(register)
-    if st.button("**Make changes**", width="stretch", key="name button", type="primary", disabled=not_modified):
+
+    if st.button("**Make changes**", width="stretch", key="Name button", type="primary", disabled=not_modified):
         modified.to_csv(path, index=False)
         st.success("Changes made!")
 
@@ -192,8 +203,8 @@ def ModifyRegister():
         for idx_row in register.index:
             for idx_col, mark in enumerate(register.iloc[idx_row, 2:]):
                 if mark != modified.iloc[idx_row, idx_col+2]:
-                    change_log.append(f"{register.loc[idx_row, 'name']} \
-                    (Roll No. {register.loc[idx_row, 'roll']}) \
+                    change_log.append(f"{register.loc[idx_row, 'Name']} \
+                    (Roll No. {register.loc[idx_row, 'Roll']}) \
                     for date {idx_col+1}: {mark} -> \
                     {modified.iloc[idx_row, idx_col+2]}")
 
@@ -206,8 +217,8 @@ def RegisterStudent():
     "person_add",
     "Add a new student to the session.",
     )
-    name = st.text_input("Student name", value=None, key="14")
-    roll = st.number_input(
+    Name = st.text_input("Student name", value=None, key="14")
+    Roll = st.number_input(
     "Student roll number", 
     min_value=0,
     max_value=38,
@@ -230,34 +241,34 @@ def RegisterStudent():
     """)
     with st.container(border=True):
         col1, col2, col3 = st.columns(3)
-        with col1: Upload(name, 1)
-        with col2: Upload(name, 2)
-        with col3: Upload(name, 3) 
+        with col1: Upload(Name, 1)
+        with col2: Upload(Name, 2)
+        with col3: Upload(Name, 3) 
     metadata, path = utils.getFile(type="meta")
-    consent = st.button("**Register**", width="stretch", key="register student", disabled=not(name and roll), type="primary")
+    consent = st.button("**Register**", width="stretch", key="register student", disabled=not(Name and Roll), type="primary")
     if consent and metadata is None:
         utils.getSession().mkdir(exist_ok=True)
-        metadata = pd.DataFrame(columns=["roll", "name"])
-        metadata.loc[0] = (roll, name)
+        metadata = pd.DataFrame(columns=["Roll", "Name"])
+        metadata.loc[0] = (Roll, Name)
         metadata.to_csv(path, index=False)
         st.success("Registration Successful!")
         
-        change_log = ["Created session + Registered student", f"Name: {name} | Roll: {roll}"]
+        change_log = ["Created session + Registered student", f"Name: {Name} | Roll: {Roll}"]
         writeLog(change_log)
         return None  
 
-    if consent and name in tuple(metadata["name"]):
+    if consent and Name in tuple(metadata["Name"]):
         st.error("Name already registered.")
         return None 
-    elif consent and roll in tuple(metadata["roll"]):
+    elif consent and Roll in tuple(metadata["Roll"]):
         st.error("Roll number already exists.")
         return None
-    metadata.loc[metadata.shape[0]] = (roll, name)
-    metadata = metadata.sort_values("roll")   
+    metadata.loc[metadata.shape[0]] = (Roll, Name)
+    metadata = metadata.sort_values("Roll")   
     if consent:
         metadata.to_csv(path, index=False)            
         st.success("Registration Successful!")
-        change_log = ["Registered student", f"Name: {name} | Roll No. {roll}"]
+        change_log = ["Registered student", f"Name: {Name} | Roll No. {Roll}"]
         writeLog(change_log)
     
 #remove a student from the current session's metadata file
@@ -271,9 +282,9 @@ def RemoveStudent():
     if metadata is None:
         st.error("No students registered.")
         return None   
-    options, names = [], list(metadata["name"])
-    for idx, name in enumerate(metadata["name"]):
-        options.append(f"{idx+1}. {name}")
+    options, Names = [], list(metadata["Name"])
+    for idx, Name in enumerate(metadata["Name"]):
+        options.append(f"{idx+1}. {Name}")
     if len(options) == 0:
         st.error("No students registered.")
         return None     
@@ -286,17 +297,17 @@ def RemoveStudent():
     st.divider()     
     if option:
         idx = options.index(option)
-        name = names[idx]
+        Name = Names[idx]
         metadata = metadata.drop(idx, axis=0)    
-    if option and st.toggle("Sort roll numbers", value=True):
+    if option and st.toggle("Sort Roll numbers", value=True):
         metadata.iloc[idx:, 0] -= 1
     st.caption("Your changes will appear in the table below.")
-    utils.pagination(metadata.set_index("roll"), "df", "1001")
+    utils.pagination(metadata.set_index("Roll"), "df", "1001")
     if st.button("**Remove Student**", width="stretch", key="2003", type="primary", disabled=option is None):
         metadata.to_csv(path, index=False)
         st.success("Student removed.")
         change_log = [
         "Removed student", 
-        f"Name: {name} | Roll No. {idx+1}"
+        f"Name: {Name} | Roll No. {idx+1}"
         ]
         writeLog(change_log)

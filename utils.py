@@ -86,18 +86,18 @@ def display(original, session, return_df=False):
         return None
         
     metadata, _ = getFile(session, type="meta")
-    names = tuple(metadata["name"])
+    Names = tuple(metadata["Name"])
     exist = []
     for idx in original.index:
-        exist.append(original.loc[idx, "name"] in names)
+        exist.append(original.loc[idx, "Name"] in Names)
 
     if (not all(exist)) and st.toggle("Display removed student(s)"):
-        df = original.set_index("roll")
+        df = original.set_index("Roll")
 
     else:
         df = original[exist]
-        df["roll"] = tuple(metadata["roll"])    
-        df = df.set_index("roll")
+        df["Roll"] = tuple(metadata["Roll"])    
+        df = df.set_index("Roll")
             
     if return_df:
         return df
@@ -110,8 +110,8 @@ def title(value, icon, desc):
     st.caption(desc)
     st.divider()
     
-def subheader(name, icon, desc=None, divider=True):
-    st.subheader(f"**:blue[:material/{icon}: {name}]**")
+def subheader(Name, icon, desc=None, divider=True):
+    st.subheader(f"**:blue[:material/{icon}: {Name}]**")
     if desc:
         st.caption(desc)
         st.write("")
@@ -123,8 +123,8 @@ def subheader(name, icon, desc=None, divider=True):
 def metric(title, value, colour):
     st.metric(f":{colour}[**{title}**]", value)  
 
-def designation(name, title):
-    st.markdown(f"**{name}**")
+def designation(Name, title):
+    st.markdown(f"**{Name}**")
     st.caption(f"{title}")
     
 def pretty(value, colour, bold=False, icon=None):
