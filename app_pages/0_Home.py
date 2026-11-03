@@ -1,5 +1,4 @@
 import streamlit as st
-import dummy_data
 import utils
 import core
 import time

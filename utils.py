@@ -195,7 +195,7 @@ def process(img=None, path=None, rotate=False, save=False):
     faces = detector.detect(img)[1]
     
     if faces is None:
-        st.errir("No face found.")
+        st.error("No face found.")
         return None
         
     x, y, fw, fh = max(faces, key=lambda f: f[2] * f[3])[:4]

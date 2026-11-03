@@ -6,11 +6,10 @@ import streamlit as st
 
 data = {
     "roll": (1,2,3,4,5,6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22),
-    "name": ("Aryan", "Arush", "Jaffar", "Krishna", "Yusuf", "Zoheb", "Nasir", "Archit", "Siddhanto", "Mansi", "Tejas", "Prabhat", "Vinayak", "Atulya", "Saksham", "Yashi", "Vedant", "Akansha", "Aditya", "Hashir", "Samarth", "Hasan")
+    "name": ("Arush", "Aryan", "Yusuf", "Zoheb", "Jaffer", "Krishna", "Nasir", "Archit", "Siddhanto", "Mansi", "Tejas", "Prabhat", "Vinayak", "Atulya", "Saksham", "Yashi", "Vedant", "Akansha", "Aditya", "Hashir", "Samarth", "Hasan")
     }
 
 meta = pd.DataFrame(data)
-print("hello")
 years = 24, 25, 26
 month_length = {
     "April": (30, 4),

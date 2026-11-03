@@ -1,23 +1,21 @@
+import tensorflow as tf 
 import streamlit as st
 import pandas as pd
 import numpy as np
-import datetime
 import utils
 
 #mark student attendance using face recignition (cnn model in tools/models)
 @st.cache_resource()
 def loadModel():
-    import tensorflow as tf 
     return tf.keras.models.load_model(utils.tools_dir / f"models/face_recognition.keras")   
 
 def markAttendance(img):
     img_path = utils.tools_dir / "etc/prediction_target.png"
     with open(img_path, "wb") as file:
         file.write(img.getbuffer())
-        
+    
     img = utils.process(path=img_path, save=True)
     if img is None:
-        st.error("No faces detected/image not found.")
         return (None, None, None)
 
     register, path = utils.getFile(type="register")
@@ -42,7 +40,7 @@ def markAttendance(img):
     students = list(register["name"])
     idx = np.argmax(predicted)
     confidence = max(predicted)
-
+    print(predicted)
     register.loc[idx, today] = "P"            
     register.to_csv(path, index=False)
     

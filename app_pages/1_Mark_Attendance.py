@@ -20,7 +20,7 @@ with st.container(border=True):
 if not img:
     st.stop()
 st.success("Capture successful!")
-student, confidence, register = core.markAttendance(img)
+register, student, confidence = core.markAttendance(img)
 if register is None:
     st.stop()
 
@@ -29,5 +29,5 @@ col1, col2 = st.columns(2)
 col1.metric("Student", student)
 col2.metric("Confidence", f"{confidence:.1f}%")
 st.divider()
-st.Display(register)
+utils.display(register, utils.getSession().name)
             
