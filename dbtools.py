@@ -3,7 +3,6 @@ import random as rn
 import pandas as pd
 import pickle
 import utils
-import csv
 import cv2
 
 #Turn videos ro frame, preprocess them and save to dataset for model training.
