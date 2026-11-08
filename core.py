@@ -121,17 +121,17 @@ def monthWiseRegister(stud_idx, session):
         df.loc[idx, "total"] = temp.count("P")
         percent = round(temp.count("P") / working_days * 100, 0)
 
-        if percent in range(70, 101):
+        if percent >= 70:
             colour = "#95cf92"
             label = G + "100-70%"
             G = "_"
 
-        elif percent in range(60, 70):
+        elif percent >= 60:
             colour = "#f8e16f"
             label = Y + "70-60%"
             Y = "_"
 
-        elif percent in range(0, 60):
+        else:
             colour = "#f4895f"
             label = R + "60-0%"
             R = "_"
